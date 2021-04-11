@@ -1,0 +1,54 @@
+
+      
+* {
+    box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* Header/logo Title */
+header {
+    padding: 30px;
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+}
+
+/* Style the top navigation bar */
+nav {
+    color: blanchedalmond;
+    background-color: #333;
+}
+
+/* contenedor de columnas o principal */
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* crea dos columnas que se situan una al lado de la otra  */
+/* Sidebar/left column */
+aside {
+    flex: 25%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* Main column */
+.main {
+    flex: 75%;
+    background-color: white;
+    padding: 20px;
+}
+
+
+/* Footer */
+footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
