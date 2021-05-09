@@ -21,23 +21,9 @@ nav {
     background-color:  #F7BFBE;
 }
 
-.contenedor {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.contenedor::after{
-    content:"";
-    display: block;
-    clear:both;
 
-}
 
-aside {
-    flex: 25%;
-    background-color: #f1f1f1;
-    padding: 20px;
-}
 
 .main {
     flex: 75%;
@@ -50,4 +36,34 @@ footer {
     text-align: center;
     background: #FF5733;
     font-size: 18px;
+}
+
+@media screen and (max-width:1200 px) {
+    .contenedor {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .contenedor::after{
+        width: 100%;
+        content:"";
+        display: block;
+        clear:both;
+    
+    }
+    
+    aside {
+        width: 100%;
+        flex: 25%;
+        background-color: #f1f1f1;
+        padding: 20px;
+    }
+
+    img {
+        width: 100%;
+    }
+    h6 {
+        width: 100%;
+    }
 }
