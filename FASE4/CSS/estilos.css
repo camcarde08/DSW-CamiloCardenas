@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    background: #0099FF;
+    color: white;
+}
+
+nav {
+    color: blanchedalmond;
+    background-color:  #F7BFBE;
+}
+
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contenedor::after{
+    content:"";
+    display: block;
+    clear:both;
+
+}
+
+aside {
+    flex: 25%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+.main {
+    flex: 75%;
+    background-color: white;
+    padding: 20px;
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    background: #FF5733;
+    font-size: 18px;
+}
