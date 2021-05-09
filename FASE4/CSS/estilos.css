@@ -54,7 +54,7 @@ footer {
     font-size: 18px;
 }
 
-@media screen and (max-width:00 px) {
+@media screen and (max-width:700 px) {
     .contenedor {
         width: 100%;
         display: flex;
@@ -69,6 +69,10 @@ footer {
     
     }
     
+    iframe {
+        width: 100%;
+    }
+
     aside {
         width: 100%;
         flex: 25%;
