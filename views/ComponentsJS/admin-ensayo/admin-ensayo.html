@@ -1,0 +1,329 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="sgm-titulo col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración de ensayos</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="margin-bottom: 0px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Id</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Descripción</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" ng-if="vm.sessionUserData.userIdPerfil != 8">Precio</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Duración</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Plantilla</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Código interno</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Orden</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Analizado por tercero</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Opciones</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.descripcion" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th ng-if="vm.sessionUserData.userIdPerfil != 8" style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.precio_real" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.tiempo" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.plantilla" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.codinterno" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.orden" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.tercero" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr ng-if="vm.ensayos.length === 0">
+                                    <td colspan="9">
+                                        No se encontraron registros
+                                    </td>
+                                </tr>
+                                <tr style="cursor: default" ng-class="{
+                                            info: ensayo.selected
+                                        }" ng-show="!ensayo.edit"
+                                    ng-repeat-start="ensayo in vm.ensayos">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.id}}</td>
+                                    <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.descripcion}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)" ng-if="vm.sessionUserData.userIdPerfil != 8">{{ensayo.precio_real}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.tiempo}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{vm.getDescripcionPlantilla(ensayo.id_plantilla).descripcion}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.codinterno}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.orden}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.selectRow($index, ensayo)">{{ensayo.prog_automatica !== 'Si' ? 'No' :'Si'}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-success btn-sm" ng-click="vm.editarEnsayo(ensayo)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="vm.eliminarEnsayo(ensayo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat-end ng-show="ensayo.edit">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{ensayo.id}}</td>
+                                    <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="ensayo.descripcion" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle" ng-if="vm.sessionUserData.userIdPerfil != 8">
+                                        <input class="form-control" type="number" string-to-number ng-model="ensayo.precio_real" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle">
+                                        <input class="form-control" type="number" string-to-number ng-model="ensayo.tiempo" />
+                                    </td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle">
+                                        <select class="form-control" ng-model="ensayo.id_plantilla">
+                                            <option ng-repeat="plantilla in vm.plantillas" value="{{plantilla.id}}">{{plantilla.descripcion}}</option>
+                                        </select>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="ensayo.codinterno" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle">
+                                        <input class="form-control" type="number" string-to-number ng-model="ensayo.orden" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">
+                                        <input type="checkbox" ng-model="ensayo.prog_automatica" ng-true-value="'Si'" ng-false-value="'No'" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" align="center">
+                                        <button type="button" class="btn btn-primary btn-xs" ng-click="vm.confirmarCambiosEnsayo(ensayo)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="vm.descartarCambiosEnsayo(ensayo)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="vm.eliminarEnsayo(ensayo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div style="margin-top: 10px;"> 
+                            Página: 
+                            <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.filter.pagina" ng-change="vm.changeFilter()"
+                                   ng-disabled="true"> 
+                            / {{ vm.maxPage}} 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                                <i class="fa fa-step-backward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                                <i class="fa fa-forward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                                <i class="fa fa-step-forward" aria-hidden="true"></i>
+                            </button> 
+                            <div style="float: right">
+                                Registros por página
+                                <input type="radio" ng-model="vm.filter.cantidad" value="5" ng-change="vm.changeFilterHeader()"> 5
+                                <input type="radio" ng-model="vm.filter.cantidad" value="10" ng-change="vm.changeFilterHeader()"> 10
+                                <input type="radio" ng-model="vm.filter.cantidad" value="20" ng-change="vm.changeFilterHeader()"> 20
+                            </div>
+                        </div> 
+                        <br/>
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewEnsayo()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo ensayo</button>                          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="vm.selectedEnsayo">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2 class="sgm-titulo">Medios de cultivo asociados</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Medios de cultivo asociadas al ensayo <strong>{{vm.selectedEnsayo.descripcion}}</strong></div>
+                    <div class="panel-body" style="height: 320px; overflow-y: scroll;">
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sel.</th>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ensayoAsociado in vm.mediosAsociadosEnsayoSeleccionado">
+                                                <td>
+                                                    <input type="checkbox" ng-model="ensayoAsociado.select">
+                                                </td>
+                                                <td>{{ensayoAsociado.codigo}}</td>
+                                                <td>{{ensayoAsociado.nombre}}</td>
+                                                <td>{{ensayoAsociado.tipo}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <button type="button" class="btn btn-danger" style="width: 100%;" ng-click="vm.desasociarMedioCultivo()">Eliminar <i class="fa fa-forward" aria-hidden="true"></i></button>
+                <br>
+                <br>
+                <button type="button" class="btn btn-primary" style="width: 100%;" ng-click="vm.asociarMedioCultivo()"><i class="fa fa-backward" aria-hidden="true"></i> Agregar</button>
+            </div>
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Medios de cultivo disponibles para el ensayo <strong>{{vm.selectedEnsayo.descripcion}}</strong></div>
+                    <div class="panel-body" style="height: 320px; overflow-y: scroll;">
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sel.</th>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="medio in vm.mediosDisponiblesEnsayoSeleccionado">
+                                                <td>
+                                                    <input type="checkbox" ng-model="medio.select">
+                                                </td>
+                                                <td>{{medio.codigo}}</td>
+                                                <td>{{medio.nombre}}</td>
+                                                <td>{{medio.tipo}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newEnsayoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Crear nuevo Ensayo</h4>
+            </div>
+            <div class="modal-body">
+                <form name="newEnsayoForm">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción:</label>
+                                <input name="descripcion" type="text" class="form-control" placeholder="Descripción nuevo ensayo" ng-model="vm.newEnsayo.descripcion"
+                                       required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Precio:</label>
+                                <input type="number" class="form-control" placeholder="Precio nuevo ensayo" ng-model="vm.newEnsayo.precio" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Duración:</label>
+                                <input type="number" class="form-control" placeholder="Duración nuevo ensayo" ng-model="vm.newEnsayo.duracion" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Plantilla:</label>
+                                <select class="form-control" ng-model="vm.newEnsayo.id_plantilla">
+                                    <option ng-repeat="plantilla in vm.plantillas" value="{{plantilla.id}}">{{plantilla.descripcion}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="codInterno">Código interno:</label>
+                                <input type="text" id="codInterno" class="form-control" placeholder="Código interno nuevo ensayo" ng-model="vm.newEnsayo.codinterno" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-xs-9 col-sm-9 col-md-9 col-lg-9" for="tercero">Analizado por tercero:</label>
+                                    <input type="checkbox" id="tercero" ng-model="vm.newEnsayo.prog_automatica" ng-true-value="'Si'" ng-false-value="'No'" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewEnsayo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.confirmNewEnsayoModal()" ng-disabled="!newEnsayoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: 100%">
+                                <span class="sr-only">100% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

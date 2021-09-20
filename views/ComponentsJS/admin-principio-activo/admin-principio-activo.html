@@ -1,0 +1,413 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Administración de principios activos</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <table class="table table-responsive" style="margin-bottom: 0px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">ID</th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">Nombre</th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actualizar</th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Eliminar</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.id">
+                                </th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">
+                                </th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr style="cursor: default" ng-class="{info: principioActivo.selected}" ng-repeat-start="principioActivo in vm.principiosActivos
+                                        | filter :{id: vm.filter.codigo, nombre: vm.filter.nombre}" ng-show="!principioActivo.edit">
+                                <td  class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.principioActivoGridRowSelected(principioActivo, $index)">{{principioActivo.id}}</td>
+                                <td  class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="vertical-align:middle; text-align: center;" ng-click="vm.principioActivoGridRowSelected(principioActivo, $index)">{{principioActivo.nombre}}</td>
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >
+                                    <button type="button" class="btn btn-success" ng-click="vm.editarPrincipioActivo(principioActivo)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                </td>
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                    <button type="button" class="btn btn-danger" ng-click="vm.eliminarPrincipioActivo(principioActivo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                            <tr ng-repeat-end ng-show="principioActivo.edit">
+                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">{{principioActivo.id}}</td>
+                                <td class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="vertical-align:middle">
+                                    <input class="form-control" type="text" ng-model="principioActivo.nombre" />
+                                </td>
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                    <button type="button" class="btn btn-primary" ng-click="vm.confirmarCambiosPrincipioActivo(principioActivo)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-danger" ng-click="vm.descartarCambiosPrincipioActivo(principioActivo)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                </td>
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                    <button type="button" class="btn btn-danger" ng-click="vm.eliminarPrincipioActivo(principioActivo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-primary" ng-click="vm.openModalNewPrincipioActivo()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo Principio activo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="vm.principioActivoSelected">
+    <div id="elemPrueba" class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Detalle del principio activo {{vm.principioActivoSelected.nombre}}
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                <input class="form-control" id="nombre" type="text" ng-model="vm.principioActivoSelected.nombre" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valorTr">Valor TR:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valorTr" type="number" string-to-number ng-model="vm.principioActivoSelected.valor_tr" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valorStopTime">Valor Stop Time:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valorStopTime" type="number" string-to-number ng-model="vm.principioActivoSelected.valor_stop_time" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valSolFase">Valor solución fase:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valSolFase" type="number" string-to-number ng-model="vm.principioActivoSelected.valor_sol_fase" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="porSolFase">% Solución fase:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="porSolFase" type="number" string-to-number  ng-model="vm.principioActivoSelected.por_sol_fase" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valSolDis">Valor solución disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valSolDis" type="number" string-to-number ng-model="vm.principioActivoSelected.valor_sol_disolucion" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="porSolDiso">% Solución disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="porSolDiso" type="number" string-to-number  ng-model="vm.principioActivoSelected.por_sol_disolucion" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valFlujo">Valor flujo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valFlujo" type="number" string-to-number ng-model="vm.principioActivoSelected.valor_flujo" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantMuestra">Cantidad muestra:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantMuestra" type="number" string-to-number  ng-model="vm.principioActivoSelected.cantidad_muestra" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Cantidad por estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantXEstandar" type="number" string-to-number ng-model="vm.principioActivoSelected.cantidad_x_estandar" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantEstandar">Cantidad estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantEstandar" type="number" string-to-number ng-model="vm.principioActivoSelected.cantidad_estandar" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="estandar">Estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                <select class="form-control" name="mySelect" id="mySelect"
+                                        ng-options="estandar.id as estandar.nombre_concatenado for estandar in vm.estandares"
+                                        ng-model="vm.principioActivoSelected.id_estandar"></select>
+                            </div>
+                        </div>
+                    </div>-->
+                </form>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success" ng-click="vm.confirmarCambiosPrincipioActivo(vm.principioActivoSelected)" data-dismiss="alert">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newPrincipioActivoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Crear nuevo Principio Activo</h4>
+            </div>
+            <div class="modal-body">
+                <form name="newPrincipioActivoForm">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                <input class="form-control" id="nombre" type="text" ng-model="vm.newPrincipioActivo.nombre" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valorTr">Valor TR:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valorTr" type="number"  ng-model="vm.newPrincipioActivo.valor_tr" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valorStopTime">Valor Stop Time:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valorStopTime" type="number"  ng-model="vm.newPrincipioActivo.valor_stop_time" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valSolFase">Valor solución fase:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valSolFase" type="number"  ng-model="vm.newPrincipioActivo.valor_sol_fase" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="porSolFase">% Solución fase:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="porSolFase" type="number"   ng-model="vm.newPrincipioActivo.por_sol_fase" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valSolDis">Valor solución disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valSolDis" type="number"  ng-model="vm.newPrincipioActivo.valor_sol_disolucion" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="porSolDiso">% Solución disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="porSolDiso" type="number"   ng-model="vm.newPrincipioActivo.por_sol_disolucion" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="valFlujo">Valor flujo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="valFlujo" type="number"  ng-model="vm.newPrincipioActivo.valor_flujo" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantMuestra">Cantidad muestra:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantMuestra" type="number"   ng-model="vm.newPrincipioActivo.cantidad_muestra" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Cantidad por estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantXEstandar" type="number"  ng-model="vm.newPrincipioActivo.cantidad_x_estandar" />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantEstandar">Cantidad estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <input class="form-control" id="cantEstandar" type="number"   ng-model="vm.newPrincipioActivo.cantidad_estandar" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="estandar">Estándar:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                <select class="form-control" id="estandar" type="text" ng-model="vm.newPrincipioActivo.id_estandar">
+                                    <option ng-repeat="estandar in vm.estandares" ng-value="estandar.id">{{estandar.nombre_concatenado}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewPrincipioActivo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.confirmNewPrincipioActivoModal()" ng-disabled="!newPrincipioActivoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: 100%">
+                                <span class="sr-only">100% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

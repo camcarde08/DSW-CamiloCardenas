@@ -1,0 +1,63 @@
+<div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    <div class="col-md-offset-10 col-lg-offset-10">
+                        <button class="centered btn btn-success" title="Adicionar Lectura" type="button" ng-click="vm.adicionarmuestra()">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Agregar muestra
+                        </button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="vertical-align:middle; text-align: center">MUESTRAS</th>
+                        <th style="vertical-align:middle; text-align: center" ng-repeat="muestra in vm.muestras.muestras">{{ muestra.label}}
+                            <button class="centered btn btn-danger btn-xs" title="Eliminar Muestra" type="button" ng-click="vm.eliminarMuestra(muestra)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:middle; text-align: center">LECTURAS</th>
+                        <th style="vertical-align:middle; text-align: center" ng-repeat="muestra in vm.muestras.muestras">Area (AMta) o Abs</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(keyArea, area) in vm.muestras.muestras[0].areas track by $index">
+                        <td style="vertical-align:middle; text-align: center">{{ keyArea + 1}}</td>
+                        <td style="vertical-align:middle; text-align: center" ng-repeat="(keyMuestra, muestra) in vm.muestras.muestras track by $index">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.muestras.muestras[keyMuestra].areas[keyArea]" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <button class="centered btn btn-danger" title="Eliminar Lectura" type="button" ng-click="vm.eliminarLecturaMuestra(keyArea)">
+                                <i class="fa fa-minus-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>PROMEDIO</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered" ng-repeat="muestra in vm.muestras.muestras">
+                            {{ muestra.promedio }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>%CV</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered" ng-repeat="muestra in vm.muestras.muestras">
+                            {{ muestra.cv }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="centered btn btn-success" title="Adicionar Lectura" type="button" ng-click="vm.adicionarLecturaMuestra()">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar lectura
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración de perfiles bandeja de entrada</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="list-group">
+                <h3 class="sgm-titulo">Perfiles</h3>
+                <div ng-repeat="perfil in vm.perfiles">
+                    <a ng-click="vm.obtenerPermisosUsuario(perfil.id)" class="list-group-item" ng-class="perfil.clase">{{perfil.nombre}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+            <h3 class="sgm-titulo">Permisos</h3>
+            <div ng-repeat="permiso in vm.permisos">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-class="permiso.id" ng-disabled="vm.disabled" ng-change="vm.cambiarPermiso(permiso.id, permiso.checked)" ng-model="permiso.checked">{{permiso.nombre}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notificationAdminPerfil">
+        <span id="messageNotificationAdminPerfil"></span>
+    </div>
+</div>

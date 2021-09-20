@@ -1,0 +1,248 @@
+
+
+<div class="row">
+
+
+    <div style="overflow-x: scroll;">
+        <table class="table table-hover">
+            <caption><b>{{ vm.nombreBandeja }}</b></caption>
+            <thead>
+                <tr class="active">
+                    <th style="text-align: center; border-bottom: 0; width: 50px; min-width: 50px;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 50px; min-width: 50px;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 50px; min-width: 50px;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Muestra</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Estado</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;" colspan="2">Fecha Llegada</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Cliente</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Producto</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Lote</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;" colspan="2">Fecha revisión</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;" colspan="2">Fecha aprobación</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Responsable muestra</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Ensayo</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Estado ensayo</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Especificación</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Resultado</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;" colspan="2">Fecha programación</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;" colspan="2">Fecha análisis</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Responsable ensayo</th>
+
+                </tr>
+                <tr>
+
+                    <th style="text-align: center; border-bottom: 0;" >
+
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.show_id_muestra" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.estado_muestra" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_llegada" data-date-format="yyyy-MM-dd" data-max-date="{{vm.fecha_llegada_fin}}" placeholder="Desde" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_llegada_fin" data-date-format="yyyy-MM-dd" data-min-date="{{vm.fecha_llegada}}" placeholder="Hasta" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.cliente" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.producto" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.lote" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_pre_conclusion" data-date-format="yyyy-MM-dd" data-max-date="{{vm.fecha_pre_conclusion_fin}}" placeholder="Desde" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_pre_conclusion_fin" data-date-format="yyyy-MM-dd" data-min-date="{{vm.fecha_pre_conclusion}}" placeholder="Hasta" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_conclusion" data-date-format="yyyy-MM-dd" data-max-date="{{vm.fecha_conclusion_fin}}" placeholder="Desde" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_conclusion_fin" data-date-format="yyyy-MM-dd" data-min-date="{{vm.fecha_conclusion}}" placeholder="Hasta" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.responsable_muestra" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.ensayo" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.estado_ensayo" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.especificacion" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.resultado" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_programacion" data-date-format="yyyy-MM-dd" data-max-date="{{vm.fecha_programacion_fin}}" placeholder="Desde" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_programacion_fin" data-date-format="yyyy-MM-dd" data-min-date="{{vm.fecha_programacion}}" placeholder="Hasta" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input type="text" class="form-control input-sm" ng-model="vm.fecha_analisis" data-date-format="yyyy-MM-dd" data-max-date="{{vm.fecha_analisis_fin}}" placeholder="Desde" ng-change="vm.changeFilter()" bs-datepicker>
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+        <input type="text" class="form-control input-sm" ng-model="vm.fecha_analisis_fin" data-date-format="yyyy-MM-dd" data-min-date="{{vm.fecha_analisis}}" placeholder="Hasta" ng-change="vm.changeFilter()" bs-datepicker>
+        </th>
+        <th style="text-align: center; border-bottom: 0;" >
+                            <input class="form-control input-sm" type="text" ng-model="vm.responsable_ensayo" ng-change="vm.changeFilter()">
+                        </th>
+
+                    </tr>
+             </thead>
+                <tbody>
+                    <tr style="cursor: default" ng-repeat-start="muestra in vm.muestras"
+                        ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(muestra.fecha_compromiso, muestra.id_estado_muestra)}">
+
+
+                        <td>
+        <form method="post" action="pdf/informes/informeAnalisis.php" target="_blank">
+                                <input type="hidden" name="idMuestra" ng-value="muestra.id" >
+                                <input type="hidden" name="idPerfil" value="true">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                            </form>
+
+                        </td>
+         <td>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                ng-click="vm.showAnexos(muestra)">
+                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" ng-show="!muestra.expanded" ng-click="muestra.expanded = true;">+</button>
+                            <button type="button" class="btn btn-primary" ng-show="muestra.expanded" ng-click="muestra.expanded = false;">-</button>
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.show_id_muestra}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.estado.descripcion}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;" colspan="2">
+                            {{ muestra.label_fecha_llegada}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.tercero.nombre}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.producto.nombre}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.lote.numero}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;" colspan="2">
+                            {{ muestra.label_fecha_pre_conclusion}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;" colspan="2">
+                            {{ muestra.label_fecha_conclusion}}
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align: center;">
+                            {{ muestra.estado.perfil_responsable}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"></td>
+                        <td colspan="2"></td>
+                        <td></td>
+
+                    </tr>
+             <tr
+                        ng-repeat-end
+                        ng-repeat="ensayo in muestra.ensayos_muestra"
+                        ng-show="muestra.expanded"
+                        ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayo.fecha_compromiso_interno, muestra.id_estado_muestra)}">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"></td>
+                        <td colspan="2"></td>
+                        <td></td>
+                        <td>{{ ensayo.descripcion_especifica}}</td>
+                        <td>{{ ensayo.estado.descripcion}}</td>
+                        <td>{{ ensayo.especificacion}}</td>
+                        <td>{{ ensayo.resultados[0].resultado}}</td>
+                        <td colspan="2">{{ ensayo.label_fecha_programacion}}</td>
+                        <td colspan="2">{{ ensayo.label_fecha_analisis}}</td>
+                        <td>{{ ensayo.analista_programado.nombre}}</td>
+
+                    </tr>
+
+            <tr>
+              <td colspan="10">
+                            <i ng-show="!vm.muestras" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 10px;">
+                Página:
+                <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.pagina" ng-change="vm.changeFilter()"
+                       ng-disabled="true">
+                / {{ vm.maxPage}}
+                <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                    <i class="fa fa-step-backward" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                    <i class="fa fa-backward" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                    <i class="fa fa-forward" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                    <i class="fa fa-step-forward" aria-hidden="true"></i>
+                </button>
+                <div style="float: right">
+                    <div style="margin: 0 auto">
+                        Total: {{vm.cantidadTotal}}
+                    </div>
+                    Registros por página
+                    <input type="radio" ng-model="vm.cantidad" value="5" ng-change="vm.changeFilter()"> 5
+                    <input type="radio" ng-model="vm.cantidad" value="10" ng-change="vm.changeFilter()"> 10
+                    <input type="radio" ng-model="vm.cantidad" value="20" ng-change="vm.changeFilter()"> 20
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="windowConsultaAnexosConHojaRutaMuestra">
+        <div>
+            <div id="treeAnexosConHojaRutaMuestra"></div>
+        </div>
+</div>

@@ -1,0 +1,174 @@
+<br>
+<div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>DATOS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Peso estándar (PStd):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.pesoEstandar.peso" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="vm.datos.pesoEstandar.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Pureza estandar (PurStd):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.purezaEstandar.pureza" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="pureza for pureza in vm.pureza"
+                                    ng-model="vm.datos.purezaEstandar.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="(keyMuestra, muestra) in vm.datos.muestras track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            Cantidad muestra {{ $index + 1}} (PMta {{ $index + 1}})
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="muestra.muestra" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="muestra.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Cantidad teorica (Ct) o Porcentaje:</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.cantidadTeorica.porcentaje" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="cantidadTeorica for cantidadTeorica in vm.cantidadTeorica"
+                                    ng-model="vm.datos.cantidadTeorica.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Factor Equivalencia Conversion: (FeqConv):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ vm.datos.factorEquivalenciaConversion.factor }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="conversion.nombre for conversion in vm.conversiones track by conversion.value"
+                                    ng-model="vm.datos.factorEquivalenciaConversion.cantidad" required></select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>DATOS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Lote estandar:</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.loteEstandar.lote" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Peso molecular Sal (PmolSal):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.pesoMolecularSal.peso" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label>{{ vm.datos.pesoMolecularSal.cantidad }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Peso molecular Base (PmolBase):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.pesoMolecularBase.peso" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label>{{ vm.datos.pesoMolecularBase.cantidad }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Factor Equivalencia peso moleculares (FeqMol):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ vm.datos.factorEquivalenciaPeso.factor }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label>{{  }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Factor dilucion final (FdFnl):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ vm.datos.factorDilucion.factor }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label>{{  }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Peso promedio (PProm) o Densidad (Densd):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.pesoPromedio.peso" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="pesosProm for pesosProm in vm.pesosProm"
+                                    ng-model="vm.datos.pesoPromedio.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Humedad MP o cantidad etiquetada final:</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="vm.datos.humedad.humedad"/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="vm.datos.pesoPromedio.cantidad" required></select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

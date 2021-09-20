@@ -1,0 +1,130 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<br>
+<div>
+    <div class="row">
+        <form name="hojaCalculoForm">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                    <div class="row" >
+                        <center>
+                            <div>
+                                <label style="font-weight:bold;" class="form-control input-lg">VALORACIÓN POR HPLC ({{ vm.muestra.ensayoMuestra }})</label>
+                            </div>
+                        </center>
+                    </div>
+                    <br>
+                    <div class="row" >
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3">NOMBRE DE LA MUESTRA:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label ng-model="vm.nombreMuestra">{{ vm.muestra.producto }}</label>
+                        </div>
+                        <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1">FECHA:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <input type="text" size="10" class="form-control input-xs" ng-model="vm.fecha" data-autoclose="1" placeholder="Date"
+                                   data-date-format="dd-MM-yy" bs-datepicker>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3">NÚMERO DE ANÁLISIS:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label ng-model="vm.numMuestra">{{ vm.muestra.muestra }}</label>
+                        </div>
+                        <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1">CLIENTE:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label ng-model="vm.cliente">{{ vm.muestra.cliente }}</label>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3">PRINCIPIO ACTIVO:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label ng-model="vm.principioActivo">{{ vm.muestra.principiosActivos }}</label>
+                        </div>
+                        <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1">TIPO MATERIAL:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <input type="text"  id="tipoMaterial" class="form-control input-xs" ng-model="vm.tipoMaterial" />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row" >
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3">CÓDIGO BALANZA:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <input type="text"  id="codigoBalanza" class="form-control input-xs" ng-model="vm.codigoBalanza" />
+                        </div>
+                        <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1">CÓDIGO EQUIPO:</label>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <input type="text"  id="codigoEquipo" class="form-control input-xs" ng-model="vm.codigoEquipo" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div ng-if="vm.funciones">
+                        <div ng-if="vm.validar('1')" ng-controller="hojaCalculoFuncionEstandarCtrl" class="ng-scope">
+                            <sgm-hoja-calculo-funcion-estandar standar="vm.data.estandar">
+
+                            </sgm-hoja-calculo-funcion-estandar>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.validar('2')" ng-controller="hojaCalculoFuncionMuestraCtrl" class="ng-scope">
+                            <sgm-hoja-calculo-funcion-muestra muestras="vm.data.muestra">
+
+                            </sgm-hoja-calculo-funcion-muestra>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.validar('4')" ng-controller="hojaCalculoFuncionDatoCtrl" class="ng-scope">
+                            <sgm-hoja-calculo-funcion-dato datos="vm.data.dato">
+
+                            </sgm-hoja-calculo-funcion-dato>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.validar('6')" ng-controller="hojaCalculoFuncionAlicuotaCtrl" class="ng-scope">
+                            <sgm-hoja-calculo-funcion-alicuota alicuotas="vm.data.alicuota">
+
+                            </sgm-hoja-calculo-funcion-alicuota>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.validar('5')">
+                            <sgm-hoja-calculo-funcion-modelo-calculo modelocalculo="vm.data.modelocalculo">
+
+                            </sgm-hoja-calculo-funcion-modelo-calculo>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.validar('3')" ng-controller="hojaCalculoFuncionCalculoCtrl" class="ng-scope">
+                            <sgm-hoja-calculo-funcion-calculo calculos="vm.data.calculo">
+
+                            </sgm-hoja-calculo-funcion-calculo>
+                        </div>
+
+                        <br>
+
+                        <div ng-if="vm.estado == 0">
+                            <button class="centered btn btn-primary" title="Guardar" type="button" ng-click="vm.save()">
+                                Guardar
+                            </button>
+                        </div>
+
+                        <div ng-if="vm.estado >= 1">
+                            <button class="centered btn btn-success" title="Actualizar" type="button" ng-click="vm.update()">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

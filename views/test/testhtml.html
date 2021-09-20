@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+   <head>
+    <title id='Description'>In this example is demonstrated how to populate the jqxListBox with data from MySQL Database. Each item in the list has label and value fields. The label is displayed to the user. When you click on the Submit button, the selected item's value will be displayed.</title> 
+    <link rel="stylesheet" href="../jqwidgets/jqwidgets/styles/jqx.base.css" type="text/css" />
+	<script type="text/javascript" src="../jqwidgets/scripts/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../jqwidgets/jqwidgets/jqxcore.js"></script>
+	<script type="text/javascript" src="../jqwidgets/jqwidgets/jqxbuttons.js"></script>
+	<script type="text/javascript" src="../jqwidgets/jqwidgets/jqxscrollbar.js"></script>
+	<script type="text/javascript" src="../jqwidgets/jqwidgets/jqxdata.js"></script>
+	<script type="text/javascript" src="../jqwidgets/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../jqwidgets/scripts/demos.js"></script> 
+	<style type="text/css">
+	.demo-iframe {
+		border: none;
+		width: 600px;
+		height: 400px;
+		clear: both;
+	}
+	</style>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		
+		// prepare the data
+		var source =
+		{
+			datatype: "json",
+			datafields: [
+			{ name: 'id'},
+			{ name: 'nombre'},
+			],
+			url: 'testsql.php',
+			async: false
+		};
+		var dataAdapter = new $.jqx.dataAdapter(source);
+			
+		$("#listbox").jqxListBox(
+		{
+			source: dataAdapter,
+			
+			width: 300,
+			height: 300,
+			selectedIndex: 0,
+			displayMember: 'nombre',
+			valueMember: 'id'
+		});        
+		$('#sendButton').jqxButton({ width: 70});
+		$("#listbox").bind('select', function(event)
+		{
+			if (event.args)
+			{
+				$("#eventLog").html("label:" + event.args.item.label + "<br/>value:" + event.args.item.value);
+			}
+		});	
+	});
+	</script>
+</head>
+<body class='default'>
+   <form class="form" id="form" target="form-iframe"  method="post" action="list.php" style="font-size: 13px; font-family: Verdana; width: 650px;">
+     <div>
+		<div style="float: left;" name="list" id="listbox"></div>
+   		<div style="margin-left: 20px; float: left;" id="eventLog"></div>
+	 </div>
+	 <div style="clear: both;"/>
+	 <input style="margin-top: 10px;" type="submit" value="Submit" id="sendButton" />
+   </form>
+   <div>
+     <iframe id="form-iframe" name="form-iframe" class="demo-iframe" frameborder="0"></iframe>
+   </div>
+</body>
+</html>
+</html>

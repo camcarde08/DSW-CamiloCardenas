@@ -1,0 +1,110 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="sgm-titulo">Análisis de tendencia</h1>
+    </div>
+</div>
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Datos básicos</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Fecha inicial:</label>
+                                <input type="text" class="form-control" ng-model="vm.fechaInicial" name="date" bs-datepicker>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Fecha final:</label>
+                                <input type="text" class="form-control" ng-model="vm.fechaFinal" name="date" bs-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <input type="text" class="form-control" ng-model="vm.selectedCliente" bs-options="tercero as tercero.nombre for tercero in vm.terceros" placeholder="Digite Cliente" bs-typeahead>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Producto:</label>
+                                <input type="text" class="form-control" ng-model="vm.selectedProducto" bs-options="producto as producto.nombre for producto in vm.productos" placeholder="Digite Producto" bs-typeahead>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group" style="padding-top: 23px;">
+                                <button class="btn btn-primary" ng-click="vm.search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" ng-if="vm.ensayosFiltrados[0]">
+                            <div class="form-group">
+                                <label>Ensayo:</label>
+                                <!--<input type="text" class="form-control" ng-model="vm.selectedEnsayo" bs-options="ensayo as ensayo.descripcion_especifica for ensayo in vm.ensayosFiltrados" placeholder="Digite Producto" bs-typeahead>-->
+                                <button 
+                                    type="button" 
+                                    class="btn btn-default" 
+                                    ng-model="vm.selectedEnsayo" 
+                                    placeholder="Seleccione ensayo" 
+                                    data-toggle="true" 
+                                    bs-options="ensayo as ensayo.descripcion for ensayo in vm.ensayosFiltrados" 
+                                    ng-change="vm.selectEnsayo()" 
+                                    bs-select>
+                                    Action <span class="caret"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6" ng-if="vm.show">
+        <div class="panel panel-default">
+            <div class="panel-heading">Informe de tendencia  {{vm.selectedProducto.nombre }} Ensayo: {{ vm.selectedEnsayo.descripcion }}</div>
+            <div class="panel-body">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="vm.data" 
+                        chart-labels="vm.labels" 
+                        chart-series="vm.series"
+                        chart-options="vm.chartOptions1">
+                </canvas>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6" ng-if="vm.show">
+        <div class="panel panel-default">
+            <div class="panel-heading">Informe de tendencia</div>
+            <div class="panel-body">
+                <canvas id="pie" class="chart chart-pie"
+                        chart-data="vm.data" chart-labels="vm.labels"
+                        hart-options="vm.chartOptions2">
+                </canvas> 
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

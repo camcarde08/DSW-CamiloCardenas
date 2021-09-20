@@ -1,0 +1,106 @@
+<style> 
+    .sgm-titulo { 
+        color: #000087; 
+    } 
+</style> 
+ 
+<div class="row"> 
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+        <h1 class="sgm-titulo">Administración de formas farmacéuticas</h1>
+    </div> 
+</div> 
+<div class="row"> 
+    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7"> 
+        <div> 
+            <div class="panel panel-default"> 
+                <div class="panel-heading"> 
+                    <table class="table table-responsive" style="margin-bottom: 0px;"> 
+                        <thead> 
+                            <tr> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">Nombre</th> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actualizar</th> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Eliminar</th> 
+                            </tr> 
+                            <tr> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5"> 
+                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.descripcion"> 
+                                </th> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th> 
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th> 
+                            </tr> 
+                        </thead> 
+                    </table> 
+                </div> 
+                <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;"> 
+                    <table class="table table-hover"> 
+                        <tbody> 
+                            <tr style="cursor: default" dir-paginate="forma in vm.consultaFormaFarmaceutica | filter :{descripcion: vm.filter.descripcion} | itemsPerPage:10 " pagination-id="paginacionAdmFormaFarmaceutica" > 
+                                <td ng-show="!forma.edit" class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="vertical-align:middle; text-align: center;">{{forma.descripcion}}</td> 
+                                <td ng-show="forma.edit"><input style="vertical-align:middle; text-align: center;" class="form-control" type="text" ng-model="forma.descripcion"></td> 
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"> 
+                                    <button ng-show="!forma.edit" type="button" class="btn btn-success" ng-click="vm.editarFormaFarmaceutica(forma)"><i class="fa fa-pencil" aria-hidden="true"></i></button>                                         
+                                    <div ng-show="forma.edit"> 
+                                        <button type="button" class="btn btn-primary" ng-click="vm.actualizarFormaFarmaceutica(forma)"><i class="fa fa-check" aria-hidden="true"></i></button> 
+                                        <button type="button" class="btn btn-danger" ng-click="forma.edit = !forma.edit"><i class="fa fa-times" aria-hidden="true"></i></button> 
+                                    </div> 
+                                </td> 
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"> 
+                                    <button ng-disabled="forma.asociada" type="button" class="btn btn-danger" ng-click="vm.borrarFormaFarmaceutica(forma)"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
+                                </td> 
+                            </tr> 
+                        </tbody> 
+                    </table> 
+ 
+                </div> 
+                <div class="panel-footer"> 
+                    <div class="row"> 
+                        <dir-pagination-controls pagination-id="paginacionAdmFormaFarmaceutica"></dir-pagination-controls> 
+                    </div> 
+                    <button type="button" class="btn btn-primary" ng-click="vm.createNewFormaFarmaceutica()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nueva forma farmacéutica</button> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+<div id ="modalespera" class="modal fade" tabindex="-1" role="dialog"> 
+    <div class="modal-dialog" role="document"> 
+        <div class="modal-content"> 
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <h4 class="modal-title">Cargando, un momento por favor ...</h4> 
+            </div> 
+            <div class="modal-body"> 
+                <div class="progress"> 
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" 
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"> 
+                    </div> 
+                </div> 
+            </div> 
+        </div><!-- /.modal-content --> 
+    </div><!-- /.modal-dialog --> 
+</div> 
+<div id="createNewEmpaqueModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"> 
+    <div class="modal-dialog" role="document"> 
+        <div class="modal-content"> 
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <h4 class="modal-title">Crear Nueva forma farmacéutica</h4> 
+            </div> 
+            <div class="modal-body"> 
+                <div class="row"> 
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                        <label>Forma farmaceutica:</label> 
+                        <div> 
+                            <input type="text" class="form-control" ng-model="vm.nuevaFormaFarmaceutica"></input> 
+                        </div> 
+                    </div> 
+ 
+                </div> 
+            </div> 
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button> 
+                <button type="button" class="btn btn-primary" ng-click="vm.crearNuevaFormaFamaceutica()">Crear</button> 
+            </div> 
+        </div> 
+    </div> 
+</div>

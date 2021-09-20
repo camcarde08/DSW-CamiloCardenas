@@ -1,0 +1,329 @@
+<style>    
+    .sgm-titulo {    
+        color: #000087;    
+    }    
+</style>    
+
+<div class="row">    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">    
+        <h1 class="sgm-titulo">Administración de usuarios</h1>
+    </div>    
+</div>    
+<div class="row">    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">    
+        <div>    
+            <div class="panel panel-default">    
+                <div class="panel-heading">    
+                    <table class="table table-responsive" style="margin-bottom: 0px;">    
+                        <thead>    
+                            <tr>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">No.</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Nombre completo</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Perfil de usuario</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">E-Mail</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha de creación</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Cargo</th>    
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Perfil</th>        
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Acciones</th>   
+                            </tr>    
+                        </thead>    
+                    </table>    
+                </div>    
+                <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">    
+                    <table class="table table-hover">    
+                        <tbody>    
+                            <tr style="cursor: default" dir-paginate="usuario in vm.consultaUsuario | itemsPerPage:10 " pagination-id="paginacionAdmUsuario" >    
+                                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{usuario.id}}</td>    
+                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">{{usuario.nombre}}</td>      
+                                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{usuario.login}}</td>     
+                                <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;">{{usuario.email}}</td>      
+                                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{usuario.fecha_creacion}}</td>      
+                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">{{usuario.cargo}}</td>     
+                                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{usuario.perfil}}</td>   
+                                <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">    
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="vm.editarUsuario(usuario)"><i class="fa fa-pencil" aria-hidden="true"></i></button>                                           
+                                    <button type="button" class="btn btn-info btn-xs" ng-click="vm.editarPassword(usuario)"><i class="fa fa-key" aria-hidden="true"></i></button>   
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="vm.borrarUsuario(usuario)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>    
+                                </td> 
+                            </tr>    
+                        </tbody>    
+                    </table>    
+
+                </div>    
+                <div class="panel-footer">    
+                    <div class="row">    
+                        <dir-pagination-controls pagination-id="paginacionAdmUsuario"></dir-pagination-controls>    
+                    </div>    
+                    <button type="button" class="btn btn-primary" ng-click="vm.createNewUsuario()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo usuario</button>    
+                </div>    
+            </div>    
+        </div>    
+    </div>    
+</div>    
+<div id ="modalespera" class="modal fade" tabindex="-1" role="dialog">    
+    <div class="modal-dialog" role="document">    
+        <div class="modal-content">    
+            <div class="modal-header">    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>    
+                <h4 class="modal-title">Cargando, un momento por favor ...</h4>    
+            </div>    
+            <div class="modal-body">    
+                <div class="progress">    
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"    
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">    
+                    </div>    
+                </div>    
+            </div>    
+        </div><!-- /.modal-content -->    
+    </div><!-- /.modal-dialog -->    
+</div> 
+<div id="actualizarUsuarioModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">    
+    <div class="modal-dialog" role="document">    
+        <div class="modal-content">    
+            <div class="modal-header">    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>    
+                <h4 class="modal-title">Actualizar Usuario</h4>    
+            </div>    
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.actualizacionUsuarioNombre" />
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Cargo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.actualizacionUsuarioCargo">
+                                    <option ng-repeat="cargo in vm.consultaCargos" value="{{cargo.id}}">{{cargo.cargo}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>E-mail:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.actualizacionUsuarioEmail"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Jefe:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.actualizacionUsuarioJefe">
+                                    <option ng-repeat="jefe in vm.consultaJefes" value="{{jefe.id}}">{{jefe.jefe}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Login:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.actualizacionUsuarioLogin"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Perfil:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.actualizacionUsuarioPerfil">
+                                    <option ng-repeat="perfil in vm.consultaPerfiles" value="{{perfil.id}}">{{perfil.perfil}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>    
+            <div class="modal-footer">    
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>    
+                <button type="button" class="btn btn-primary" ng-click="vm.actualizarUsuario()">Aceptar</button>    
+            </div>    
+        </div>    
+    </div>    
+</div>
+<div id="actualizarPasswordModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">    
+    <div class="modal-dialog" role="document">    
+        <div class="modal-content">    
+            <div class="modal-header">    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>    
+                <h4 class="modal-title">Actualizar Contraseña</h4>    
+            </div>    
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Contraseña:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="password" ng-model="vm.actualizacionPassword" required/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Confirmar password:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="password" ng-model="vm.actualizacionConfirmacionPassword" required/>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>    
+            <div class="modal-footer">    
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>    
+                <button type="button" class="btn btn-primary" ng-click="vm.actualizacionPasswordUsuario()">Aceptar</button>    
+            </div>   
+        </div>    
+    </div>    
+</div>
+<div id="createNewUsuarioModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">    
+    <div class="modal-dialog" role="document">    
+        <div class="modal-content">    
+            <div class="modal-header">    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>    
+                <h4 class="modal-title">Crear Nuevo Usuario</h4>    
+            </div>    
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Nombre:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.nuevoUsuarioNombre" required/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Cargo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.nuevoUsuarioCargo">
+                                    <option ng-repeat="cargo in vm.consultaCargos" value="{{cargo.id}}">{{cargo.cargo}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>E-mail:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.nuevoUsuarioEmail"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Jefe:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.nuevoUsuarioJefe">
+                                    <option ng-repeat="jefe in vm.consultaJefes" value="{{jefe.id}}">{{jefe.jefe}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Login:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="vm.nuevoUsuarioLogin"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Perfil:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="vm.nuevoUsuarioPerfil">
+                                    <option ng-repeat="perfil in vm.consultaPerfiles" value="{{perfil.id}}">{{perfil.perfil}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Contraseña:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="password" ng-model="vm.nuevoUsuarioPassword" required/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label>Confirmar password:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" type="password" ng-model="vm.nuevoUsuarioConfirmarPassword" required/>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>    
+            <div class="modal-footer">    
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>    
+                <button type="button" class="btn btn-primary" ng-click="vm.crearNuevoUsuario()">Crear</button>    
+            </div>    
+        </div>    
+    </div>    
+</div>
+<div id="notification">
+    <span id="messageNotification"></span>
+</div>

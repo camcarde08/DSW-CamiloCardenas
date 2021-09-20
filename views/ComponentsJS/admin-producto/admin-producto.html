@@ -1,0 +1,474 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        background-color: #a5a5a5;
+        margin: 1em 0;
+        padding: 0; 
+    }
+    .sgm-blue-row {
+        background-color: #b5defc;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .sgm-white-row {
+        background-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Productos</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7">Nombre del producto</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Tipo de producto</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actualizar</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Eliminar</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.forma" ng-change="vm.changeFilterHeader()">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr ng-if="vm.productos.length === 0">
+                                    <td colspan="4">
+                                        No se encontraron registros
+                                    </td>
+                                </tr>
+                                <tr style="cursor: default" ng-class="{info: producto.selected}" ng-show="!producto.edit" ng-repeat-start="producto in vm.productos" >
+                                    <td style="vertical-align:middle; text-align: center;"  class="col-xs-7 col-sm-7 col-md-7 col-lg-7" ng-click="vm.rowSelectedProducto(producto)">{{producto.nombre}}</td>
+                                    <td style="vertical-align:middle; text-align: center;"  class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-click="vm.rowSelectedProducto(producto)">{{vm.getDescripcionForma(producto.id_formula_farma).descripcion}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-success" ng-click="vm.editarProducto(producto)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarProducto(producto, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr ng-repeat-end ng-show="producto.edit">
+                                    <td class="col-xs-7 col-sm-7 col-md-7 col-lg-7" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="producto.nombre" />
+                                    </td>
+                                    <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle">
+                                        <select class="form-control" ng-model="producto.id_formula_farma">
+                                            <option ng-repeat="forma in vm.formas" value="{{forma.id}}">{{forma.descripcion}}</option>
+                                        </select>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-primary" ng-click="vm.confirmarCambiosProducto(producto)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger" ng-click="vm.descartarCambiosProducto(producto)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarProducto(producto, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div style="margin-top: 10px;"> 
+                            Página: 
+                            <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.filter.pagina" ng-change="vm.changeFilter()"
+                                   ng-disabled="true"> 
+                            / {{ vm.maxPage}} 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                                <i class="fa fa-step-backward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                                <i class="fa fa-forward" aria-hidden="true"></i>
+                            </button> 
+                            <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                                <i class="fa fa-step-forward" aria-hidden="true"></i>
+                            </button> 
+                            <div style="float: right">
+                                Registros por página
+                                <input type="radio" ng-model="vm.filter.cantidad" value="5" ng-change="vm.changeFilterHeader()"> 5
+                                <input type="radio" ng-model="vm.filter.cantidad" value="10" ng-change="vm.changeFilterHeader()"> 10
+                                <input type="radio" ng-model="vm.filter.cantidad" value="20" ng-change="vm.changeFilterHeader()"> 20
+                            </div>
+                        </div> 
+                        <br/>
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewProducto()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newProductoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Crear nuevo producto</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="newProductoForm">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input name="nombre" type="text" class="form-control" placeholder="Nombre del producto" ng-model="vm.newProducto.nombre"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tipo de producto:</label>
+                                    <select class="form-control" ng-model="vm.newProducto.id_formula_farma">
+                                        <option ng-repeat="forma in vm.formas" value="{{forma.id}}">{{forma.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewProducto()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmNewProductoModal()" ng-disabled="!newProductoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.productoSelected">
+        <div class="sgm-titulo" style="font-size: 20px; margin-bottom: 30px; margin-top: 30px;">Configuración</div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#reactivos">Paquetes</a></li>
+            <li><a data-toggle="tab" href="#estandares">Principios activos</a></li>
+            <li><a data-toggle="tab" href="#menu2">Ensayos</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="reactivos" class="tab-pane fade in active">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding-bottom: 0px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Paquetes asociados</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input class="form-control input-sm" type="text" ng-model="vm.paquetesAsociadosFilter.descripcion">
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr style="cursor: default" dir-paginate="item in vm.paquetesAsociados | filter : {descripcion: vm.paquetesAsociadosFilter.descripcion} | itemsPerPage: 5 "
+                                        pagination-id="gridPaquetesAsociados">
+                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                            <input type="checkbox" ng-model="item.selected" />
+                                        </td>
+                                        <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.descripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <dir-pagination-controls pagination-id="gridPaquetesAsociados"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-danger" style="width: 100%;" ng-click="vm.clickDesasociarPaquetes($event)">Eliminar <i class="fa fa-forward" aria-hidden="true"></i></button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" style="width: 100%;" ng-click="vm.clickAsociarPaquetes($event)"><i class="fa fa-backward" aria-hidden="true"></i> Agregar</button>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding-bottom: 0px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Paquetes disponibles</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <input class="form-control input-sm" type="text" ng-model="vm.paquetesDisponiblesFilter.descripcion">
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+
+                                    <tr style="cursor: default" dir-paginate="item in vm.paquetesDisponibles | filter : {descripcion: vm.paquetesDisponiblesFilter.descripcion} | itemsPerPage: 5 "
+                                        pagination-id="gridPaquetesDisponibles">
+                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                            <input type="checkbox" ng-model="item.selected" />
+                                        </td>
+                                        <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.descripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <dir-pagination-controls pagination-id="gridPaquetesDisponibles"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="estandares" class="tab-pane fade">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding-bottom: 0px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Principios activos asociados</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input class="form-control input-sm" type="text" ng-model="vm.principiosAsociadosFilter.nombre">
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr style="cursor: default" dir-paginate="item in vm.principiosAsociados | filter : {nombre: vm.principiosAsociadosFilter.nombre} | itemsPerPage: 5 "
+                                        pagination-id="gridPrincipiosAsociados">
+                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                            <input type="checkbox" ng-model="item.selected" />
+                                        </td>
+                                        <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.nombre}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <dir-pagination-controls pagination-id="gridPrincipiosAsociados"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-danger" style="width: 100%;" ng-click="vm.clickDesasociarPrincipios($event)">Eliminar <i class="fa fa-forward" aria-hidden="true"></i></button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" style="width: 100%;" ng-click="vm.clickAsociarPrincipios($event)"><i class="fa fa-backward" aria-hidden="true"></i> Agregar</button>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding-bottom: 0px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Principios activos disponibles</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <input class="form-control input-sm" type="text" ng-model="vm.principiosDisponiblesFilter.nombre">
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+
+                                    <tr style="cursor: default" dir-paginate="item in vm.principiosDisponibles | filter : {nombre: vm.principiosDisponiblesFilter.nombre} | itemsPerPage: 5 "
+                                        pagination-id="gridPrincipiosDisponibles">
+                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                            <input type="checkbox" ng-model="item.selected" />
+                                        </td>
+                                        <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.nombre}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <dir-pagination-controls pagination-id="gridPrincipiosDisponibles"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="menu2" class="tab-pane fade">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <br/>
+                    <div class="panel panel-info sgm-panel-reg-muestra-datos-nerales">
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Descripción general</th>
+                                        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Descripción específica</th>
+                                        <th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Especificación</th>
+                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Método</th>
+                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Tiempo</th>
+                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Editar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr pagination-id="gridPaquetesEnsayos" dir-paginate-start="paquete in vm.paquetesAsociados | itemsPerPage: 10 " >
+                                        <td>
+                                            <button class="btn btn-primary btn-xs" ng-show="!paquete.showDetalle" ng-click="paquete.showDetalle = true"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <button class="btn btn-primary btn-xs" ng-show="paquete.showDetalle" ng-click="paquete.showDetalle = false"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                        </td>
+                                        <td colspan="6">{{paquete.descripcion}}</td>
+                                    </tr>
+                                    <tr dir-paginate-end ng-show="paquete.showDetalle && !ensayo.edit" ng-repeat="ensayo in paquete.ensayos" style="border-top: 0;">
+                                        <td style="vertical-align:middle; text-align: center;" ></td>
+                                        <td style="vertical-align:middle;">{{ensayo.descripcion}}</td>
+                                        <td style="vertical-align:middle;">{{ensayo.descripcion_especifica}}</td>
+                                        <td style="vertical-align:middle;">{{ensayo.especificacion}}</td>
+                                        <td style="vertical-align:middle;">{{vm.getDescripcionMetodo(ensayo.id_metodo).descripcion}}</td>
+                                        <td style="vertical-align:middle;">{{ensayo.tiempo}}</td>
+                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                            <button type="button" class="btn btn-success" ng-click="vm.openModalEditarProductoEnsayo(ensayo, $parent.$index, $index)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <dir-pagination-controls pagination-id="gridPaquetesEnsayos"></dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editProductoEnsayoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Editar ensayo del producto</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editProductoEnsayoForm">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción general:</label>
+                                    <input id="descripcion" type="text" class="form-control" ng-model="vm.productoEnsayoEdit.descripcion"
+                                           disabled="true">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="descripcionEsp">Descripción específica:</label>
+                                    <input id="descripcionEsp" type="text" class="form-control" ng-model="vm.productoEnsayoEdit.descripcion_especifica"
+                                           />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Método:</label>
+                                    <select class="form-control" ng-model="vm.productoEnsayoEdit.id_metodo">
+                                        <option ng-repeat="metodo in vm.metodos" value="{{metodo.id}}">{{metodo.descripcion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="tiempo">Tiempo:</label>
+                                    <input id="tiempo" type="number" class="form-control" ng-model="vm.productoEnsayoEdit.tiempo"
+                                           string-to-number/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="especificacion">Especificación:</label>
+                                    <textarea id="especificacion" class="form-control" ng-model="vm.productoEnsayoEdit.especificacion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalEditProductoEnsayo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmEditProductoEnsayoModal()" ng-disabled="!editProductoEnsayoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

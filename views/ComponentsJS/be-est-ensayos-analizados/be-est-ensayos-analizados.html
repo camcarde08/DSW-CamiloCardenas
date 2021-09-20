@@ -1,0 +1,166 @@
+
+
+<div class="row">
+
+
+    <div style="overflow-x: scroll;">
+        <table class="table table-hover">
+            <caption><b>{{ vm.nombreBandeja }}</b></caption>
+            <thead>
+                <tr class="active">
+                    <th style="text-align: center; border-bottom: 0;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Muestra</th>
+                    <th style="text-align: center; border-bottom: 0; width: 40px; min-width: 40px;">Duración</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Temperatura</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 100px;">Fecha Análisis</th>
+                    <th style="text-align: center; border-bottom: 0; width: 400px; min-width: 200px;">Cliente</th>
+                    <th style="text-align: center; border-bottom: 0; width: 400px; min-width: 200px;">Producto</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Lote</th>
+                    <th style="text-align: center; border-bottom: 0; width: 700px; min-width: 300px;">Ensayo</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Analista</th>
+                </tr>
+                <tr>
+
+                    <th style="text-align: center; border-bottom: 0;" >
+
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.showIdMuestra" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.duracion" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.temperatura" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.fechaAnalisis" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.cliente" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.producto" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.numeroLote" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.ensayo" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.analista" ng-change="vm.changeFilter()">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: default" ng-repeat-start="subMuestra in vm.subMuestras"
+                    ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+
+                    <td 
+                        class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <button class="btn btn-primary" ng-if="subMuestra.expanded" ng-click="subMuestra.expanded = false">-</button>
+                        <button class="btn btn-primary" ng-if="!subMuestra.expanded" ng-click="subMuestra.expanded = true">+</button>
+                    </td>
+                    <td 
+                        class="col-xs-1 col-sm-1 col-md-1 col-lg-1"
+                        style="vertical-align:middle; text-align: center;" 
+                        ng-click="vm.eventClickResultadosSubMuestraEstabilidad(subMuestra)">
+                        <a>{{ subMuestra.muestra.show_id_muestra}}</a>
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ subMuestra.duracion.label}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;" >
+                        {{ subMuestra.temperatura.label}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;" >
+                        {{ subMuestra.fecha_analisis}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;" >
+                        {{subMuestra.muestra.tercero.nombre}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{subMuestra.muestra.producto.nombre}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{subMuestra.muestra.numero_lote}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;" >
+
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;" >
+
+                    </td>
+                </tr>
+                <tr 
+                    ng-repeat-end
+                    ng-if="subMuestra.expanded"
+                    ng-repeat="ensayo in subMuestra.ensayos_sub_muestra"
+                    ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>   
+                    <td 
+                        style="text-align: center;">
+                        <i 
+                            class="fa fa-arrow-right fa-lg text-success" 
+                            style="cursor: pointer" 
+                            aria-hidden="true"
+                            ng-click="vm.eventClickResultadosSubMuestraEstabilidad(subMuestra)">
+                        </i>
+                    </td>
+                    <td>
+                        {{ ensayo.descripcion_especifica}}
+                    </td>
+                    <td>
+                        {{ ensayo.usuario_programado.nombre}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <i ng-show="!vm.subMuestras" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 10px;"> 
+            Página: 
+            <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.pagina" ng-change="vm.changeFilter()"
+                   ng-disabled="true"> 
+            / {{ vm.maxPage}} 
+            <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                <i class="fa fa-step-backward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                <i class="fa fa-forward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                <i class="fa fa-step-forward" aria-hidden="true"></i>
+            </button> 
+            <div style="float: right">
+                Registros por página
+                <input type="radio" ng-model="vm.cantidad" value="5" ng-change="vm.changeFilter()"> 5
+                <input type="radio" ng-model="vm.cantidad" value="10" ng-change="vm.changeFilter()"> 10
+                <input type="radio" ng-model="vm.cantidad" value="20" ng-change="vm.changeFilter()"> 20
+            </div>
+        </div>
+    </div>
+</div>
+
+

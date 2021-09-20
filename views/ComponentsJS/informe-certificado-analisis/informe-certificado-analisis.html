@@ -1,0 +1,45 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <!--Titulo-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Certificado de análisis</h1>
+    </div>
+
+    <!--Datos basicos muestra-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">Filtrar</div>
+            <div class="panel-body">
+                <div class="row">
+                    <form name="informeForm">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3" for="muestra">Número de muestra</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input type="text" id="muestra" class="form-control" ng-model="vm.muestra" required/>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                        <button type="submit" class="btn btn-primary" id="butttonConsultaInforme" ng-disabled="!informeForm.$valid" ng-click="vm.eventClickInformeCertificado()">Generar certificado</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="pdf/informes/informe-certificado-analisis.php" method="POST" target="informeCertificado" id="formInformeCertificado">
+    <input name="filtroNumero" id="filtroNumero" type="hidden"/>
+</form>

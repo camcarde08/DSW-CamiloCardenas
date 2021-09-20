@@ -1,0 +1,493 @@
+<style>
+    .aprobado {
+        border-left: 3px solid green;
+    }
+
+    .rechazado {
+        border-left: 3px solid orange;
+    }
+
+    .pararevision {
+        border-left: 3px solid blue;
+    }
+
+    .paratranscripcion {
+        border-left: 3px solid aqua;
+    }
+
+    .parasiembra {
+        border-left: 3px solid #000087;
+    }
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <!--Titulo-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Hoja de trabajo</h1>
+    </div>
+
+    <!--Datos basicos muestra-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">Datos básicos análisis</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="muestra-number">Número análisis</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="muestra-number" placeholder="Número Análisis" ng-model="vm.idMuestra" ng-disabled="vm.currentLoadedMuestra" ng-keyup="$event.keyCode == 13 ? vm.clickSearchMuestra($event) : null">
+                                <div class="input-group-addon strong" ng-click="vm.clickSearchMuestra($event)" ng-show="!vm.currentLoadedMuestra"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding-top: 24px;">
+                        <button class="btn btn-info" ng-show="vm.currentLoadedMuestra" ng-click="vm.limpiar($event)">Limpiar</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="producto">Producto</label>
+                            <input type="text" class="form-control" id="producto" ng-model="vm.currentLoadedMuestra.nombre_producto" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="tipo-analisis">Tipo análisis</label>
+                            <input type="text" class="form-control" id="tipo-analisis" ng-model="vm.currentLoadedMuestra.des_area_analisis" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="cliente">Cliente</label>
+                            <input type="text" class="form-control" id="cliente" ng-model="vm.currentLoadedMuestra.nombre_tercero" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="cliente">Lote</label>
+                            <input type="text" class="form-control" id="cliente" ng-model="vm.currentLoadedMuestra.lote.numero" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button class="btn btn-primary" ng-click="vm.eventClickButttonConsultaAnexosConHojaRutaMuestra()" ng-disabled="!vm.currentLoadedMuestra || !vm.sessionUserData.session.botonAnexos">Consultar anexos</button>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button class="btn btn-primary" id="ButtonHojaRutaPrint1" ng-click="vm.eventClickButtonHojaDatosPrimarios()" ng-disabled="!vm.currentLoadedMuestra || !vm.sessionUserData.session.botonHojaRuta">Hoja de datos primarios</button>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button class="btn btn-primary" id="butttonConsultaInformePrevio" ng-click="vm.eventClickInformePrevio()" ng-disabled="!vm.currentLoadedMuestra || !vm.sessionUserData.session.botonInformePrevio">Informe previo</button>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <button class="btn btn-primary" id="ButtonHojaAnexo" ng-click="vm.eventClickButtonHojaAnexo()" ng-disabled="!vm.currentLoadedMuestra || !vm.sessionUserData.session.botonHojaRuta">Anexo</button>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <button class="btn btn-primary" id="butttonImprimirCondiciones" ng-click="vm.eventClickCondiciones()" ng-disabled="!vm.currentLoadedMuestra || !vm.sessionUserData.session.botonHojaRuta">Condiciones Cromatográficas</button>
+                    </div>
+                    <!--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
+                        <!--<div class="form-group">-->
+                            <!--<button class="btn btn-primary"-->
+                                    <!--ng-click="vm.eventClickButtonValoracionHplc()"-->
+                                    <!--ng-disabled="!vm.currentLoadedMuestra">-->
+                                <!--Valoración por HPLC</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!--grilla ensayos-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2 class="sgm-titulo">Ensayos</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                Ensayos del análisis
+                            </div>
+                            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                                <p ng-if="vm.currentLoadedMuestra.id_estado_muestra == 17"><strong>Muestra ya Aprobada</strong></p>
+                                <p ng-if="vm.currentLoadedMuestra.id_estado_muestra == 10"><strong>Muestra ya  almacenada</strong></p>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="!vm.currentLoadedMuestra.yaRevisada">
+                                <button style="width: 100%;" class="btn btn-success" ng-click="vm.eventClickRevisarMuestra()" data-toggle="tooltip" data-placement="top"
+                                        title="revisar muestra" ng-if="vm.sessionUserData.permisos.revisarMuestraHojaTrabajo && vm.currentLoadedMuestra.id_estado_muestra == 16 && vm.currentLoadedMuestra.fecha_pre_conclusion == null && vm.currentLoadedMuestra.usuario_pre_conclusion == null">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Revisar
+                                </button>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="vm.currentLoadedMuestra.yaRevisada">
+                                <button style="width: 100%;" class="btn btn-primary" ng-click="vm.eventClickActualizarRevisarMuestra()" data-toggle="tooltip" data-placement="top"
+                                        title="revisar muestra" ng-if="vm.sessionUserData.permisos.revisarMuestraHojaTrabajo && vm.currentLoadedMuestra.id_estado_muestra == 16">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Actualizar Revisión
+                                </button>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <button style="width: 100%;" class="btn btn-primary" ng-click="vm.eventClickVerificarMuestra()" data-toggle="tooltip" data-placement="top"
+                                        title="Aprobar" ng-if="vm.sessionUserData.permisos.aprobarMuestraHojaTrabajo && vm.currentLoadedMuestra.id_estado_muestra == 16">
+                                    <i class="fa fa-check" aria-hidden="true"></i> 
+                                    <i class="fa fa-check" aria-hidden="true"></i> Aprobar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Detalle
+                                        <input ng-model="vm.checkAllElem" style="margin-left: 10%" type="checkbox" ng-click="vm.checkAll($event)" ng-if="(vm.ensayosAsignados || vm.sessionUserData.userIdPerfil == 1) && vm.sessionUserData.permisos.checkAnalisisRealizadoHojaTrabajo && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10)"/>
+                                    </th>
+                                    <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Nombre</th>
+                                    <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Resultado</th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Método</th>
+                                    <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Especificación</th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha análisis</th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Acciones</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat-start="ensayo in vm.currentLoadedMuestra.ensayos">
+                                    <td ng-class="vm.estadoEnsayo(ensayo)">
+                                        <button class="btn btn-primary btn-xs" ng-show="!ensayo.showDetalle" ng-click="ensayo.showDetalle = true" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo || vm.sessionUserData.permisos.consultaResultadoHojaTrabajo || vm.sessionUserData.permisos.revisionEnsayoHojaTrabajo)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <button class="btn btn-primary btn-xs" ng-show="ensayo.showDetalle" ng-click="ensayo.showDetalle = false" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo || vm.sessionUserData.permisos.consultaResultadoHojaTrabajo || vm.sessionUserData.permisos.revisionEnsayoHojaTrabajo)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                        <input class="check" style="margin-left: 40%" ng-model="ensayo.checked" type="checkbox" ng-if="ensayo.asignado && vm.sessionUserData.permisos.checkAnalisisRealizadoHojaTrabajo && ensayo.estado_ensayo == 1 && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10)"/>
+                                    </td>
+                                    <td>{{ensayo.desEspecifica}}</td>
+                                    <td>
+                                        <p ng-show="(!ensayo.showDetalle)">{{ensayo.resultados[0].resultado}}</p>
+                                    </td>
+                                    <td>{{ensayo.des_metodo}}</td>
+                                    <td>{{ensayo.especificacion}}</td>
+                                    <td>{{ensayo.fecha_analisis| date : 'dd-MM-yyyy'}}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Analizado" ng-disabled="(!ensayo.asignado) || (!ensayo.checked)" ng-if="vm.sessionUserData.permisos.checkAnalisisRealizadoHojaTrabajo && ensayo.estado_ensayo == 1 && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10)"
+                                                ng-click="vm.analizarEnsayo(ensayo)">
+                                            <i class="fa fa-flask" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-xs" ng-click="vm.eventClickAprobarEnsayoMuestra(ensayo)" data-toggle="tooltip" data-placement="top"
+                                                title="Aprobar" ng-if="vm.sessionUserData.permisos.revisionEnsayoHojaTrabajo && ensayo.estado_ensayo == 5 && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10)">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-xs" ng-click="vm.eventClickRechazarEnsayoMuestra(ensayo)" data-toggle="tooltip" data-placement="top"
+                                                title="Rechazar" ng-if="vm.sessionUserData.permisos.revisionEnsayoHojaTrabajo && ensayo.estado_ensayo == 5 && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-info btn-xs" ng-click="vm.reprogramarEnsayoMuestra(ensayo)" data-toggle="tooltip" data-placement="top"
+                                                title="Reprogramar" ng-if="vm.sessionUserData.permisos.reprogramacionEnsayoHojaTrabajo && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10 && vm.currentLoadedMuestra.id_estado_muestra != 16 && ensayo.estado_ensayo != 2 && ensayo.estado_ensayo != 3)">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-warning btn-xs" ng-click="vm.rfeEnsayoMuestra(ensayo)" data-toggle="tooltip" data-placement="top"
+                                                title="Rfe" ng-if="vm.sessionUserData.permisos.reprogramacionEnsayoHojaTrabajo && (vm.currentLoadedMuestra.id_estado_muestra != 17 && vm.currentLoadedMuestra.id_estado_muestra != 11 && vm.currentLoadedMuestra.id_estado_muestra != 10 && vm.currentLoadedMuestra.id_estado_muestra != 16 && ensayo.estado_ensayo != 3)">RFE
+                                        </button>
+                                        <!--<div class="form-group">
+                                            <button class="btn btn-danger btn-xs"
+                                                    ng-click="vm.eventClickButtonHojaCalculo(ensayo)"
+                                                    ng-disabled="!vm.currentLoadedMuestra">
+                                                HC</button>
+                                        </div>-->
+                                    </td>
+                                </tr>
+                                <tr ng-repeat-end ng-show="ensayo.showDetalle" style="border-top: 0;">
+                                    <td colspan="7" ng-class="vm.estadoEnsayo(ensayo)">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                                <div class="form-group" ng-if="false">
+                                                    <label for="exampleInputEmail1">Resultado replica 1:</label>
+                                                    <input class="form-control" type="number" ng-model="ensayo.resultados[0].resultado_1" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 4 || ensayo.estado_ensayo == 5))"
+                                                           ng-change="vm.calcPromedio(ensayo.resultados[0])">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                                <div class="form-group" ng-if="false">
+                                                    <label for="exampleInputEmail1">Resultado replica 2:</label>
+                                                    <input class="form-control" type="number" ng-model="ensayo.resultados[0].resultado_2" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 4 || ensayo.estado_ensayo == 5))"
+                                                           ng-change="vm.calcPromedio(ensayo.resultados[0])">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                                <div class="form-group" ng-if="false">
+                                                    <label for="exampleInputEmail1">Promedio:</label>
+                                                    <input class="form-control" type="number" ng-model="ensayo.resultados[0].promedioCalc" ng-disabled="true">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                                <div class="form-group" >
+                                                    <label for="exampleInputEmail1">Resultado numérico</label>
+                                                    <input class="form-control" type="number" ng-model="ensayo.resultados[0].resultado_numerico" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 4 || ensayo.estado_ensayo == 5))"
+                                                           string-to-number>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Resultado</label>
+                                                    <textarea class="form-control" style="resize:none;" rows="3" ng-model="ensayo.resultados[0].resultado" ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 4 || ensayo.estado_ensayo == 5))"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+                                                <br/>
+                                                <br/>
+                                                <button class="btn btn-success" ng-if="(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && ensayo.estado_ensayo == 4 && !ensayo.resultados[0].id)"
+                                                        ng-click="vm.eventClickGuardarResultado(ensayo)">crear</button>
+                                                <button class="btn btn-primary" ng-if="(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 5 || ensayo.estado_ensayo == 4) && ensayo.resultados[0].id)"
+                                                        ng-disabled="!(vm.sessionUserData.permisos.registroResultadoHojaTrabajo && (ensayo.estado_ensayo == 5 || ensayo.estado_ensayo == 4))"
+                                                        ng-click="vm.eventClickActualizarResultado(ensayo.resultados[0], ensayo)">Actualizar</button>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group" ng-if="ensayo.motivo_reprogramacion">
+                                                    <label>Motivo reprogramación</label>
+                                                    <textarea class="form-control" style="resize:none;" rows="3" 
+                                                              ng-model="ensayo.motivo_reprogramacion" 
+                                                              disabled="true"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: 100%">
+                                <span class="sr-only">100% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="revisarMuestraModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" >Revisar muestra</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form name="revisarMuestraForm">
+                            <div class="form-group">
+                                <label for="conclusion">Conclusión de muestra</label>
+                                <textarea class="form-control" style="resize:none;" rows="6" id="conclusion" ng-model="vm.currentLoadedMuestra.conclusion_muestra" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="observacionesInternas">Observaciones internas</label>
+                                <textarea class="form-control" style="resize:none;" rows="6" id="observacionesInternas" ng-model="vm.currentLoadedMuestra.observacion"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.eventClickCancelarRevisarMuestra()">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!revisarMuestraForm.$valid" ng-click="vm.eventClickConfirmarRevisarMuestra()">Revisar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verificarMuestraModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Aprobar muestra</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form name="verificarMuestraForm">
+                            <div class="form-group">
+                                <label for="conclusion">Conclusión de muestra</label>
+                                <textarea class="form-control" style="resize:none;" rows="6" id="conclusion" ng-model="vm.currentLoadedMuestra.conclusion_muestra" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="observacionesInternas">Observaciones internas</label>
+                                <textarea class="form-control" style="resize:none;" rows="6" id="observacionesInternas" ng-model="vm.currentLoadedMuestra.observacion"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!verificarMuestraForm.$valid" ng-click="vm.eventClickConfirmarVerificarMuestra()">Aprobar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="analizarEnsayoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{vm.modalAnalizarEnsayoTitulo}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <form name="AnalizarEnsayoForm">
+                            <div class="form-group">
+                                <label class="control-label">Fecha</label><br>
+                                <div class="form-group">
+                                    <input type="text" size="10" class="form-control" ng-model="vm.analizarEnsayoDate" data-autoclose="1" placeholder="Date"
+                                           data-date-format="dd-MM-yyyy" bs-datepicker>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" size="8" class="form-control" ng-model="vm.analizarEnsayoDate" data-time-format="h:mm:ss a" data-autoclose="1"
+                                           placeholder="Time" bs-timepicker>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!AnalizarEnsayoForm.$valid" ng-click="vm.eventClickAnalizarEnsayo()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reprogramarEnsayoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Reprogramar ensayo {{vm.ensayoReprogramar.desEspecifica}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form name="reprogramarEnsayoForm">
+                            <div class="form-group">
+                                <label for="motivo">Motivo de reprogramación</label>
+                                <textarea id="motivo" class="form-control" style="resize:none;" rows="6" ng-model="vm.ensayoReprogramar.motivo" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!reprogramarEnsayoForm.$valid" ng-click="vm.eventClickReprogramarEnsayo()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rfeEnsayoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">RFE ensayo {{vm.ensayoRfe.desEspecifica}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form name="rfeEnsayoForm">
+                            <div class="form-group">
+                                <label for="motivo">Motivo de RFE</label>
+                                <textarea id="motivo" class="form-control" style="resize:none;" rows="6" ng-model="vm.ensayoRfe.motivo" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!rfeEnsayoForm.$valid" ng-click="vm.eventClickRfeEnsayo()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rechazarAnalisisMuestraModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">¿Esta seguro que desea rechazar el análisis?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.cancelarRechazo()">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.rechazarMuestra()">Rechazar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form action="pdf/informes/informeAnalisis.php" method="POST" target="informeFinal" id="formEnvioFinal">
+    <input name="idMuestra" id="idMuestraFinal" type="hidden"/>
+    <input name="idPerfil" id="idPerfilFinal" type="hidden"/>
+</form>
+
+<form action="pdf/informes/hojaRuta.php" method="POST" target="hojaTrabajoFinal" id="formHojaTrabajo">
+    <input name="idMuestra" id="idMuestraHT" type="hidden"/>
+    <input name="idPerfil" id="idPerfilHT" type="hidden"/>
+</form>
+
+<form action="pdf/informes/hojaAnexo.php" method="POST" target="hojaTrabajoAnexo" id="formHojaAnexo">
+    <input name="idMuestra" id="idMuestraHA" type="hidden"/>
+    <input name="idPerfil" id="idPerfilHA" type="hidden"/>
+</form>
+
+<form action="pdf/informes/condiciones-cromatograficas/condicionesCromatograficas.php" method="POST" target="_blank" id="formCondiciones">
+    <input name="idBusqueda" id="idMuestraCondiciones" type="hidden"/>
+    <input name="idPerfil" id="idPerfilCondiciones" type="hidden"/>
+    <input name="opcion" id="opcion" type="hidden"/>
+</form>
+
+<div id="windowConsultaAnexosConHojaRutaMuestra">
+    <div>
+        <div id="treeAnexosConHojaRutaMuestra"></div>
+    </div>
+</div>
+
+<div id="notificationAdminPerfil">
+    <span id="messageNotificationAdminPerfil"></span>
+</div>

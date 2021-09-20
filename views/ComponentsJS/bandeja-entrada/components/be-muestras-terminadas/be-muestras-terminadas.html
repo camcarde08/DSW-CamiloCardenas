@@ -1,0 +1,123 @@
+
+
+<div class="row">
+
+
+    <div style="overflow-x: scroll;">
+        <table class="table table-hover">
+            <caption><b>{{ vm.nombreBandeja }}</b></caption>
+            <thead>
+                <tr class="active">
+                    <th style="text-align: center; border-bottom: 0; width: 50px; min-width: 50px;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Muestra</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Cliente</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Producto</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Lote</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Fecha llegada</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Fecha entrega</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Fecha conclusión</th>
+
+
+                </tr>
+                <tr>
+                    <th style="text-align: center; border-bottom: 0;" >
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.show_id_muestra" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.cliente" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.producto" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.lote" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.fecha_llegada" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.fecha_entrega" ng-change="vm.changeFilter()">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.fecha_conclusion" ng-change="vm.changeFilter()">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: default" ng-repeat="muestra in vm.muestras">
+                    <td> 
+                        <form method="post" action="pdf/informes/informeAnalisis.php" target="_blank">
+                            <input type="hidden" name="idMuestra" ng-value="muestra.id" >
+                            <input type="hidden" name="idPerfil" value="true">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                        </form>
+
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.show_id_muestra}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.cliente}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.producto_nombre}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.lote_numero}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.fecha_llegada | date: 'yyyy-MM-dd'}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.fecha_entrega | date: 'yyyy-MM-dd'}}
+                    </td>
+                    <td 
+                        style="vertical-align:middle; text-align: center;">
+                        {{ muestra.fecha_conclusion | date: 'yyyy-MM-dd'}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="10">
+                        <i ng-show="!vm.muestras" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 10px;"> 
+            Página: 
+            <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.pagina" ng-change="vm.changeFilter()"
+                   ng-disabled="true"> 
+            / {{ vm.maxPage}} 
+            <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                <i class="fa fa-step-backward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                <i class="fa fa-forward" aria-hidden="true"></i>
+            </button> 
+            <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                <i class="fa fa-step-forward" aria-hidden="true"></i>
+            </button> 
+            <div style="float: right">
+                Registros por página
+                <input type="radio" ng-model="vm.cantidad" value="5" ng-change="vm.changeFilter()"> 5
+                <input type="radio" ng-model="vm.cantidad" value="10" ng-change="vm.changeFilter()"> 10
+                <input type="radio" ng-model="vm.cantidad" value="20" ng-change="vm.changeFilter()"> 20
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

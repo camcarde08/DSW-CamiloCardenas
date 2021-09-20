@@ -1,0 +1,636 @@
+<script>
+    function editar(id) {
+        var vm = angular.element($("sgm-admin-medio-cultivo")).isolateScope().vm;
+        console.log(id);
+
+
+    }
+
+    function activarLote(idLote) {
+        var vm = angular.element($("sgm-admin-medio-cultivo")).isolateScope().vm;
+        vm.selectedIdLote = idLote;
+        $('#modalCofirmmActivarLote').modal('show');
+    }
+
+</script>
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración medios de cultivo</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Id</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Código</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Nombre</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Tipo</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperatura</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Actualizar</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Eliminar</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.codigo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.tipo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.temperatura">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" ng-class="{info: medioCultivo.selected}" ng-repeat-start="medioCultivo in vm.sourceGridMediosCultivo| filter :{codigo: vm.filter.codigo, nombre: vm.filter.nombre, tipo: vm.filter.tipo}"
+                                    ng-show="!medioCultivo.edit">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.gridMediosCultivoSelectRowEvent(medioCultivo, $index)">{{medioCultivo.id}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.gridMediosCultivoSelectRowEvent(medioCultivo, $index)">{{medioCultivo.codigo}}</td>
+                                    <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="vertical-align:middle; text-align: center;" ng-click="vm.gridMediosCultivoSelectRowEvent(medioCultivo, $index)">{{medioCultivo.nombre}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.gridMediosCultivoSelectRowEvent(medioCultivo, $index)">{{medioCultivo.tipo}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.gridMediosCultivoSelectRowEvent(medioCultivo, $index)">{{medioCultivo.temperatura}}</td>
+                                    <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <button type="button" class="btn btn-success" ng-click="vm.editarMedioCultivo(medioCultivo)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    </td>
+                                    <td align="center" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarMedioCultivo(medioCultivo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat-end ng-show="medioCultivo.edit">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">{{medioCultivo.id}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="medioCultivo.codigo" />
+                                    </td>
+                                    <td  class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="medioCultivo.nombre" />
+                                    </td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle">
+                                        <input class="form-control" type="text" ng-model="medioCultivo.tipo" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle">
+                                        <input class="form-control" type="number" string-to-number ng-model="medioCultivo.temperatura" />
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-primary" ng-click="vm.confirmarCambiosMediosCultivo(medioCultivo)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger" ng-click="vm.descartarCambiosMediosCultivo(medioCultivo)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" align="center">
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarMedioReactivo(medioCultivo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewMedio()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar medio de cultivo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div ng-show="vm.medioCultivoSelected">
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Lotes</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Cepas</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <br>
+                                    <div class="row">
+                                        <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <h2 class="sgm-titulo">Lotes asociados al medio de cultivo <strong>"{{vm.medioCultivoSelected.nombre}}"</strong></h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!--Panel grilla de lotes reactivo-->
+                                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" style="padding-bottom: 0px;">
+                                                    <table class="table" style="margin-bottom: 0px;">
+                                                        <thead>
+                                                            <tr>
+                                                                <!--Activo-->
+                                                                <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align: center; border-bottom: 0;">Activo</th>
+                                                                <!--Codigo-->
+                                                                <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; border-bottom: 0;">Código</th>
+                                                                <!--Descripcion-->
+                                                                <th class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: center; border-bottom: 0;">Almacenamiento</th>
+                                                                <!--Tipo-->
+                                                                <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; border-bottom: 0;">Tipo</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Activo-->
+                                                                <th style="text-align: center; border-bottom: 0;"></th>
+                                                                <!--Codigo-->
+                                                                <th style="text-align: center; border-bottom: 0;">
+                                                                    <input class="form-control input-sm" type="text" ng-model="vm.filterLote.codigo">
+                                                                </th>
+                                                                <!--Descripcion-->
+                                                                <th style="text-align: center; border-bottom: 0;">
+                                                                    <input class="form-control input-sm" type="text" ng-model="vm.filterLote.descripcion">
+                                                                </th>
+                                                                <!--Tipo-->
+                                                                <th style="text-align: center; border-bottom: 0;">
+                                                                    <input class="form-control input-sm" type="text" ng-model="vm.filterLote.tipo">
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                                <div class="panel-body" style="height: 395px; overflow-y: scroll; padding-right: 0;">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr ng-class="{info: item.selected}" style="cursor: default" ng-repeat="item in vm.sourceGridLoteMediosCultivo| filter : {codigo: vm.filterLote.codigo, descripcion: vm.filterLote.descripcion, tipo: vm.filterLote.tipo}"
+                                                                ng-show="!item.edit">
+                                                                <!--Activo-->
+                                                                <td ng-if="item.activo == true" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;"
+                                                                    ng-click="vm.clickTdGrillaLoteMedioCultivo($index, item)">
+                                                                    <i style="cursor: pointer" class="fa fa-check-square-o fa-lg" aria-hidden="true"></i>
+                                                                </td>
+                                                                <td ng-if="item.activo == false" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;"
+                                                                    ng-click="vm.clickTdGrillaLoteMedioCultivo($index, item)">
+                                                                    <i style="cursor: pointer" ng-click="vm.activarLote()" class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                                                </td>
+                                                                <!--Codigo-->
+                                                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.clickTdGrillaLoteMedioCultivo($index, item)">
+                                                                    {{item.codigo}}
+                                                                </td>
+                                                                <!--Descripcion-->
+                                                                <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="vertical-align:middle; text-align: center;" ng-click="vm.clickTdGrillaLoteMedioCultivo($index, item)">
+                                                                    {{item.descripcion}}
+                                                                </td>
+                                                                <!--Tipo-->
+                                                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.clickTdGrillaLoteMedioCultivo($index, item)">
+                                                                    {{item.tipo}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="panel-footer">
+                                                    <button type="button" class="btn btn-primary" ng-click="vm.openModalNewLote()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo lote</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!--Detalle Lote Seleccionado -->
+                                        <div id="elemPrueba" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"
+                                             ng-if="vm.loteSelected">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    Detalle del lote {{vm.loteSelected.descripcion}}
+                                                </div>
+                                                <div class="panel-body">
+                                                    <form>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="idLote">Id Lote:</label>
+                                                                    <input type="number" class="form-control" id="idLote" ng-model="vm.loteSelected.id" string-to-number readonly>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="codigo">Código:</label>
+                                                                    <input class="form-control" id="codigo" type="text" ng-model="vm.loteSelected.codigo" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="descripcion">Almacenamiento:</label>
+                                                                    <input class="form-control" id="descripcion" type="text" ng-model="vm.loteSelected.descripcion" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="cantidad">Cantidad actual:</label>
+                                                                    <input class="form-control" id="cantidad" type="number" string-to-number ng-model="vm.loteSelected.cantidad_actual" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha ingreso:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_ingreso" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha apertura:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_apertura" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha terminación:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_terminacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha vencimiento:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_vencimiento" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="cantPreparada">Cantidad preparada:</label>
+                                                                    <input class="form-control" id="cantPreparada" type="number" string-to-number ng-model="vm.loteSelected.cantidad_preparada" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="loteInterno">Lote interno:</label>
+                                                                    <input class="form-control" id="loteInterno" type="text" ng-model="vm.loteSelected.lote_interno" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label for="tipo">Tipo:</label>
+                                                                    <input class="form-control" id="tipo" type="text" ng-model="vm.loteSelected.tipo" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha promoción:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_promocion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Fecha preparación:</label>
+                                                                    <jqx-date-time-input ng-model="vm.loteSelected.fecha_preparacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="panel-footer">
+                                                    <button class="btn btn-success" ng-click="vm.editarLote(vm.loteSelected)" data-dismiss="alert">Actualizar</button>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Cepas asociadas al medio de cultivo <strong>{{vm.selectedMedioRow.codigo}}</strong></div>
+                                        <div class="panel-body">
+                                            <div style="height: 320px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sel.</th>
+                                                                    <th>Codigo</th>
+                                                                    <th>Nombre</th>
+                                                                    <th>Tipo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="cepaAsociada in vm.cepasAsociadas">
+                                                                    <td>
+                                                                        <input type="checkbox" ng-model="cepaAsociada.select">
+                                                                    </td>
+                                                                    <td>{{cepaAsociada.codigo}}</td>
+                                                                    <td>{{cepaAsociada.nombre}}</td>
+                                                                    <td>{{cepaAsociada.tipo}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn btn-danger" style="width: 100%;" ng-click="vm.clickDesasociarCepas($event)">Eliminar <i class="fa fa-forward" aria-hidden="true"></i></button>
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" style="width: 100%;" ng-click="vm.clickAsociarCepas($event)"><i class="fa fa-backward" aria-hidden="true"></i> Agregar</button>
+                                </div>
+                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Cepas disponibles</div>
+                                        <div class="panel-body">
+                                            <div style="height: 320px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sel.</th>
+                                                                    <th>Codigo</th>
+                                                                    <th>Nombre</th>
+                                                                    <th>Tipo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="cepaAsociada in vm.cepasDisponibles">
+                                                                    <td>
+                                                                        <input type="checkbox" ng-model="cepaAsociada.select">
+                                                                    </td>
+                                                                    <td>{{cepaAsociada.codigo}}</td>
+                                                                    <td>{{cepaAsociada.nombre}}</td>
+                                                                    <td>{{cepaAsociada.tipo}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal nuevo medio-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Agregar un nuevo medio de cultivo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="newCodigo">Codigo:</label>
+                            <input type="text" class="form-control" id="newCodigo" placeholder="Codigo para el nuevo medio de cultivo" ng-model="vm.newMedio.codigo"
+                                   />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="newNombre">Nombre:</label>
+                            <input type="text" class="form-control" id="newCodigo" placeholder="Nombre para el nuevo medio de cultivo" ng-model="vm.newMedio.nombre"
+                                   />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="newTipo">Tipo:</label>
+                            <input type="text" class="form-control" id="newTipo" placeholder="Tipo para el nuevo medio de cultivo" ng-model="vm.newMedio.tipo"
+                                   />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="newTipo">Temperatura:</label>
+                            <input type="number" class="form-control" id="newTipo" placeholder="Temperatura para el nuevo medio de cultivo" ng-model="vm.newMedio.temperatura"
+                                   />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="vm.closeModelNewMedio()">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.clickCrearServicio()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal nuevo lote-->
+<div class="modal fade" id="modalNewLote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Agregar un nuevo Lote al medio {{vm.medioCultivoSelected.codigo}} {{vm.medioCultivoSelected.nombre}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newCodigo">Código:</label>
+                            <input type="text" class="form-control" id="newCodigo" placeholder="Codigo para el nuevo medio de cultivo" ng-model="vm.newLote.codigo"
+                                   />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newNombre">Almacenamiento:</label>
+                            <input type="text" class="form-control" id="newCodigo" placeholder="Almacenamiento para el nuevo medio de cultivo" ng-model="vm.newLote.descripcion"
+                                   />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Tipo:</label>
+                            <input type="text" class="form-control" id="newTipo" placeholder="Tipo para el nuevo medio de cultivo" ng-model="vm.newLote.tipo"
+                                   />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Cantidad actual:</label>
+                            <input type="number" class="form-control" id="newCantidad" placeholder="Cantidad para el nuevo lote" ng-model="vm.newLote.cantidadActual"
+                                   />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha vencimiento:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaVencimiento" jqx-ng-model></jqx-date-time-input>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha de ingreso:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaIngreso"></jqx-date-time-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha apertura:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaApertura" jqx-ng-model></jqx-date-time-input>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha terminación:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaTerminacion" jqx-ng-model></jqx-date-time-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha preparación:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaPreparacion" jqx-ng-model></jqx-date-time-input>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Fecha promoción:</label>
+                            <jqx-date-time-input jqx-width="270" jqx-height="30" ng-model="vm.newLote.fechaPromocion" jqx-ng-model></jqx-date-time-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Cantidad preparada:</label>
+                            <input type="number" class="form-control" id="newTipo"  ng-model="vm.newLote.cantidadPreparada"
+                                   />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="newTipo">Lote interno:</label>
+                            <input type="text" class="form-control" id="newTipo"  ng-model="vm.newLote.lote_interno"
+                                   />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="vm.closeModalNewLote()">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.clickCrearLote()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirmar activacion lote-->
+<div class="modal fade" id="modalCofirmmActivarLote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 class="text-danger modal-title" id="myModalLabel">Confirmar activación lote</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="text-danger col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-1 col-sm-offset-1
+                         col-md-offset-1 col-lg-offset-1">
+                        <i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        Confirma que desea activar este lote?
+                        <br> Recuerde que esta accion provocara que todos los demas lotes asociados al medio de cultivo seran
+                        desactivados !!!
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-primary" ng-click="vm.clickConfirmActivateLote()"><i class="fa fa-check-circle fa-2x" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirmar activacion lote-->
+<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: 100%">
+                                <span class="sr-only">100% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<jqx-notification jqx-instance="vm.instanceMessageErrorAddLote" jqx-template="error">Debe seleccionar un medio de cultivo para crear un lote.</jqx-notification>
+
+<jqx-notification jqx-instance="vm.instanceMessageErrorAddLote2" jqx-template="error">Error al crear al nuevo lote.</jqx-notification>
+
+<jqx-notification jqx-instance="vm.instanceMessageSuccessAddLote" jqx-template="success">Se ha creado exitosamente el lote.</jqx-notification>

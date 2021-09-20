@@ -1,0 +1,73 @@
+<div class="row" style="margin-top: 50px;">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Perfiles</div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="text" class="form-control" ng-model="vm.perfilFiltro.nombre">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{info: perfil.selected}" ng-repeat="perfil in vm.perfiles | filter: vm.perfilFiltro">
+                            <td ng-click="vm.selectPerfil(perfil.id)">
+                                {{ perfil.nombre }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default" ng-if="vm.selectedPerfil">
+            <div class="panel-heading">Módulos</div>
+            <div>
+                <input type="text" class="form-control" ng-model="vm.permisoFiltro.nombre">
+            </div>
+            <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+                <div class="panel panel-default" ng-repeat="modulo in vm.permisosModulo" ng-if="vm.mostrarModulo(modulo)">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a bs-collapse-toggle>
+                                {{ modulo.nombre }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="permiso in modulo.permisos | filter: vm.permisoFiltro : string">
+                                    <td>
+                                        {{ permiso.nombre }}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-xs"
+                                                title="Detalle: "
+                                                data-toggle="popover"
+                                                data-placement="top"
+                                                data-content="{{ permiso.descripcion }}"
+                                                data-trigger="hover">
+                                            <i class="fa fa-info-circle"></i></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" ng-model="permiso.check" ng-click="vm.setPermiso(permiso,vm.selectedPerfil)" ng-disabled="vm.selectedPerfil.id == 1">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

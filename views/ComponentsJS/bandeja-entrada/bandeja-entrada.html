@@ -1,0 +1,1338 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+    .load-icon-cliente {
+        margin-top: 25px;
+        vertical-align:middle; 
+        text-align:center;
+        display:block; 
+        margin:0 auto;
+    }
+</style>
+<div ng-init="vm.obtenerInformacionUsuario()">
+    <div class="row">
+        <h1 class="sgm-titulo">Bandeja de entrada</h1>
+
+        <sgm-be-muestras-gerencia
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[25]"
+            ng-if="vm.usuario.permisosBandejaEntrada['25']">
+        </sgm-be-muestras-gerencia>
+
+        <br>
+
+        <sgm-be-est-muestras-gerencia
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[26]"
+            ng-if="vm.usuario.permisosBandejaEntrada['26']">
+        </sgm-be-est-muestras-gerencia>
+
+        <br>
+
+        <sgm-be-grafica-uso-reactivos
+            nombre-bandeja="vm.nombreBandejas[27]"
+            ng-if="vm.usuario.permisosBandejaEntrada['27']">
+        </sgm-be-grafica-uso-reactivos>
+
+        <sgm-be-grafica-uso-estandares
+            nombre-bandeja="vm.nombreBandejas[28]"
+            ng-if="vm.usuario.permisosBandejaEntrada['28']">
+        </sgm-be-grafica-uso-estandares>
+
+        <sgm-be-participacion-clientes
+            nombre-bandeja="vm.nombreBandejas[29]"
+            ng-if="vm.usuario.permisosBandejaEntrada['29']">
+        </sgm-be-participacion-clientes>
+
+        <sgm-be-est-participacion-clientes
+            nombre-bandeja="vm.nombreBandejas[30]"
+            ng-if="vm.usuario.permisosBandejaEntrada['30']">
+        </sgm-be-est-participacion-clientes>
+
+        <sgm-be-muestras-estado
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[21]"
+            ng-if="vm.usuario.permisosBandejaEntrada['21']">
+        </sgm-be-muestras-estado>
+
+        <sgm-be-muestras-por-tipo-producto
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[22]"
+            ng-if="vm.usuario.permisosBandejaEntrada['22']">
+        </sgm-be-muestras-por-tipo-producto>
+
+        <sgm-be-grafica-desempeno-analistas     
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[33]"
+            ng-if="vm.usuario.permisosBandejaEntrada['33']">     
+        </sgm-be-grafica-desempeno-analistas>
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.muestrasVerificadas">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[1] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;">Detalle</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Informe Cliente</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Área análisis</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">Estabilidad</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Aprobados</th>
+                            <th style="text-align: center; border-bottom: 0;">Rechazados</th>-->
+                            <th style="text-align: center; border-bottom: 0;">% Aprobado</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <!--<th style="text-align: center; border-bottom: 0;"></th>-->
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>-->
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra1">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nom_tercero1">
+                            </th>
+                            <!--<th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_estabilidad1">
+                            </th>-->
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote1">
+                            </th>
+                            <!--<th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.aprobados1">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.rechazados1">
+                            </th>-->
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.porcentaje_aprobacion1">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nom_producto1">
+                            </th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="verificada in vm.verificadas 
+                            |filter : {custom_id: vm.filter.muestra1, nom_tercero: vm.filter.nom_tercero1, nombre_estabilidad:vm.filter.nombre_estabilidad1,
+                            lote: vm.filter.lote1,aprobados:vm.filter.aprobados1, rechazados: vm.filter.rechazados1, 
+                            porcentaje_aprobacion: vm.filter.porcentaje_aprobacion1,nom_producto:vm.filter.nom_producto1} | itemsPerPage:10 " pagination-id="paginacionVerificadas">
+                            <td style="cursor:pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickImageDetalleInforme(verificada.idMuestra)"><i class="fa fa-search fa-lg" aria-hidden="true"></i></td>
+                            <!--<td style="cursor:pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickInformeCliente(verificada.custom_id)"><i class="fa fa-book fa-lg" aria-hidden="true"></i></td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.custom_id}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.nom_tercero}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{verificada.area}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{verificada.nombre_estabilidad}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{verificada.aprobados}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.rechazados}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.porcentaje_aprobacion}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{verificada.nom_producto}}</td>
+                            <!--<td ng-click="vm.eventClickBtnAlmacenarMuestra(verificada.idMuestra)"><button class="btn btn-primary" >Almacenar</button></td>-->
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.verificadas" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <dir-pagination-controls pagination-id="paginacionVerificadas"></dir-pagination-controls>
+            </div>
+
+        </div>
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.muestrasXProgramarFQ">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[2] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Muestra</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Estado</th>-->
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha llegada</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Lote</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra2">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_llegada2">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente2">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto2">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote2">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="programFisicoquimico in vm.programFisicoquimicos
+                            |filter : {custom_id: vm.filter.muestra2, estado_muestra: vm.filter.estado2, fecha_llegada:vm.filter.fecha_llegada2,
+                            nombre_tercero: vm.filter.nombre_cliente2,producto:vm.filter.producto2, lote: vm.filter.lote2} | itemsPerPage:10 " pagination-id="paginacionXProgramarFQ"
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(programFisicoquimico.fecha_compromiso)}">
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" ng-click="vm.eventClickProgramarMuestra(programFisicoquimico.custom_id)"><img alt="Detalle" style="cursor: pointer; margin-left: 50%; margin-top: 10%" src="views/images/detalle.png"/></td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.custom_id}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.estado_muestra}}</td>-->
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.fecha_llegada}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.nombre_tercero}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.producto}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{programFisicoquimico.lote}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <i ng-show="!vm.programFisicoquimicos" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionXProgramarFQ"></dir-pagination-controls>
+            </div>
+        </div>
+
+
+        <sgm-be-muestras-programadas-tercero
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[31]"
+            ng-if="vm.usuario.permisosBandejaEntrada['31']">
+        </sgm-be-muestras-programadas-tercero>
+
+        <sgm-be-est-muestras-programadas-tercero
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[32]"
+            ng-if="vm.usuario.permisosBandejaEntrada['32']">
+        </sgm-be-est-muestras-programadas-tercero>
+
+        <!--
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.muestrasXProgramarMB">
+            <div class="table-responsive">
+                <table class="table table-hover" >
+                    <caption><b>Muestras microbiológicas para programación</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;"></th>
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Fecha llegada</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra3">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_llegada3">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente3">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto3">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote3">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="programMicrobiologico in vm.programMicrobiologicos 
+                            |filter : {custom_id: vm.filter.muestra3, estado_muestra: vm.filter.estado3, fecha_llegada:vm.filter.fecha_llegada3,
+                            nombre_tercero: vm.filter.nombre_cliente3,producto:vm.filter.producto3, lote: vm.filter.lote3} | itemsPerPage:10" pagination-id="paginacionXProgramarMB">
+                            <td ng-click="vm.eventClickProgramarMuestra(programMicrobiologico.custom_id)"><img alt="Detalle" style="cursor: pointer; margin-left: 50%; margin-top: 10%" src="views/images/detalle.png"/></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{programMicrobiologico.custom_id}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{programMicrobiologico.fecha_llegada}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{programMicrobiologico.nombre_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{programMicrobiologico.producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{programMicrobiologico.lote}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <i ng-show="!vm.programMicrobiologicos" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionXProgramarMB"></dir-pagination-controls>
+            </div>
+        </div>
+        -->
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.EnsayosEstadoProgramado">
+            <div class="table-responsive">
+                <table class="table table-hover" >
+                    <caption><b>{{ vm.nombreBandejas[4] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Paquete</th>-->
+                            <th style="text-align: center; border" ng-show="vm.veProgramacion" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Analista</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Ensayo</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Fecha programación</th>-->
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha compromiso</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Área</th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="false">T. estabilidad</th>
+                            <th style="text-align: center; border-bottom: 0;">Equipo</th>
+                            <th style="text-align: center; border-bottom: 0;">Turno</th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="false">Duración</th>
+                            <th style="text-align: center; border-bottom: 0;">Observaciones</th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="false">Especificación</th>-->
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra4">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente4">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto4">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote4">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="vm.veProgramacion" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>-->
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.ensayo4">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ng-show="false"></th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="false"></th>
+                            <th style="text-align: center; border-bottom: 0;" ng-show="false"></th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(programacionEnsayo.fecha_compromiso_ensayos)}" dir-paginate-start="programacionEnsayo in vm.programacionEnsayos
+                            |filter : {custom_id: vm.filter.muestra4,
+                            nom_tercero: vm.filter.nombre_cliente4,nombre_producto:vm.filter.producto4,numero_lote: vm.filter.lote4,
+                            ensayos: {des_ensayo: vm.filter.ensayo4}} 
+                            | itemsPerPage:10" pagination-id="paginacionProgramados">
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <button class="btn btn-primary" ng-if="programacionEnsayo.expanded" ng-click="programacionEnsayo.expanded = false">-</button>
+                                <button class="btn btn-primary" ng-if="!programacionEnsayo.expanded" ng-click="programacionEnsayo.expanded = true">+</button>
+                            </td>
+                            <td style="cursor: pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(programacionEnsayo.custom_id)" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"><a>{{programacionEnsayo.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{programacionEnsayo.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">{{programacionEnsayo.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{programacionEnsayo.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" ng-show="vm.veProgramacion" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></td>
+                            <!--<td style="vertical-align:middle; text-align: center;" ></td>-->
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{{vm.fechaMinCompromiso(programacionEnsayo)}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_area_analisis}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false"></td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false"></td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false"></td>-->
+                        </tr>
+                        <tr ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayo.fecha_comp_internoEnsayo)}" ng-if="programacionEnsayo.expanded" dir-paginate-end ng-repeat="ensayo in programacionEnsayo.ensayos| filter: {des_ensayo: vm.filter.ensayo4}">
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></td>
+                            <td ng-click="vm.eventClickHojaTrabajo(programacionEnsayo.custom_id)" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"><img alt="Detalle" style="cursor: pointer; margin-left: 50%; margin-top: 10%" src="views/images/detalle.png"/></td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{programacionEnsayo.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">{{programacionEnsayo.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{programacionEnsayo.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" ng-show="vm.veProgramacion" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{{ensayo.nombre_analista}}</td>
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{{ensayo.des_ensayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_programada}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">{{ensayo.fecha_comp_internoEnsayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_area_analisis}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false">{{ensayo.tipo_estabilidad}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.des_equipo}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.turno}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false">{{ensayo.duracion}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.observaciones}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ng-show="false">{{ensayo.especificacion_ensayo_muestra}}</td>-->
+
+                        </tr>                        
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.programacionEnsayos" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionProgramados"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.EnsayosEstadoParaTranscrip">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[5] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;"></th>
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Paquete</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Ensayo</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Fecha programación</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Fecha compromiso</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Área</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">T. estabilidad</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">Equipo</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Analista</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Duración</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">Observaciones</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">Especificación</th>-->
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra5">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente5">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto5">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote5">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.ensayo5">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate-start="ensayoTranscrip in vm.ensayosTranscrip 
+                            |filter : {custom_id: vm.filter.muestra5,
+                            nom_tercero: vm.filter.nombre_cliente5,nombre_producto:vm.filter.producto5,numero_lote: vm.filter.lote5,
+                            ensayos: {des_ensayo: vm.filter.ensayo5}} 
+                            |itemsPerPage:10" pagination-id="paginacionTranscripcion" 
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayoTranscrip.fecha_compromiso_ensayos)}">
+                            <td>
+                                <button class="btn btn-primary" ng-if="ensayoTranscrip.expanded" ng-click="ensayoTranscrip.expanded = false">-</button>
+                                <button class="btn btn-primary" ng-if="!ensayoTranscrip.expanded" ng-click="ensayoTranscrip.expanded = true">+</button>
+                            </td>
+                            <td style="cursor: pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(ensayoTranscrip.custom_id)"><a>{{ensayoTranscrip.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{vm.fechaMinCompromiso(ensayoTranscrip)}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <!--<td style="vertical-align:middle; text-align: center;" ></td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" ></td>-->
+                        </tr>
+                        <tr ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayo.fecha_comp_internoEnsayo)}" ng-if="ensayoTranscrip.expanded" dir-paginate-end ng-repeat="ensayo in ensayoTranscrip.ensayos| filter: {des_ensayo: vm.filter.ensayo5}">
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="cursor:pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(ensayoTranscrip.custom_id)"><i class="fa fa-search fa-lg" aria-hidden="true"></i></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.des_ensayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_programada}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_comp_internoEnsayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayoTranscrip.des_area_analisis}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.tipo_estabilidad}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.des_equipo}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.analista}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.duracion}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.observaciones}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.especificacion_ensayo_muestra}}</td>-->
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.ensayosTranscrip" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionTranscripcion"></dir-pagination-controls>
+            </div>
+        </div>
+
+
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.ensayosParaRevisionFQ">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[6] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;"></th>
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Paquete</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Ensayo</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Fecha programación</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Fecha compromiso</th>
+
+                            <!--<th style="text-align: center; border-bottom: 0;">Equipo</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Analista</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Duración</th>
+                            <th style="text-align: center; border-bottom: 0;">Observaciones</th>-->
+                            <!--<th style="text-align: center; border-bottom: 0;">Especificación</th>-->
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra6">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente6">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto6">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote6">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate-start="ensayoRevisionFQ in vm.ensayosRevisionFQ
+                            |filter : {custom_id: vm.filter.muestra6,
+                            nom_tercero: vm.filter.nombre_cliente6,nombre_producto:vm.filter.producto6,numero_lote: vm.filter.lote6} 
+                            | itemsPerPage:10" pagination-id="paginacionParaRevisionFQ"
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayoRevisionFQ.fecha_compromiso_ensayos)}">
+                            <td>
+                                <button class="btn btn-primary" ng-if="ensayoRevisionFQ.expanded" ng-click="ensayoRevisionFQ.expanded = false">-</button>
+                                <button class="btn btn-primary" ng-if="!ensayoRevisionFQ.expanded" ng-click="ensayoRevisionFQ.expanded = true">+</button>
+                            </td>
+                            <td style="cursor: pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(ensayoRevisionFQ.custom_id)"><a>{{ensayoRevisionFQ.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{vm.fechaMinCompromiso(ensayoRevisionFQ)}}</td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <!--<td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>-->
+                        </tr>
+                        <tr ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(ensayo.fecha_comp_internoEnsayo)}" ng-if="ensayoRevisionFQ.expanded" dir-paginate-end  ng-repeat="ensayo in ensayoRevisionFQ.ensayos">
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td ng-click="vm.eventClickHojaTrabajo(ensayoRevisionFQ.custom_id)"><img alt="Detalle" style="cursor: pointer; margin-left: 50%; margin-top: 10%" src="views/images/detalle.png"/></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionFQ.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.des_ensayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_programada}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_comp_internoEnsayo}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.des_equipo}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.analista}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.duracion}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.observaciones}}</td>-->
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.especificacion_ensayo_muestra}}</td>-->
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.ensayosRevisionFQ" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionParaRevisionFQ"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.ensayosParaRevisionMB">
+            <div class="table-responsive">
+                <table class="table table-hover" >
+                    <caption><b>{{ vm.nombreBandejas[7] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;"></th>
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Paquete</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Ensayo</th>
+                            <th style="text-align: center; border-bottom: 0;">Fecha programación</th>
+                            <th style="text-align: center; border-bottom: 0;">Fecha compromiso</th>
+                            <th style="text-align: center; border-bottom: 0;">T. estabilidad</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Equipo</th>-->
+                            <th style="text-align: center; border-bottom: 0;">Analista</th>
+                            <th style="text-align: center; border-bottom: 0;">Duración</th>
+                            <th style="text-align: center; border-bottom: 0;">Observaciones</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Especificación</th>-->
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra7">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente7">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto7">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote7">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate-start="ensayoRevisionMB in vm.ensayosRevisionMB
+                            |filter : {custom_id: vm.filter.muestra7,
+                            nom_tercero: vm.filter.nombre_cliente7,nombre_producto:vm.filter.producto7,numero_lote: vm.filter.lote7} 
+                            | itemsPerPage:10" pagination-id="paginacionParaRevisionMB">
+                            <td>
+                                <button class="btn btn-primary" ng-if="ensayoRevisionMB.expanded" ng-click="ensayoRevisionMB.expanded = false">-</button>
+                                <button class="btn btn-primary" ng-if="!ensayoRevisionMB.expanded" ng-click="ensayoRevisionMB.expanded = true">+</button>
+                            </td>
+                            <td style="cursor: pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(ensayoRevisionFQ.custom_id)" ><a>{{ensayoRevisionMB.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                        </tr>
+                        <tr ng-if="ensayoRevisionMB.expanded" dir-paginate-end ng-repeat="ensayo in ensayoRevisionMB.ensayos">
+                            <td style="vertical-align:middle; text-align: center;" ></td>
+                            <td ng-click="vm.eventClickHojaTrabajo(ensayoRevisionMB.custom_id)"><img alt="Detalle" style="cursor: pointer; margin-left: 50%; margin-top: 10%" src="views/images/detalle.png"/></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.nombre_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayoRevisionMB.numero_lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{programacionEnsayo.des_paquete}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.des_ensayo}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_programada}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.fecha_comp_internoEnsayo}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.tipo_estabilidad}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.des_equipo}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.analista}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.duracion}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ensayo.observaciones}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{ensayo.especificacion_ensayo_muestra}}</td>-->
+                        </tr>
+                        <tr>
+                            <td colspan="12">
+                                <i ng-show="!vm.ensayosRevisionMB" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionParaRevisionMB"></dir-pagination-controls>
+            </div>
+        </div>
+
+
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.muestrasParaVerificar">
+            <div class="table-responsive">
+                <table class="table table-hover" >
+                    <caption><b>{{ vm.nombreBandejas[8] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;">Informe final</th>
+                            <th style="text-align: center; border-bottom: 0;">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Área análisis</th>
+                             <th style="text-align: center; border-bottom: 0;">Estabilidad</th>
+                             <th style="text-align: center; border-bottom: 0;">Aprobados</th>
+                             <th style="text-align: center; border-bottom: 0;">Rechazados</th>-->
+                            <th style="text-align: center; border-bottom: 0;">% Aprobado</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.muestra8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre_cliente8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.producto8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.lote8">
+                            </th>
+                            <!--<th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.area_analisis8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.estabilidad8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.aprobados8">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.rechazados8">
+                            </th>-->
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filter.porcentaje_aprobacion8">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="muestraParaVerificar in vm.muestrasParaVerificar
+                            |filter : {custom_id: vm.filter.muestra8,
+                            nom_tercero: vm.filter.nombre_cliente8,nom_producto:vm.filter.producto8,lote: vm.filter.lote8, area:vm.filter.area_analisis8,
+                            nombre_estabilidad:vm.filter.estabilidad8, aprobados:vm.filter.aprobados8, rechazados:vm.filter.rechazados8,
+                            porcentaje_aprobacion: vm.filter.porcentaje_aprobacion8} 
+                            | itemsPerPage:10" pagination-id="paginacionParaVerificar" 
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(muestraParaVerificar.fecha_compromiso)}">
+                            <td style="cursor:pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickImageDetalleInforme(muestraParaVerificar.idMuestra)"><i class="fa fa-search fa-lg" aria-hidden="true"></i></td>
+                            <td style="cursor:pointer; vertical-align:middle; text-align: center;" ng-click="vm.eventClickHojaTrabajo(muestraParaVerificar.custom_id)"><a>{{muestraParaVerificar.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.nom_tercero}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.nom_producto}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.lote}}</td>
+                            <!--<td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.area}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.nombre_estabilidad}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.aprobados}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.rechazados}}</td>-->
+                            <td style="vertical-align:middle; text-align: center;" >{{muestraParaVerificar.porcentaje_aprobacion}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <i ng-show="!vm.muestrasParaVerificar" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionParaVerificar"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <form action="pdf/informes/informeAnalisis.php" method="POST" target="view" id="formEnvio">
+            <input name="idMuestra" id="idMuestraHiden" type="hidden"/>
+            <input name="idPerfil" id="idPerfilHiden" type="hidden"/>
+        </form>
+
+        <div id="notificationAlmacenamiento">
+            <span id="messageNotificationAlmacenamiento"></span>
+        </div>
+
+        <!-- bandeja de entada muestras terminadas -->
+
+        <sgm-be-muestras-terminadas
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[24]"
+            ng-if="vm.usuario.permisosBandejaEntrada['24']">
+        </sgm-be-muestras-terminadas>
+
+        <!--   -->
+
+        <!--bandeja entrada estabilidad sub mestras aprobadas-->
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada['19']">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[19] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;">Detalle</th>
+                            <th style="text-align: center; border-bottom: 0;">Prefijo</th>
+                            <th style="text-align: center; border-bottom: 0;">Número</th>
+                            <th style="text-align: center; border-bottom: 0;">Tiempo</th>
+                            <th style="text-align: center; border-bottom: 0;">Temperatura</th>
+                            <th style="text-align: center; border-bottom: 0;">Nombre cliente</th>
+                            <th style="text-align: center; border-bottom: 0;">Lote</th>
+                            <th style="text-align: center; border-bottom: 0;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;"></th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                            <!--<th style="text-align: center; border-bottom: 0;" ></th>-->
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.prefijo">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.customId">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.tiempo">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.temperatura">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.cliente">
+                            </th>
+
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.lote">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraAprobada.producto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="item in vm.subMuestrasEstabilidadAprobadas 
+                            |filter : {
+                            duracion_estabilidad: {
+                            label: vm.filterMuestraAprobada.tiempo,
+                            },
+                            muestra: { 
+                            custom_id: vm.filterMuestraAprobada.customId,
+                            numero_lote: vm.filterMuestraAprobada.lote,
+                            producto: {
+                            nombre: vm.filterMuestraAprobada.producto
+                            },
+                            tercero: {
+                            nombre: vm.filterMuestraAprobada.cliente
+                            },
+                            tipo_muestra : { 
+                            prefijo: vm.filterMuestraAprobada.prefijo     
+                            }
+                            },
+                            temperatura: {
+                            label: vm.filterMuestraAprobada.temperatura
+                            }
+                            } | itemsPerPage:10 " pagination-id="paginacionMuestrasEstabilidadAprobadas">
+                            <td style="cursor:pointer; vertical-align:middle; text-align: center;">
+                                <form 
+                                    method="post" 
+                                    action="pdf/informes/informe-analisis-estabilidad/informeAnalisisEstabilidad.php" 
+                                    target="_blank">
+                                    <input type="hidden" name="idSubMuestra" ng-value="item.id">
+                                    <input type="hidden" name="copia" value="false">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="vertical-align:middle; text-align: center;" >{{item.muestra.tipo_muestra.prefijo}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{item.muestra.custom_id}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ item.duracion_estabilidad.label}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ item.temperatura.label}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ item.muestra.tercero.nombre}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ item.muestra.numero_lote}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ item.muestra.producto.nombre}}</td>
+                            <td><button class="btn btn-primary" ng-disabled="true" >Almacenar</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <i ng-show="!vm.subMuestrasEstabilidadAprobadas" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <dir-pagination-controls pagination-id="paginacionMuestrasEstabilidadAprobadas"></dir-pagination-controls>
+            </div>
+
+        </div>
+
+
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.subMuestrasEstabilidadParaProgramar">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[10] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Muestra</th>
+                            <!--<th style="text-align: center; border-bottom: 0;">Estado</th>-->
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Duración</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Temperatura</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha Análisis</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Lote</th>
+                        </tr>
+                        <tr>
+
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.personal_id">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.duracion">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.temperatura">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.fecha_analisis">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.nombre_cliente">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.producto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSubMuestraParaProg.lote">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="subMuestra in vm.subMuestrasEstabilidadParaProgramacion
+                            |filter : {
+                            temperatura: {label:vm.filterSubMuestraParaProg.temperatura },
+                            duracion: {label: vm.filterSubMuestraParaProg.duracion},
+                            fecha_analisis: vm.filterSubMuestraParaProg.fecha_analisis,
+                            muestra: {personal_id: vm.filterSubMuestraParaProg.personal_id, numero_lote: vm.filterSubMuestraParaProg.lote,tercero: {nombre: vm.filterSubMuestraParaProg.nombre_cliente},producto:{nombre: vm.filterSubMuestraParaProg.producto}}
+                            } | itemsPerPage:10 " pagination-id="paginacionSubMuestrasParaProgramar"
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.eventClickProgramarSubMuestraEstabilidad(subMuestra)"><a>{{subMuestra.muestra.personal_id}}</a></td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{subMuestra.duracion.label}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{subMuestra.temperatura.label}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{subMuestra.fecha_analisis}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{subMuestra.muestra.tercero.nombre}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{subMuestra.muestra.producto.nombre}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{subMuestra.muestra.numero_lote}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <i ng-show="!vm.subMuestrasEstabilidadParaProgramacion" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionSubMuestrasParaProgramar"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <!----->
+
+        <!--bandeja entrada estabilidad ensayos programados -->
+
+        <sgm-be-est-ensayos-programados
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[11]"
+            ng-if="vm.usuario.permisosBandejaEntrada.subMuestrasEstabilidadParaAnalisis">
+        </sgm-be-est-ensayos-programados>
+
+        <!----->
+
+        <!--bandeja entrada estabilidad ensayos analizados -->
+
+        <sgm-be-est-ensayos-analizados
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[12]"
+            ng-if="vm.usuario.permisosBandejaEntrada.subMuestrasEstabilidadParaTrancripcion">
+        </sgm-be-est-ensayos-analizados>
+
+        <!----->
+
+        <!--bandeja entrada estabilidad ensayos analizados -->
+
+        <sgm-be-est-ensayos-transcritos
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[13]"
+            ng-if="vm.usuario.permisosBandejaEntrada.subMuestrasEstabilidadParaRevision">
+        </sgm-be-est-ensayos-transcritos>
+
+        <!----->
+
+
+
+
+
+        <!--sub muestras de estabilidad sin ensayos para revision-->
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada['20']">
+            <div style="overflow-x: scroll;">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[20] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+
+                            <th style="text-align: center; border-bottom: 0; width: 50px; min-width: 50px;"></th>
+                            <th style="text-align: center; border-bottom: 0; width: 40px; min-width: 40px;">Tiempo</th>
+                            <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Temperaura</th>
+                            <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Cliente</th>
+                            <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Producto</th>
+                            <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Lote</th>
+                        </tr>
+                        <tr>
+
+                            <th style="text-align: center; border-bottom: 0;" >
+
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraEstParaRev.prefijo">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraEstParaRev.numero">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraEstParaRev.tiempo">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraEstParaRev.temperatura">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" >
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraEstParaRev.cliente">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="subMuestra in vm.subMuestrasEstabilidadParaRevisionSinEnsayos 
+
+                            |itemsPerPage:10 " pagination-id="paginacionEnsayosSubMuestraParaRevisionSinEnsayos" 
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+
+                            <td style="vertical-align:middle; text-align: center;" ng-click="vm.eventClickResultadosSubMuestraEstabilidad2(subMuestra)"><a>{{subMuestra.muestra.tipo_muestra.prefijo + '-' + subMuestra.muestra.custom_id}}</a></td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ subMuestra.duracion.label}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ subMuestra.temperatura.label}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ subMuestra.muestra.tercero.nombre}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ subMuestra.muestra.producto.nombre}}</td>
+                            <td style="vertical-align:middle; text-align: center;" >{{ subMuestra.muestra.numero_lote}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <i ng-show="!vm.subMuestrasEstabilidadParaRevisionSinEnsayos" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionEnsayosSubMuestraParaRevisionSinEnsayos"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <!----->
+
+        <!-- mandeja entrada estabilidad muestras terminadas -->
+
+        <sgm-be-est-muestras-terminadas
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[23]"
+            ng-if="vm.usuario.permisosBandejaEntrada['23']">
+        </sgm-be-est-muestras-terminadas>
+
+        <!-- -->
+
+        <!--bandeja entrada muestras para facturación-->
+
+        <sgm-be-muestras-facturacion
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[14]"
+            ng-if="vm.usuario.permisosBandejaEntrada.muestrasParaFacturacion">
+        </sgm-be-muestras-facturacion>        
+
+        <!----->
+
+
+        <!--bandeja entrada muestras para entrega-->
+
+        <sgm-be-muestras-entrega
+            usuario="vm.usuario"
+            nombre-bandeja="vm.nombreBandejas[15]"
+            ng-if="vm.usuario.permisosBandejaEntrada.muestrasParaEntrega">
+        </sgm-be-muestras-entrega> 
+
+        <!----->
+
+
+        <!--bandeja entrada fecha salida almacenamiento-->
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.muestrasSalida">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption><b>{{ vm.nombreBandejas[16] }}</b></caption>
+                    <thead>
+                        <tr class="active">
+
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Muestra</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Lote</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Fecha de Salida</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraSalida.complexId">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraSalida.producto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraSalida.tercero">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraSalida.lote">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterMuestraSalida.fecha_salida">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="muestraSalida in vm.muestrasSalida
+                            |filter : {
+                            complexId:  vm.filterMuestraSalida.complexId,
+                            producto: vm.filterMuestraSalida.producto,
+                            tercero: vm.filterMuestraSalida.tercero,
+                            numero: vm.filterMuestraSalida.lote,
+                            fecha_salida: vm.filterMuestraSalida.fecha_salida} 
+                            | itemsPerPage:10 " pagination-id="paginacionMuestrasSalida"
+                            ng-class="muestraSalida.class">
+
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{muestraSalida.complexId}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{muestraSalida.producto}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{muestraSalida.tercero}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{muestraSalida.numero}}</td>
+                            <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;" >{{muestraSalida.fecha_salida}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >
+                                <button class="btn btn-success" type="button" ng-click="vm.eventClickDarSalidaMuestra(muestraSalida)">Dar salida</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <i ng-show="!vm.muestrasSalida" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionMuestrasSalida"></dir-pagination-controls>
+            </div>
+        </div>
+
+        <!----->
+
+        <!--Solicitud de recolección-->
+
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.solicitudesParaRecoleccion">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption>
+                        <b>{{ vm.nombreBandejas[17] }}</b>
+                    </caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha y hora sugeridas</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Dirección</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Responsable</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Teléfono de contacto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Observaciones</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.cliente">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.producto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.fecha_hora_sugerida">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.direccion">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.responsable">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesRecoleccion.telefono_contacto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="solicitudRecoleccion in vm.solicitudesParaRecoleccion
+                            |filter : {
+                            producto:  vm.filterSolicitudesRecoleccion.producto,
+                            fecha_hora_sugerida: vm.filterSolicitudesRecoleccion.fecha_hora_sugerida,
+                            direccion: vm.filterSolicitudesRecoleccion.direccion,
+                            responsable: vm.filterSolicitudesRecoleccion.responsable,
+                            telefono_contacto: vm.filterSolicitudesRecoleccion.telefono_contacto,
+                            cliente: vm.filterSolicitudesRecoleccion.cliente} 
+                            | itemsPerPage:10 " pagination-id="paginacionSolicitudesRecoleccion"
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(solicitudRecoleccion.fecha_hora_sugerida)}">
+
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.cliente}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.producto}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.fecha_hora_sugerida}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.direccion}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.responsable}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.telefono_contacto}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudRecoleccion.observaciones}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >
+                                <button class="btn btn-primary" type="button" ng-click="vm.eventClickModalProgramarSolicitud(solicitudRecoleccion)">Programar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.solicitudesParaRecoleccion" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionSolicitudesRecoleccion"/>
+            </div>
+        </div>
+        <!----->
+
+        <!--Solicitudes programadas-->
+        <div class="row" ng-show="vm.usuario.permisosBandejaEntrada.solicitudesProgramadas">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption>
+                        <b>{{ vm.nombreBandejas[18] }}</b>
+                    </caption>
+                    <thead>
+                        <tr class="active">
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Cliente</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Producto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha y hora de recolección</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Dirección</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Responsable</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Teléfono de contacto</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Observaciones</th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.cliente">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.producto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.fecha_hora_sugerida">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.direccion">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.responsable">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <input class="form-control input-sm" type="text" ng-model="vm.filterSolicitudesProgramadas.telefono_contacto">
+                            </th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                            <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: default" dir-paginate="solicitudProgramada in vm.solicitudesProgramadas
+                            |filter : {
+                            producto:  vm.filterSolicitudesProgramadas.producto,
+                            fecha_hora_sugerida: vm.filterSolicitudesProgramadas.fecha_hora_sugerida,
+                            direccion: vm.filterSolicitudesProgramadas.direccion,
+                            responsable: vm.filterSolicitudesProgramadas.responsable,
+                            telefono_contacto: vm.filterSolicitudesProgramadas.telefono_contacto,
+                            cliente: vm.filterSolicitudesProgramadas.cliente} 
+                            | itemsPerPage:10 " pagination-id="paginacionSolicitudesProgramadas"
+                            ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(solicitudProgramada.fecha_hora_sugerida)}">
+
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.cliente}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.producto}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.fecha_hora_sugerida}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.direccion}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.responsable}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.telefono_contacto}}</td>
+                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" >{{solicitudProgramada.observaciones}}</td>
+                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" >
+                                <button class="btn btn-success" type="button" ng-click="vm.eventClickSolicitudAtendida(solicitudProgramada)">Atendida</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <i ng-show="!vm.solicitudesProgramadas" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginacionSolicitudesProgramadas"/>
+            </div>
+        </div>
+
+        <!----->
+    </div>
+
+    <div class="modal fade" id="confirmarFechaRecoleccionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+         data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Confirmar fecha de recolección</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <form name="fechaRecoleccionForm">
+                                <div class="form-group">
+                                    <label class="control-label">Fecha</label><br>
+                                    <div class="form-group">
+                                        <input type="text" size="10" class="form-control" ng-model="vm.solicitudRecoleccionTemp.fecha_hora_sugerida" data-autoclose="1" placeholder="Date"
+                                               data-date-format="dd-MM-yyyy" bs-datepicker>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" size="8" class="form-control" ng-model="vm.solicitudRecoleccionTemp.fecha_hora_sugerida" data-time-format="h:mm:ss a" data-autoclose="1"
+                                               placeholder="Time" bs-timepicker>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!fechaRecoleccionForm.$valid" ng-click="vm.eventClickProgramarSolicitud()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

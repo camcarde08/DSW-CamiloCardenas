@@ -1,0 +1,68 @@
+<br>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>CÁLCULOS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="vertical-align:middle; text-align: center">MUESTRA</th>
+                        <th style="vertical-align:middle; text-align: center">mg/mL</th>
+                        <th style="vertical-align:middle; text-align: center">%</th>
+                        <th style="vertical-align:middle; text-align: center">% B.H.</th>
+                        <th style="vertical-align:middle; text-align: center">% B.S.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="calculo in vm.calculos.calculos track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ $index + 1}}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ calculo.mg }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ calculo.porcentaje }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ calculo.porcentajeBh }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ calculo.porcentajeBs }}
+                        </td>
+                        <!--<td style="vertical-align:middle; text-align: center" class="centered">-->
+                            <!--<button class="centered btn btn-danger" title="Eliminar Calculo" type="button" ng-click="vm.eliminarCalculo(keycalculo)">-->
+                                <!--<i class="fa fa-minus-circle"></i>-->
+                            <!--</button>-->
+                        <!--</td>-->
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>PROMEDIO</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered" ng-repeat="promedio in vm.calculos.promedios">
+                            {{ promedio.promedio }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>%CV</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered" ng-repeat="promedio in vm.calculos.promedios">
+                            {{ promedio.cv }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<button class="centered btn btn-success" title="Adicionar Calculo" type="button" ng-click="vm.adicionarCalculo()">-->
+                <!--<i class="fa fa-plus" aria-hidden="true"></i> Agregar cálculo-->
+            <!--</button>-->
+        </div>
+    </div>
+</div>

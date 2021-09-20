@@ -1,0 +1,67 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <!--Titulo-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Informe analistas</h1>
+    </div>
+
+    <!--Datos basicos muestra-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">Filtrar</div>
+            <div class="panel-body">
+                <div class="row">
+                    <form name="informeForm">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3" for="fechaInicio">Fecha Inicio</label>
+                                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3" for="fechaFin">Fecha Fin</label>
+                                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2" for="analista">Analista</label>
+                                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2" for="ensayoMuestra">Ensayos Muestra</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input type="text" class="form-control" ng-model="vm.fechaInicio" data-max-date="{{vm.fechaFin}}" data-date-format="yyyy-MM-dd" placeholder="Inicio" bs-datepicker required>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input type="text" class="form-control" ng-model="vm.fechaFin" data-min-date="{{vm.fechaInicio}}" data-date-format="yyyy-MM-dd" placeholder="Fin" bs-datepicker required>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <select class="form-control" ng-model="vm.analista" required>
+                                            <option value="" disabled selected>Seleccione</option>
+                                            <option ng-repeat="analista in vm.analistas" value="{{analista.id}}">{{analista.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <select class="form-control" ng-model="vm.ensayoMuestra" required>
+                                            <option value="" disabled selected>Seleccione</option>
+                                            <option ng-repeat="ensayoMuestra in vm.ensayosMuestra" value="{{ensayoMuestra}}">{{ensayoMuestra}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                        <button type="submit" class="btn btn-primary" id="butttonConsultaInforme" ng-disabled="!informeForm.$valid" ng-click="vm.eventClickInformeReanalisis()">Generar informe</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form action="pdf/informes/informe-analista/informeAnalista.php" method="POST" target="_blank" id="formInformeAnalista">
+    <input name="fechaInicio" id="fechaInicio" type="hidden"/>
+    <input name="fechaFin" id="fechaFin" type="hidden"/>
+    <input name="idAnalista" id="idAnalista" type="hidden"/>
+    <input name="estadoEnsayo" id="estadoEnsayo" type="hidden"/>
+</form>

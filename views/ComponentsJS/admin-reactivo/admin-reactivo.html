@@ -1,0 +1,804 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<div class="page-alerts" >
+    <div class="alert alert-success page-alert" id="alert-1">
+        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong>{{vm.mensajeAlerta}}</strong>
+    </div>
+    <div class="alert alert-danger page-alert" id="alert-2">
+        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong>{{vm.mensajeAlerta}}</strong>
+    </div>
+    <div class="alert alert-warning page-alert" id="alert-5">
+        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong>{{vm.mensajeAlerta}}</strong>
+    </div>
+</div>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración de reactivos</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Código</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Nombre</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Grado</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Ubicación</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Lote activo</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Fecha vencimiento</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Opciones</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.codigo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.grado">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.ubicacion">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.lote">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_vencimiento">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" ng-class="{info: reactivo.selected}" ng-repeat="reactivo in vm.reactivos| filter :{codigo: vm.filter.codigo, nombre: vm.filter.nombre, grado: vm.filter.grado, ubicacion: vm.filter.ubicacion,lote: vm.filter.lote, fecha_vencimiento: vm.filter.fecha_vencimiento}" ng-show="!reactivo.edit">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{reactivo.codigo}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{reactivo.nombre}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{reactivo.grado}}</td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{reactivo.ubicacion}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{reactivo.lote}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.reactivoGridRowSelected(reactivo)">{{vm.validarFecha(reactivo.fecha_vencimiento)}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" align="center">
+                                        <button type="button" class="btn btn-info" ng-click="vm.administrarAdjuntos(1, reactivo)">H.S.</button>
+                                        <button type="button" class="btn btn-success" ng-click="vm.eventClickEditarReactivo(reactivo)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger" ng-click="vm.openModalEliminarReactivo(reactivo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewReactivo()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo reactivo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Seccion lotes asociados al reactivo-->
+    <div ng-if="vm.isSelectedReactivo">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2 class="sgm-titulo">Lotes asociados al reactivo <strong>"{{vm.reactivoSelected.nombre}}"</strong></h2>
+            </div>
+        </div>
+        <div class="row">
+            <!--Panel grilla de lotes reactivo-->
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="padding-bottom: 0px;">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <!--Activo-->
+                                    <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center; border-bottom: 0;">Activo</th>
+                                    <th class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center; border-bottom: 0;">Opciones</th>
+                                    <!--Codigo-->
+                                    <th class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: center; border-bottom: 0;">Número</th>
+                                </tr>
+                                <tr>
+                                    <!--Activo-->
+                                    <th style="text-align: center; border-bottom: 0;"></th>
+                                    <th style="text-align: center; border-bottom: 0;"></th>
+                                    <!--Codigo-->
+                                    <th style="text-align: center; border-bottom: 0;">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filterLote.numero">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 395px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr ng-class="{info: item.selected}" style="cursor: default" ng-repeat="item in vm.lotesReactivo| filter : {numero: vm.filterLote.numero}"
+                                    ng-show="!item.edit">
+                                    <!--Activo-->
+                                    <td ng-if="item.activo == true" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;"
+                                        ng-click="vm.clickTdGrillaLoteReactivo($index, item)">
+                                        <i style="cursor: pointer" ng-click="vm.desactivarLote(item)" class="fa fa-check-square-o fa-lg" aria-hidden="true"></i>
+                                    </td>
+                                    <td ng-if="item.activo == false" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;"
+                                        ng-click="vm.clickTdGrillaLoteReactivo($index, item)">
+                                        <i style="cursor: pointer" ng-click="vm.activarLote()" class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                    </td>
+                                    <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center">
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="vm.generarSticker(item)" title="Generar Sticker"><i class="fa fa-barcode" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="vm.administrarAdjuntos(0, item)">Certificado</button>
+                                    </td>
+                                    <!--Codigo-->
+                                    <td class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="vertical-align:middle; text-align: center;" ng-click="vm.clickTdGrillaLoteReactivo($index, item)">
+                                        {{item.numero}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewLote()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo lote</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Detalle Lote Seleccionado -->
+            <div id="elemPrueba" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" ng-if="vm.loteSelected">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Detalle del lote {{vm.loteSelected.numero}}
+                    </div>
+                    <div class="panel-body" >
+                        <form>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="codigo">Número:</label>
+                                        <input class="form-control" id="codigo" type="text" ng-model="vm.loteSelected.numero" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cantidad">Unidad:</label>
+                                        <input type="text" class="form-control" id="unidad" ng-model="vm.loteSelected.unidad">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Fecha vencimiento:</label>
+                                        <jqx-date-time-input ng-model="vm.loteSelected.fecha_vencimiento" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Fecha recibido:</label>
+                                        <jqx-date-time-input ng-model="vm.loteSelected.fecha_recibido" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Fecha apertura:</label>
+                                        <jqx-date-time-input ng-model="vm.loteSelected.fecha_apertura" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cantidad">Cantidad:</label>
+                                        <input type="number" class="form-control" id="cantidad" ng-model="vm.loteSelected.cantidad" string-to-number>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cantInicial">Cantidad inicial:</label>
+                                        <input class="form-control" id="cantInicial" type="number" ng-model="vm.loteSelected.cantidad_inicial" string-to-number />
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cantFinal">Cantidad final:</label>
+                                        <input class="form-control" id="cantFinal" type="number" ng-model="vm.loteSelected.cantidad_final" string-to-number />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="fabricante">Fabricante:</label>
+                                        <input class="form-control" id="nombre" type="text" ng-model="vm.loteSelected.fabricante"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="concentracion">Concentración:</label>
+                                        <input class="form-control" id="nombre" type="text" ng-model="vm.loteSelected.concentracion"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="observaciones">Observaciones:</label>
+                                        <textarea class="form-control" id="observaciones" rows="3" ng-model="vm.loteSelected.observaciones" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success" ng-click="vm.editarLote(vm.loteSelected)" data-dismiss="alert">Actualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="modalCofirmmActivarLote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="text-danger modal-title" id="myModalLabel">Confirmar activación lote</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="text-danger col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-1 col-sm-offset-1
+                             col-md-offset-1 col-lg-offset-1">
+                            <i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                            ¿Confirma que desea activar este lote?
+                            <br> ¡Recuerde que esta accion provocará que todos los demas lotes asociados al reactivo seran desactivados!
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.clickConfirmActivateLote()"><i class="fa fa-check-circle fa-2x" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newReactivoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Crear nuevo Reactivo</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="newReactivoForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Código:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newReactivo.codigo" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newReactivo.nombre" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Grado:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <select class="form-control" name="mySelect"
+                                            ng-options="grado for grado in vm.grados"
+                                            ng-model="vm.newReactivo.grado"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Ubicación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newReactivo.ubicacion" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Clasificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <select class="form-control" name="mySelect"
+                                            ng-options="clasificacion for clasificacion in vm.clasificaciones"
+                                            ng-model="vm.newReactivo.clasificacion"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="stock">Stock mínimo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="stock" type="text" ng-model="vm.newReactivo.stock_minimo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="condicion">Condición De Almacenamiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-9 col-lg-9">
+                                <div class="form-group">
+                                    <input class="form-control" id="condicion" type="text" ng-model="vm.reactivoSelected.condicion_almacenamiento" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Controlado:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input type="checkbox" ng-model="vm.newReactivo.controlado" 
+                                           ng-true-value="'1'" ng-false-value="'0'" checked="false"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewReactivo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmNewReactivoModal()" ng-disabled="!newReactivoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="editarReactivoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Reactivo</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editarReactivoForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Código:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.reactivoSelected.codigo" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.reactivoSelected.nombre" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Grado:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <select class="form-control" name="mySelect"
+                                            ng-options="grado for grado in vm.grados"
+                                            ng-model="vm.reactivoSelected.grado"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Ubicación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.reactivoSelected.ubicacion" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Clasificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <select class="form-control" name="mySelect"
+                                            ng-options="clasificacion for clasificacion in vm.clasificaciones"
+                                            ng-model="vm.reactivoSelected.clasificacion"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="stock">Stock mínimo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="stock" type="text" ng-model="vm.reactivoSelected.stock_minimo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="condicion">Condición De Almacenamiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-9 col-lg-9">
+                                <div class="form-group">
+                                    <input class="form-control" id="condicion" type="text" ng-model="vm.reactivoSelected.condicion_almacenamiento" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Controlado:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <input type="checkbox" ng-model="vm.reactivoSelected.controlado" 
+                                           ng-true-value="'1'" ng-false-value="'0'" checked="false"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalEditarReactivo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmarCambiosReactivo()" ng-disabled="!editarReactivoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="newLoteReactivoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Crear nuevo lote asociado al reactivo</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="newLoteReactivoForm">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="nombre">Número:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newLoteReactivo.numero" required/>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha vencimiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input class="jqxWidgetDate" ng-model="vm.newLoteReactivo.fecha_vencimiento" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha recibido:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input class="jqxWidgetDate" ng-model="vm.newLoteReactivo.fecha_recibido" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha apertura:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input class="jqxWidgetDate" ng-model="vm.newLoteReactivo.fecha_apertura" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="cantidad">Cantidad:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="cantidad" type="number" ng-model="vm.newLoteReactivo.cantidad" />
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="unidad">Unidad:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="unidad" ng-model="vm.newLoteReactivo.unidad" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="cantInicial">Cantidad Inicial:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="cantInicial" type="number" ng-model="vm.newLoteReactivo.cantidad_inicial" />
+                                </div>
+                            </div>
+
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="cantFinal">Cantidad Final:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="cantFinal" type="number" ng-model="vm.newLoteReactivo.cantidad_final" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="fabricante">Fabricante:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newLoteReactivo.fabricante"/>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="concentracion">Concentración:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="nombre" type="text" ng-model="vm.newLoteReactivo.concentracion"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="observaciones" ng-model="vm.newLoteReactivo.observaciones"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewLoteReactivo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmNewLoteReactivoModal()" ng-disabled="!newLoteReactivoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAdjuntos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="text-info modal-title" id="myModalLabel">Adjuntos</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div id="treeDocsReactivo" style="visibility: visible;"></div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <jqx-file-upload id="fileUploadDocsReactivo" jqx-settings="vm.loadFileUploadDocsReactivo" jqx-on-upload-start="vm.onUploadStart(event)" jqx-on-upload-end="vm.onUploadEnd(event)"></jqx-file-upload>
+                            <br/>
+                            <button class="btn btn-danger" ng-click="vm.eliminarArchivo()">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCantidadStickers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" >Cantidad de Stickers a generar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="cantFinal">Cantidad:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <input class="form-control" min="1" id="cantStickers" type="number" ng-model="vm.cantidad_stickers"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.clickGenerarStickers()">Generar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRazonEliminacionReactivo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form name="reactivoEliminacion">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" >Razón De La Eliminación</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="razonEliminacion" type="text" ng-model="vm.razonEliminacion" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="!reactivoEliminacion.$valid"  ng-click="vm.eliminarReactivo()">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <form action="pdf/informes/stickersReactivo.php" method="POST" target="formStickersReactivo" id="formStickersReactivo">
+        <input name="idLote" id="idLote" type="hidden"/>
+        <input name="cantidadSticker" id="cantidadSticker" type="hidden"/>
+    </form>
+</div>
+

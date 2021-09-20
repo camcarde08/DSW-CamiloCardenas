@@ -1,0 +1,190 @@
+
+
+<div class="row">
+
+
+    <div style="overflow-x: scroll;">
+        <table class="table table-hover">
+            <caption><b>{{ vm.nombreBandeja }}</b></caption>
+            <thead>
+                <tr class="active">
+                    <th style="text-align: center; border-bottom: 0;"></th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Muestra</th>
+                    <th style="text-align: center; border-bottom: 0; width: 40px; min-width: 40px;">Duración</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Temperatura</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 100px;">Fecha Análisis</th>
+                    <th style="text-align: center; border-bottom: 0; width: 400px; min-width: 200px;">Cliente</th>
+                    <th style="text-align: center; border-bottom: 0; width: 400px; min-width: 200px;">Producto</th>
+                    <th style="text-align: center; border-bottom: 0; width: 100px; min-width: 100px;">Lote</th>
+                    <th style="text-align: center; border-bottom: 0; width: 700px; min-width: 300px;">Ensayo</th>
+                    <th style="text-align: center; border-bottom: 0; width: 200px; min-width: 200px;">Analista</th>
+                </tr>
+                <tr>
+
+                    <th style="text-align: center; border-bottom: 0;" >
+
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.muestra">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.duracion">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.temperatura">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.fecha_analisis">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.tercero">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.producto">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.numero_lote">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.ensayo">
+                    </th>
+                    <th style="text-align: center; border-bottom: 0;" >
+                        <input class="form-control input-sm" type="text" ng-model="vm.filterEstEnsayosProgramados.analista">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: default" dir-paginate-start="subMuestra in vm.estSubMuestrasEnsayosPogramados 
+                    | filter: {
+                    muestra: {
+                    show_id_muestra:vm.filterEstEnsayosProgramados.muestra,
+                    tercero: {
+                    nombre: vm.filterEstEnsayosProgramados.tercero
+                    },
+                    producto: {
+                    nombre: vm.filterEstEnsayosProgramados.producto
+                    },
+                    numero_lote: vm.filterEstEnsayosProgramados.numero_lote                        
+                    },
+                    duracion: {
+                    label: vm.filterEstEnsayosProgramados.duracion
+                    },
+                    temperatura: {
+                    label: vm.filterEstEnsayosProgramados.temperatura
+                    },
+                    fecha_analisis: vm.filterEstEnsayosProgramados.fecha_analisis,
+                    ensayos_sub_muestra: {
+                    descripcion_especifica: vm.filterEstEnsayosProgramados.ensayo,
+                    usuario_programado: {
+                    nombre: vm.filterEstEnsayosProgramados.analista
+                    },
+                    id_analista: vm.verTodos
+                    }
+
+                    }
+                    | itemsPerPage:10 " 
+                    pagination-id="paginacionEstSubMuestrasEnsayosPogramados" 
+                    ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+
+                    <td 
+                        class="col-xs-1 col-sm-1 col-md-1 col-lg-1"
+                        ng-if="vm.showSubMuestra(subMuestra)">
+                        <button class="btn btn-primary" ng-if="subMuestra.expanded" ng-click="subMuestra.expanded = false">-</button>
+                        <button class="btn btn-primary" ng-if="!subMuestra.expanded" ng-click="subMuestra.expanded = true">+</button>
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        class="col-xs-1 col-sm-1 col-md-1 col-lg-1"
+                        style="vertical-align:middle; text-align: center;" 
+                        ng-click="vm.eventClickResultadosSubMuestraEstabilidad(subMuestra)">
+                        <a>{{ subMuestra.muestra.show_id_muestra}}</a>
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;">
+                        {{ subMuestra.duracion.label}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;" >
+                        {{ subMuestra.temperatura.label}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;" >
+                        {{ subMuestra.fecha_analisis}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;" >
+                        {{subMuestra.muestra.tercero.nombre}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;">
+                        {{subMuestra.muestra.producto.nombre}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;">
+                        {{subMuestra.muestra.numero_lote}}
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)" 
+                        style="vertical-align:middle; text-align: center;" >
+
+                    </td>
+                    <td 
+                        ng-if="vm.showSubMuestra(subMuestra)"  
+                        style="vertical-align:middle; text-align: center;" >
+
+                    </td>
+                </tr>
+                <tr 
+                    dir-paginate-end
+                    ng-if="subMuestra.expanded"
+                    ng-repeat="ensayo in subMuestra.ensayos_sub_muestra| filter: {
+                            descripcion_especifica: vm.filterEstEnsayosProgramados.ensayo,
+                            usuario_programado: {
+                                nombre: vm.filterEstEnsayosProgramados.analista
+                            }
+                        
+                        }"
+                    ng-class="{'danger': vm.evaluarAlertaFechaCompromiso(subMuestra.fecha_analisis)}">
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>
+                    <td ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]"></td>   
+                    <td 
+                        style="text-align: center;"
+                        ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]">
+                        <i 
+                            class="fa fa-arrow-right fa-lg text-success" 
+                            style="cursor: pointer" 
+                            aria-hidden="true"
+                            ng-click="vm.eventClickResultadosSubMuestraEstabilidad(subMuestra)">
+                        </i>
+                    </td>
+                    <td
+                        ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]">
+                        {{ ensayo.descripcion_especifica}}
+                    </td>
+                    <td
+                        ng-if="ensayo.id_analista == vm.usuario.userId || vm.usuario.permisos[163]">
+                        {{ ensayo.usuario_programado.nombre}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <i ng-show="!vm.estSubMuestrasEnsayosPogramados" class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <dir-pagination-controls pagination-id="paginacionEstSubMuestrasEnsayosPogramados"></dir-pagination-controls>
+    </div>
+</div>
+

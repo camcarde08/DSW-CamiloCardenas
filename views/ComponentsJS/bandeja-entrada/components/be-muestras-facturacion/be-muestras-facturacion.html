@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <caption><b>{{ vm.nombreBandeja }}</b></caption>
+            <thead>
+            <tr class="active">
+
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Muestra
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Producto
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Cliente
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Lote</th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Número
+                    factura
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Fecha
+                    facturación
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+            </tr>
+            <tr>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    <input class="form-control input-sm" type="text" ng-change="vm.changeFilterHeaderFacturacion()"
+                           ng-model="vm.complexId">
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input class="form-control input-sm" type="text" ng-change="vm.changeFilterHeaderFacturacion()"
+                           ng-model="vm.producto">
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input class="form-control input-sm" type="text" ng-change="vm.changeFilterHeaderFacturacion()"
+                           ng-model="vm.tercero">
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input class="form-control input-sm" type="text" ng-change="vm.changeFilterHeaderFacturacion()"
+                           ng-model="vm.lote">
+                </th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr style="cursor: default" ng-repeat="muestraFacturacion in vm.muestrasFacturacion">
+
+                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">
+                    {{muestraFacturacion.complexId}}
+                </td>
+                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">
+                    {{muestraFacturacion.producto}}
+                </td>
+                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">
+                    {{muestraFacturacion.tercero}}
+                </td>
+                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">
+                    {{muestraFacturacion.lote}}
+                </td>
+                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">
+                    <input class="form-control" type="text" ng-model="muestraFacturacion.numfactura"/>
+                </td>
+                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">
+                    <input type="text" size="10" class="form-control" ng-model="muestraFacturacion.fecha_facturacion"
+                           data-autoclose="1" placeholder="Fecha de facturación"
+                           data-date-format="dd-MM-yyyy" bs-datepicker>
+                </td>
+                <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="vertical-align:middle; text-align: center;">
+                    <button class="btn btn-primary" type="button"
+                            ng-click="vm.eventClickActualizarNumFactura(muestraFacturacion)"
+                            ng-disabled="!muestraFacturacion.fecha_facturacion || !muestraFacturacion.numfactura">Actualizar
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <i ng-show="!vm.muestrasFacturacion"
+                       class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 10px;">
+            Página:
+            <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.pagina"
+                   ng-change="vm.changeFilterFacturacion()"
+                   ng-disabled="true">
+            / {{ vm.maxPage}}
+            <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                <i class="fa fa-step-backward" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                <i class="fa fa-forward" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                <i class="fa fa-step-forward" aria-hidden="true"></i>
+            </button>
+            <div style="float: right">
+                Registros por página
+                <input type="radio" ng-model="vm.cantidad" value="5" ng-change="vm.changeFilterFacturacion()"> 5
+                <input type="radio" ng-model="vm.cantidad" value="10" ng-change="vm.changeFilterFacturacion()"> 10
+                <input type="radio" ng-model="vm.cantidad" value="20" ng-change="vm.changeFilterFacturacion()"> 20
+            </div>
+        </div>
+    </div>
+</div>

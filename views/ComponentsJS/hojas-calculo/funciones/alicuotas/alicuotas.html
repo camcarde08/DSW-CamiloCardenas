@@ -1,0 +1,133 @@
+<br>
+<div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>ALICUOTAS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr ng-repeat="(keyEstandar, estandar) in vm.alicuotas.estandares track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            Estándar volumen {{ $index + 1}} (VolStd {{ $index + 1}})
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="estandar.volumen" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="estandar.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Factor dilucion estandar (FdStd):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ vm.alicuotas.factorDilucionEstandar.factor }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label></label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>ALICUOTAS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr ng-repeat="(keyAlicuotaEstandar, alicuotaEstandar) in vm.alicuotas.aluciotasEstandar track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            Estándar alicuota {{ $index + 1}} (AliStd {{ $index + 1}})
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="alicuotaEstandar.alicuota" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="alicuotaEstandar.cantidad" required></select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>ALCUOTAS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr ng-repeat="(keyMuestra, muestra) in vm.alicuotas.muestras track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            Muestra volumen {{ $index + 1}} (VolMta {{ $index + 1}})
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="muestra.volumen" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="muestra.cantidad" required></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <b>Factor de dilución (FdMta):</b>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            {{ vm.alicuotas.factorDilucionMuestra.factor }}
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <label></label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>ALCUOTAS</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr ng-repeat="(keyAlicuota, alicuota) in vm.alicuotas.aluciotasMuestra track by $index">
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            Muestra alicuota {{ $index + 1}} (AliMta {{ $index + 1}})
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <input type="number" string-to-number style="vertical-align:middle; text-align: center" class="form-control" ng-model="alicuota.alicuota" required/>
+                        </td>
+                        <td style="vertical-align:middle; text-align: center" class="centered">
+                            <select class="form-control" name="cantidad"
+                                    ng-options="peso for peso in vm.pesos"
+                                    ng-model="alicuota.cantidad" required></select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

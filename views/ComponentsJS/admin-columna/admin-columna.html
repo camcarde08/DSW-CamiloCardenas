@@ -1,0 +1,356 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración de columnas</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Número</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Tipo</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Marca</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Dimensiones</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Serial</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Fecha inicio uso</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Opciones</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.numero">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.tipo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.marca">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.dimensiones">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.serial">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" ng-class="{info: columna.selected}" ng-repeat="columna in vm.columnas| filter: {numero: vm.filter.numero, marca: vm.filter.marca, tipo: vm.filter.tipo,
+                                            dimensiones: vm.filter.dimensiones, serial: vm.filter.serial}">
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >{{columna.numero}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{columna.tipo}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{columna.marca}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{columna.dimensiones}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{columna.serial}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >{{columna.fecha_inicio_uso| date:'yyyy-MM-dd'}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" align="center">
+                                        <button type="button" class="btn btn-info" ng-click="vm.administrarAdjuntos(columna)"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-success" ng-click="vm.openModalEditColumna(columna)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarColumna(columna, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewColumna()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nueva columna</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editColumnaSelectedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Modificar columna</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="columnaSelectedForm">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="numero">Número:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="numero" type="text" ng-model="vm.columnaSelected.numero" required/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="tipo" type="text" ng-model="vm.columnaSelected.tipo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="marca">Marca:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="marca" type="text" ng-model="vm.columnaSelected.marca"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="serial">Serial:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="serial" type="text" ng-model="vm.columnaSelected.serial" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="dimensiones">Dimensiones:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="dimensiones" type="text" ng-model="vm.columnaSelected.dimensiones"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha inicio de uso:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fechaInicio" ng-model="vm.columnaSelected.fecha_inicio_uso" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Principios activos:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-drop-down-list id="principiosActivos" jqx-settings="vm.dropDownPrincipiosActivosSettings" 
+                                                        jqx-ng-model data-toggle="tooltip" data-trigger="manual"></jqx-drop-down-list>
+                                    <!--jqx-on-check-change="vm.changePrincipiosActivos()" -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="uso">Uso:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="dimensiones" ng-model="vm.columnaSelected.uso"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalEditColumna()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmEditColumnaModal()" ng-disabled="!columnaSelectedForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="newColumnaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Crear columna</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="newColumnaForm">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="numero">Número:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="numero" type="text" ng-model="vm.newColumna.numero" required/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="tipo" type="text" ng-model="vm.newColumna.tipo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="marca">Marca:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="marca" type="text" ng-model="vm.newColumna.marca"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="serial">Serial:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="serial" type="text" ng-model="vm.newColumna.serial" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="dimensiones">Dimensiones:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="dimensiones" type="text" ng-model="vm.newColumna.dimensiones"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha inicio de uso:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="newFechaInicio" ng-model="vm.newColumna.fecha_inicio_uso" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Principios activos:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-drop-down-list jqx-settings="vm.dropDownNewPrincipiosActivosSettings" 
+                                                        jqx-ng-model data-toggle="tooltip" data-trigger="manual"></jqx-drop-down-list>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="uso">Uso:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="dimensiones" ng-model="vm.newColumna.uso"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewColumna()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmNewColumnaModal()" ng-disabled="!newColumnaForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalAdjuntos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 class="text-info modal-title" id="myModalLabel">Adjuntos</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div id="treeDocsColumna" style="visibility: visible;"></div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <jqx-file-upload id="fileUploadDocsColumna" jqx-settings="vm.loadFileUploadDocsColumna" jqx-on-upload-start="vm.onUploadStart(event)" jqx-on-upload-end="vm.onUploadEnd(event)"></jqx-file-upload>
+                        <br/>
+                        <button class="btn btn-danger" ng-click="vm.eliminarArchivo()">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title id='Description'>INPUT PARA PINI</title>
+        <link rel="stylesheet" href="views/jqwidgets/jqwidgets/styles/jqx.base.css" type="text/css" />
+        <script type="text/javascript" src="views/jqwidgets/scripts/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="views/jqwidgets/jqwidgets/jqx-all.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //-----------carga el input---------
+                $("#input").jqxInput({placeHolder: "texto sugerido", height: 25, width: 200});
+                //-----------carga el boton---------
+                $("#jqxButton").jqxButton({width: '150'});
+                //-----------define el evento click para el boton---------
+                $("#jqxButton").on('click', function () {
+                   //------ captura el valor del input en una variable-----
+                   var id = $("#input").jqxInput('val');
+                   //------- abre otra pagina pasado el el dato como referencia-------
+                   window.open("test.php?id="+id);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div>
+            <input type="text" id="input"/>
+            <input type="button" value="Consultar" id='jqxButton' />
+        </div>
+    </body>
+</html>

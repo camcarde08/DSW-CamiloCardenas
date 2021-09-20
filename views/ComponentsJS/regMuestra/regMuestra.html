@@ -1,0 +1,596 @@
+<style>
+    .sgm-titulo {
+        font-weight: bold;
+        color: #000087;
+    }
+
+    .sgm-panel-reg-muestra-datos-nerales {
+        margin-top: 20px;
+    }
+
+    .sgm-blue-row {
+        background-color: #b5defc;
+        padding-top: 10px;
+    }
+
+    .sgm-white-row {
+        background-color: white;
+        padding-top: 10px;
+    }
+
+    .load-icon-cliente {
+        margin-top: 25px;
+    }
+
+    .tooltip-inner {
+        background-color: #D9534F;
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #D9534F;
+    }
+
+    h1 {
+        color: #000087;
+    }
+</style>
+
+<div>
+    <div class="row">
+        <div class="sgm-titulo col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1>Registro de análisis</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <div class="row">
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonLimpiarSettings" ng-click="$ctrl.limpiarFormulario()">Limpiar</jqx-button>
+                </div>
+                <div ng-show="false" class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonVerHistorialSettings" ng-click="$ctrl.verHistorico()">Ver Historial</jqx-button>
+                </div>
+                <div ng-show="false" class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonVerEstadosSettings" ng-click="$ctrl.verEstados()">Ver Estados</jqx-button>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonRegistrarAnalisisSettings" jqx-on-click="$ctrl.registrarMuestra()">Registrar Análisis</jqx-button>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonActualizarAnalisisSettings" ng-click="$ctrl.actualizarMuestra()">Actualizar Análisis</jqx-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-info sgm-panel-reg-muestra-datos-nerales">
+            <div class="panel-heading">Datos generales del análisis</div>
+            <div class="panel-body">
+                <div class="row" style="background-color: white;">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraNumeroAnalisis">Número de Análisis</label>
+                        <br>
+                        <jqx-input id="regMuestraNumeroAnalisis" jqx-settings="$ctrl.inputNumeroAnalisisSettings" ng-model="$ctrl.idMuestra" ng-keyup="$event.keyCode == 13 ? $ctrl.searchMuestra() : null"></jqx-input>
+                        <jqx-button jqx-settings="$ctrl.buttonSearchAnalisisSettings" ng-click="$ctrl.searchMuestra()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></jqx-button>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="false">
+                        <label for="regMuestraActiva">Activa</label>
+                        <jqx-check-box id="regMuestraActiva" jqx-settings="$ctrl.checkBoxActivaSettings" ng-model="$ctrl.activa" jqx-on-change="$ctrl.unCheckActiva()"></jqx-check-box>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraFechaLlegada">Fecha de Llegada</label>
+                        <jqx-date-time-input id="regMuestraFechaLlegada" jqx-ng-model ng-model="$ctrl.fechaLlegada" jqx-settings="$ctrl.dateInputFechaLlegadaSettings"
+                                             ng-change="$ctrl.changeFechaLlegada()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un fecha valida"></jqx-date-time-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="FechaCompromiso">Fecha de Compromiso</label>
+                        <jqx-date-time-input id="fechaCompromiso" jqx-ng-model ng-model="$ctrl.fechaCompromiso" jqx-settings="$ctrl.dateInputFechaCompromisoSettings"
+                                             ng-change="$ctrl.changeFechaCompromiso()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un fecha valida"></jqx-date-time-input>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraCliente">Nombre del Cliente</label>
+                        <jqx-input id="cliente" jqx-settings="$ctrl.inputClienteSettings" ng-model="$ctrl.cliente" ng-change="$ctrl.changeCliente()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un cliente valido"></jqx-input>
+                    </div>
+                    <div ng-if="!$ctrl.inputClienteSettings.source" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <i class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regmuestraContacto">Contacto Solicitante</label>
+                        <jqx-drop-down-list id="contacto" jqx-settings="$ctrl.dropDownListContactoSettings" jqx-ng-model ng-model="$ctrl.contacto"
+                                            ng-change="$ctrl.changeContacto()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un contacto valido"></jqx-drop-down-list>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regmuestraAreaContacto">Área Solicitante</label>
+                        <jqx-input id="regMuestraAreaContacto" jqx-settings="$ctrl.inputAreaContactoSettings" ng-model="$ctrl.contacto.area"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="false">
+                        <label for="activa">Estado Actual del Análisis</label>
+                        <jqx-input id="regMuestraEstadoActualAnalisis" jqx-settings="$ctrl.inputEstadoActualAnalisisSettings" ng-model="$ctrl.estadoActual"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="false">
+                        <label for="regMuestraPrioridad">Prioridad</label>
+                        <jqx-drop-down-list id="regMuestraPrioridad" ng-model="$ctrl.prioridad" jqx-ng-model jqx-settings="$ctrl.dropDownPrioridadSettings"></jqx-drop-down-list>
+                    </div>
+                </div>
+                <div class="row sgm-white-row" ng-show="false">
+                    <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <label for="regMuestraNumeroCotizacion">Número de Cotización</label>
+                        <jqx-input id="regMuestraNumeroCotizacion" jqx-settings="$ctrl.inputNumeroCotizacionSettings" ng-model="$ctrl.cotizacion"></jqx-input>
+                    </div>
+
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label for="regMuestraIdentificadorCliente">Identificador Cliente</label>
+                        <jqx-input id="regMuestraIdentificadorCliente" jqx-settings="$ctrl.inputIdentificadorClienteSettings" ng-model="$ctrl.identificadorCliente"
+                                   ng-change="$ctrl.changeIdentificadorCliente()" data-toggle="tooltip" data-trigger="manual" title="Debe digitar un Identificador valido"></jqx-input>
+                    </div>
+                </div>
+
+
+                <div class="row sgm-white-row" ng-show="true">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="labFabricante">Laboratorio Fabricante o Proveedor</label>
+                        <jqx-input id="labFabricante" jqx-settings="$ctrl.inputLabFabricanteSettings" ng-model="$ctrl.labFabricante" ng-change="$ctrl.changeLabFabricante()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un laboratorio valido"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="procedencia">Laboratorio Propietario</label>
+                        <jqx-input id="procedencia" jqx-settings="$ctrl.inputProcedenciaSettings" ng-model="$ctrl.procedencia" ng-change="$ctrl.changeProcedencia()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un laboratorio valido"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="$ctrl.showCampoRemision">
+                        <label for="regMuestraNumeroRemision">Número de Remisión</label>
+                        <jqx-input id="regMuestraNumeroRemision" jqx-settings="$ctrl.inputNumeroRemisionSettings" ng-model="$ctrl.remision"></jqx-input>
+                    </div>
+                </div>
+                <div class="row sgm-white-row">
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="regmuestraobservaciones">Observaciones</label>
+                        <jqx-text-area id="regmuestraobservaciones" jqx-settings="$ctrl.textAreaObservacionesSettings" ng-model="$ctrl.observaciones"></jqx-text-area>
+                    </div>
+                </div>
+                <div class="row sgm-white-row" ng-show="true">
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="regMuestraCondicionesGenerales">Condiciones Generales (Condiciones de Almacenamiento):</label>
+                        <jqx-text-area id="regMuestraCondicionesGenerales" jqx-settings="$ctrl.textAreaCondicionesGeneralesSettings" ng-model="$ctrl.condicionesGenerales"
+                                       ng-change="$ctrl.changeCondicionesGenerales()" data-toggle="tooltip" data-trigger="manual" title="Debe digitar condiciones validas"></jqx-text-area>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-info sgm-panel-reg-muestra-datos-nerales">
+            <div class="panel-heading">Datos del Área de Análisis</div>
+            <div class="panel-body">
+                <div class="row" style="background-color: white;">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-if="false">
+                        <label for="regMuestraAreaAnalisis">Área de Análisis</label>
+                        <jqx-drop-down-list id="areaAnalisis" jqx-settings="$ctrl.dropDownAreaAnalisisSettings" jqx-ng-model ng-model="$ctrl.areaAnalisis"
+                                            ng-change="$ctrl.changeAreasAnalisis()" data-toggle="tooltip" data-trigger="manual" title="Debe deleccionar una area valida"></jqx-drop-down-list>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraCoordinadorArea">Coordinador de Área</label>
+                        <jqx-input id="regMuestraCoordinadorArea" jqx-settings="$ctrl.regMuestraCoordinadorAreaSettings" ng-model="$ctrl.areaAnalisis.coordinador"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                        <label for="regMuestraAreaMicrobiologica">Fecha de Muestreo</label>
+                        <jqx-date-time-input id="fechaMuestreo" jqx-settings="$ctrl.dateInputFechaMuestreoSettings" jqx-ng-model ng-model="$ctrl.fechaMuestreo"
+                                             ng-change="$ctrl.changeFechaMuestreo()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una fecha valida"></jqx-date-time-input>
+                    </div>
+                </div>
+
+                <div class="row sgm-blue-row" ng-if="$ctrl.isDropDownTecnicaUsada || $ctrl.isInputEstabilidadMic || $ctrl.isDropDownTipoMuestra">
+
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-if="$ctrl.isDropDownTecnicaUsada">
+                        <label for="regMuestraTecnicaUsada">Especificación</label>
+                        <jqx-drop-down-list id="tecnicaUsada" jqx-settings="$ctrl.dropDownTecnicaUsadaSettings" jqx-ng-model ng-model="$ctrl.tecnicaUsada"
+                                            jqx-on-check-change="$ctrl.changeTecnicaUsada()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una especificación valida"></jqx-drop-down-list>
+                    </div>
+
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-if="$ctrl.isDropDownAreaMicro">
+                        <label for="regMuestraAreaMicrobiologica">Método</label>
+                        <jqx-drop-down-list id="areaMicro" jqx-settings="$ctrl.dropDownAreaMicroSettings" jqx-ng-model ng-model="$ctrl.areaMicro"
+                                            ng-change="$ctrl.changeAreaMicro()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un área microbiologica valida."
+                                            jqx-watch-settings></jqx-drop-down-list>
+                    </div>
+
+                </div>
+                <div ng-if="false" ng-class="[{row: true}, $ctrl.rowTipoMuestraStyle]">
+
+
+                </div>
+                <div class="row sgm-white-row" ng-if="$ctrl.areaAnalisis.id == 4">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraTipoEstabilidad">Tipo estabilidad</label>
+                        <jqx-drop-down-list id="tipoEstabilidad" jqx-settings="$ctrl.dropDownTipoEstabilidadSettings" jqx-ng-model ng-model="$ctrl.tipoEstabilidad"
+                                            ng-change="$ctrl.changeTipoEstabilidad()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un tipo de estabilidad valido."
+                                            jqx-watch-settings></jqx-drop-down-list>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraDuracionEstabilidad">Duración estabilidad</label>
+                        <jqx-drop-down-list id="duracionEstabilidad" jqx-instance="$ctrl.dropDownDuracionEstInstance" jqx-settings="$ctrl.pruebaSettings" jqx-source="$ctrl.tipoEstabilidad.duraciones" jqx-display-member="name" jqx-auto-drop-down-height="true"
+                                            jqx-width="'100%'" jqx-height="'30px'" jqx-ng-model ng-model="$ctrl.duracionEstabilidad" ng-change="$ctrl.changeDuracionEstabilidad()"
+                                            data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una duracion valida." jqx-watch-settings></jqx-drop-down-list>
+                    </div>
+                </div>
+                <div class="row sgm-white-row" ng-if="$ctrl.isMicrobiologico() && $ctrl.tipoMuestra.id == 5">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label>Punto de toma</label>
+                        <jqx-input id="puntoToma" jqx-settings="$ctrl.inputPuntoTomaSettings" ng-model="$ctrl.puntoToma" ng-change="$ctrl.changePuntoToma()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un punto de toma valido"></jqx-input>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row" ng-if="true">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label>Registro</label>
+                        <jqx-input id="plantaArea" jqx-settings="$ctrl.inputPlantaAreaSettings" ng-model="$ctrl.plantaArea" ng-change="$ctrl.changePlantaArea()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar una  área valida valida."></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-if="false">
+                        <label>Técnica Usada</label>
+                        <jqx-input id="plantaTecnicaUsada" jqx-settings="$ctrl.inputPlantaTecnicaUsadaSettings" ng-model="$ctrl.plantaTecnicaUsada"
+                                   ng-change="$ctrl.changePlantaTecnicaUsada()" data-toggle="tooltip" data-trigger="manual" title="Debe digitar una tecnica valida."></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-if="false">
+                        <label>Responsable de Muestra</label>
+                        <jqx-input id="responsableToma" jqx-settings="$ctrl.inputResponsableTomaSettings" ng-model="$ctrl.responsableToma" ng-change="$ctrl.changeResponsableToma()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un responsable valido."></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                        <label for="EstabilidadMic">Estabilidad</label>
+                        <jqx-input id="EstabilidadMic" jqx-settings="$ctrl.regMuestraEstabilidadMicSettings" ng-model="$ctrl.EstabilidadMic" ng-change="$ctrl.changeEstabilidadMic()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar una estabilidad valida"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-if="false">
+                        <label>Superficie / Equipo</label>
+                        <jqx-input id="superficieEquipo" jqx-settings="$ctrl.inputSuperficieEquipoSettings" ng-model="$ctrl.superficieEquipo" ng-change="$ctrl.changeSuperficieEquipo()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar una superficie o equipo valido."></jqx-input>
+                    </div>
+                </div>
+                <div class="row sgm-white-row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="$ctrl.showCampoTipoMuestra">
+                        <label for="regMuestraTipoMuestra">Formato</label>
+                        <jqx-drop-down-list id="tipoMuestra" jqx-settings="$ctrl.dropDownTipoMuestraSettings" jqx-ng-model ng-model="$ctrl.tipoMuestra"
+                                            ng-change="$ctrl.changeTipoMuestra()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un tipo de análisis valido."
+                                            jqx-watch-settings></jqx-drop-down-list>
+                    </div>
+                    <!--<pre>{{ $ctrl.tipoMuestra | json }}</pre>-->
+                </div>
+                <div class="row sgm-white-row" ng-if="$ctrl.isMicrobiologico() && $ctrl.tipoMuestra.id == 6">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label>Planta</label>
+                        <jqx-input jqx-settings="$ctrl.inputPlantaSettings" ng-model="$ctrl.planta"></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label>Sanitizante</label>
+                        <jqx-input id="sanitizante" jqx-settings="$ctrl.inputSanitizanteSettings" ng-model="$ctrl.sanitizante" ng-change="$ctrl.changeSanitizante()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un sanitizante valido."></jqx-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label>Muestra Tomada o Frotis Realizado A</label>
+                        <jqx-input id="frotis" jqx-settings="$ctrl.inputFrotisRealizadoSettings" ng-model="$ctrl.frotisRealizado" ng-change="$ctrl.changeFrotis()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe digitar un frotis valido."></jqx-input>
+                    </div>
+                </div>
+                <div class="row sgm-white-row" ng-if="$ctrl.isMicrobiologico() && $ctrl.tipoMuestra.id == 6">
+                    <div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <label>Especificación Mohos y Levaduras</label>
+                        <jqx-text-area id="espMohosLevaduras" jqx-settings="$ctrl.textAreaEspMohosLevadurasSettings" ng-model="$ctrl.espMohosLevaduras"
+                                       ng-change="$ctrl.changeEspMohosLevaduras()" data-toggle="tooltip" data-trigger="manual" title="Debe digitar una especificación para Mohos y levaduras valida."></jqx-text-area>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row" ng-if="$ctrl.isMicrobiologico() && $ctrl.tipoMuestra.id == 6">
+                    <div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <label>Especificación E. Coli</label>
+                        <jqx-text-area id="espEColi" jqx-settings="$ctrl.textAreaEspEColiSettings" ng-model="$ctrl.espEColi" ng-change="$ctrl.changeEspEColi()"
+                                       data-toggle="tooltip" data-trigger="manual" title="Debe digitar una especificación para E Coli valida."></jqx-text-area>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-info sgm-panel-reg-muestra-datos-nerales">
+            <div class="panel-heading">Datos del Producto</div>
+            <div class="panel-body">
+                <div class="row" style="background-color: white;">
+                    <div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <label for="regMuestraProducto">Nombre</label>
+                        <jqx-input id="producto" jqx-settings="$ctrl.inputProductoSettings" ng-model="$ctrl.producto" ng-change="$ctrl.changeProducto()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un producto valido"></jqx-input>
+                    </div>
+                    <div ng-if="$ctrl.inputProductoSettings.disabled" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <i class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraTipoProducto">Tipo de Producto</label>
+                        <jqx-input id="regMuestraTipoProducto" jqx-settings="$ctrl.inputTipoProductoSettings" ng-model="$ctrl.tipoProducto"></jqx-input>
+                    </div>
+
+                    <div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-if="$ctrl.tipoProducto == 'Trazas'">
+                        <label>Especificación traza</label>
+                        <jqx-text-area id="espAerobiosMesofilos" jqx-settings="$ctrl.textAreaEspAerobiosMesofilosSettings" ng-model="$ctrl.espAerobiosMesofilos"
+                                       ng-change="$ctrl.changeEspAerobiosMesofilos()" data-toggle="tooltip" data-trigger="manual" title="Debe digitar una especificación para la traza."></jqx-text-area>
+                    </div>
+                </div>
+                <div class="row sgm-white-row">
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label for="regMuestraEmpaque">Presentación - Envase</label>
+                        <!--<jqx-drop-down-list id="empaque" jqx-settings="$ctrl.dropDownEmpaqueSettings" jqx-ng-model ng-model="$ctrl.empaque" ng-change="$ctrl.changeEmpaque()"
+                                            data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un empaque valido"></jqx-drop-down-list>-->
+                        <jqx-input id="empaque" jqx-settings="$ctrl.dropDownEmpaqueSettings" ng-model="$ctrl.empaque" ng-change="$ctrl.changeEmpaque()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una presentación - envase válido"></jqx-input>
+
+                    </div>
+                    <div style="margin-top: 25px;" ng-if="!$ctrl.dropDownEmpaqueSettings.disabled" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1 text-right">
+                        <jqx-button jqx-settings="$ctrl.buttonAddEmpaqueSettings" jqx-on-click="$ctrl.openCreateNewEmpaqueModal()"><i class="fa fa-plus" aria-hidden="true"></i></jqx-button>
+                    </div>
+                    <div ng-if="$ctrl.dropDownEmpaqueSettings.disabled" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <i class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+
+                    <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label for="regMuestraEnvase">Forma Farmacéutica</label>
+                        <!--<jqx-drop-down-list id="regMuestraEnvase" jqx-settings="$ctrl.dropDownEnvaseSettings" jqx-ng-model ng-model="$ctrl.envase"
+                                            ng-change="$ctrl.changeEnvase()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar un envase valido"></jqx-drop-down-list>-->
+                        <jqx-input id="regMuestraEnvase" jqx-settings="$ctrl.dropDownEnvaseSettings" ng-model="$ctrl.envase" ng-change="$ctrl.changeEnvase()"
+                                   data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una forma farmacéutica válida"></jqx-input>
+                    </div>
+                    <div style="margin-top: 25px;" ng-if="!$ctrl.dropDownEnvaseSettings.disabled" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1 text-right">
+                        <jqx-button id="envase" jqx-settings="$ctrl.buttonAddEnvaseSettings" jqx-on-click="$ctrl.openCreateNewEnvaseModal()"><i class="fa fa-plus" aria-hidden="true"></i></jqx-button>
+                    </div>
+                    <div ng-if="$ctrl.dropDownEnvaseSettings.disabled" class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <i class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="FechaFabricacion">Fecha de Fabricación</label>
+                        <jqx-date-time-input id="fechaFabricacion" jqx-ng-model jqx-settings="$ctrl.dateInputFechaFabricacionSettings" ng-model="$ctrl.fechaFabricacion"
+                                             ng-change="$ctrl.changeFechaFabricacion()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una fecha valida."></jqx-date-time-input>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="fechaVencimiento">Fecha de Vencimiento</label>
+                        <jqx-date-time-input id="fechaVencimiento" jqx-settings="$ctrl.dateInputFechaVencimientoSettings" jqx-ng-model ng-model="$ctrl.fechaVencimiento"
+                                             ng-change="$ctrl.changeFechaVencimiento()" data-toggle="tooltip" data-trigger="manual" title="Debe seleccionar una fecha valida."></jqx-date-time-input>
+                    </div>
+                </div>
+                <div class="row sgm-white-row">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraFechaFabricacion">Cantidad (MP) / Tamaño Lote (PT)</label>
+                        <div>
+                            <jqx-input id="tamanoLote" jqx-settings="$ctrl.inputTamanoLoteSettings" ng-model="$ctrl.tamanoLote" ng-change="$ctrl.changeTamanoLote()"
+                                       data-toggle="tooltip" data-trigger="manual" title="Debe digitar un tamaño valido."></jqx-input>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraFechaFabricacion">Número de Lote</label>
+                        <div>
+                            <jqx-input id="numeroLote" jqx-settings="$ctrl.inputNumeroLoteSettings" ng-model="$ctrl.numeroLote" ng-change="$ctrl.changeNumeroLote()"
+                                       data-toggle="tooltip" data-trigger="manual" title="Debe digitar un valor valido."></jqx-input>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <label for="regMuestraFechaFabricacion">Cantidad Recibida</label>
+                        <div>
+                            <jqx-input id="cantidadLote" jqx-settings="$ctrl.inputCantidadEnviadaLoteSettings" ng-model="$ctrl.cantidadLote" ng-change="$ctrl.changeCantidadLote()"
+                                       data-toggle="tooltip" data-trigger="manual" title="Debe digitar un valor una cantidad valida."></jqx-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row sgm-blue-row">
+                    <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+                        <!--<label for="regMuestraFechaFabricacion">Principios Activos</label>-->
+                        <div ng-if="$ctrl.producto">
+                            <jqx-grid jqx-settings="$ctrl.gridPrincipioActivoSettings"></jqx-grid>
+                        </div>
+                    </div>
+                </div>
+                <div class="row sgm-white-row">
+                    <div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                        <label for="regMuestraFechaFabricacion">Ensayos de Análisis</label>
+                        <div ng-if="$ctrl.loadingEnsayos">
+                            <i class="load-icon-cliente fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span>Cargando ensayos del análisis un momento por favor ...</span>
+                        </div>
+                        <div ng-show="$ctrl.loadedEnsayos">
+
+                            <jqx-grid jqx-settings="$ctrl.gridEnsayosSettings"></jqx-grid>
+
+                            <div ng-if="$ctrl.areaAnalisis.id == 4">
+                                <div ng-repeat="(iduracion, duracion) in $ctrl.ensayosEstabilidad">
+                                    <h2>{{duracion.name}}</h2>
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <th>Ensayo</th>
+                                        <th>Duración</th>
+                                        <th>30ºC-65%HR</th>
+                                        <th>30ºC-75%HR</th>
+                                        <th>40ºC-75%HR</th>
+                                        <th>50°C-80%HR</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="(ipaquete, paquete) in $ctrl.ensayosEstabilidad[iduracion].paquetes">
+                                                <td colspan="6">
+                                                    <h4>{{paquete.nomPaquete}}</h4>
+                                                </td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-repeat="(iensayo, ensayo) in $ctrl.ensayosEstabilidad[iduracion].paquetes[ipaquete].ensayos">
+                                                <td>{{ensayo.nomEnsayo}}</td>
+                                                <td>{{ensayo.duracion}}</td>
+                                                <td ng-repeat="(itemperatura, temperatura) in ensayo.temperaturas "><input type="checkbox" ng-model="$ctrl.ensayosEstabilidad[iduracion].paquetes[ipaquete].ensayos[iensayo].temperaturas[itemperatura]"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--<pre>{{$ctrl.ensayosEstabilidad | json }}</pre>-->
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <div class="row">
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <jqx-button jqx-settings="$ctrl.buttonRegistrarAnalisisSettings" jqx-on-click="$ctrl.registrarMuestra()">Registrar Análisis</jqx-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createNewEmpaqueModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Nueva Presentación</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="regMuestraFechaFabricacion">Presentación</label>
+                            <div>
+                                <jqx-input jqx-settings="$ctrl.inputNewEmpaqueSettings" ng-model="$ctrl.nuevoEmpaque"></jqx-input>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.crearNuevoEmpaque()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createNewEnvaseModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Nueva Forma Farmáceutica</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="regMuestraFechaFabricacion">Nueva</label>
+                            <div>
+                                <jqx-input jqx-settings="$ctrl.inputNewEnvaseSettings" ng-model="$ctrl.nuevoEnvase"></jqx-input>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.crearNuevoEnvase()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <jqx-notification jqx-settings="$ctrl.errorNotificationSettings">
+        <div>
+            <p id="errorMessageNotification"></p>
+        </div>
+    </jqx-notification>
+    <jqx-notification jqx-settings="$ctrl.successNotificationSettings">
+        <div>
+            <p id="successMessageNotification"></p>
+        </div>
+    </jqx-notification>
+    <div id="waitRegistroMuestra" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registrando Análisis un Momento Por Favor...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="waitSearchMuestra" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cargando Análisis, un Momento Por Favor...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="motivoAnulacionModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Anular Muestra {{ $ctrl.idMuestra | uppercase }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <label for="regMuestraFechaFabricacion">Motivo de Anulación</label>
+
+                            <textarea style="resize: none; width: 100%;" placeholder="Digite el motivo de anulacion" rows="5" ng-model="$ctrl.motivoAnulacion"></textarea>
+                            <div ng-if="$ctrl.progressAnulacion">
+                                Anulando análisis.
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: 100%">
+                                        <span class="sr-only">100% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="$ctrl.anularMuestra()">Anular</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

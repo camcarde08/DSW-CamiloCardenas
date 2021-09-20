@@ -1,0 +1,156 @@
+
+<div class="row">
+    <b>{{ vm.nombreBandeja }}</b>
+
+    <form novalidate>
+        <div class="col-md-3">
+            <div class="form-grup">
+                <label>Fecha Inicial:</label>
+                <input type="text" class="form-control" ng-model="vm.form.fechaInicial" name="date" bs-datepicker>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-grup">
+                <label>Fecha Final:</label>
+                <input type="text" class="form-control" ng-model="vm.form.fechaFinal" name="date" bs-datepicker>
+            </div>
+        </div>
+        <div class="col-md-3" style="padding-top: 25px;">
+            <button
+                class="btn btn-primary"
+                ng-click="vm.onSubmit()">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
+    </form>
+
+
+</div>
+<div class="row" >
+    <div class="col-md-6" ng-show="vm.showInfoGeneral">
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 10px; color: #337ab7">
+                <h4>Reactivos usados entre {{ vm.form.fechaInicial | date: 'yyyy-MM-dd'}} y {{ vm.form.fechaFinal | date: 'yyyy-MM-dd'}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-6">Reactivo</th>
+                            <th class="col-md-3">Cantidad muestras</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="label in vm.labels | itemsPerPage:10 track by $index" pagination-id="paginateItemsReactivos">
+                            <td ng-if="vm.data[$index] > 0">
+                                {{ label }}
+                            </td>
+                            <td ng-if="vm.data[$index] > 0">
+                                {{ vm.data[$index] }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginateItemsReactivos"></dir-pagination-controls>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6" ng-show="vm.showDetalleReactivo">
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 10px; color: #337ab7">
+                <h5>Uso para el reactivo {{ vm.selectedReactivo.nombre }} entre {{ vm.form.fechaInicial | date: 'yyyy-MM-dd'}} y {{ vm.form.fechaFinal | date: 'yyyy-MM-dd'}}</h5>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-success btn-sm" style="margin-right: 5px;" ng-click="vm.backToGeneral()"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                <span style="color: grey;">Regresar a datos generales</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 10px; color: #337ab7">
+                <h5>Uso Fisicoquimico</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Muestra</th>
+                            <th class="col-md-4">Producto</th>
+                            <th class="col-md-3">Usos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="item in vm.selectedReactivo.uso.fq | itemsPerPage:10 track by $index" pagination-id="paginateChildItemsReactivos">
+                            <td>
+                                {{ item.show_id_muestra }}
+                            </td>
+                            <td>
+                                {{ item.producto }}
+                            </td>
+                            <td>
+                                {{ item.cantidad_ensayos }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginateChildItemsReactivos"></dir-pagination-controls>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 10px; color: #337ab7">
+                <h5>Uso Estabilidades</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Muestra</th>
+                            <th class="col-md-3">Producto</th>
+                            <th class="col-md-2">Tiempo</th>
+                            <th class="col-md-2">Temperatura</th>
+                            <th class="col-md-2">Usos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate-start="item in vm.selectedReactivo.uso.est | itemsPerPage:10 track by $index" pagination-id="paginateChildItemsReactivos2">
+                            <td>
+                                {{ item.show_id_muestra }}
+                            </td>
+                            <td>{{ item.producto }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr dir-paginate-end
+                            ng-repeat="submuestra in item.sub_muestras">
+                            <td></td>
+                            <td></td>
+                            <td>{{ submuestra.duracion }}</td>
+                            <td>{{ submuestra.temperatura }}</td>
+                            <td>{{ submuestra.cantidad_ensayos }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls pagination-id="paginateChildItemsReactivos2"></dir-pagination-controls>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="doughnut" class="chart chart-doughnut"
+                chart-data="vm.data" 
+                chart-labels="vm.labels"
+                chart-colors="vm.colors"
+                chart-options="vm.options">
+        </canvas> 
+    </div>
+</div>
+
+

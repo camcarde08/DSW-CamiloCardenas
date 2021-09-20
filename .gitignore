@@ -1,0 +1,10 @@
+# ignore all files in the nbproject/ directory
+nbproject/
+tmp/sess_24u9047radg9214b11ijp7ffp3
+tmp/sess_0oofklkirjmveu81h1b9uthql7
+vendor/
+pdf/tfpdf/font/unifont/dejavusanscondensed\.cw\.dat
+pdf/tfpdf/font/unifont/dejavusanscondensed\.cw127\.php
+pdf/tfpdf/font/unifont/dejavusanscondensed\.mtx\.php
+docs/
+\.idea/

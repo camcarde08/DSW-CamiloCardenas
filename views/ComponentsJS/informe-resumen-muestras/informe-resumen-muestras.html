@@ -1,0 +1,157 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <!--Titulo-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Resumen de muestras</h1>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button type="submit" class="btn btn-success" id="butttonConsultaInformeExcel" ng-click="vm.eventClickExcelResumenMuestra()">Generar excel</button>
+        <br><br>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div style="width: 100%; overflow-x: scroll;">
+                    <table class="table">
+                        <tr>
+                            <th style="width: 50px; min-width: 50px; text-align: center;">Editar</th>
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Muestra</th>
+                            <th style="width: 400px; min-width: 400px; text-align: center;">Producto</th>
+                            <th style="width: 400px; min-width: 400px; text-align: center;">Nombre analista</th>
+                            <th style="width: 400px; min-width: 400px; text-align: center;">Ensayos a realizar</th>
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Estado</th>
+                            <th style="width: 300px; min-width: 300px; text-align: center;">Cliente</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.muestra" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.producto" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.analista" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.ensayos" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.estadoMuestra" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.cliente" ng-change="vm.changeFilterHeader()">
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in vm.muestras">
+                            <td>
+                                <button class="btn btn-sm btn-primary" ng-click="vm.consultarMuestra($index)">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.muestra}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.producto}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.analista}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.ensayos}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.estadoMuestra}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.cliente}}
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.muestras.length == 0">
+                            <td>
+                                No se encontraron registros
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.loading">
+                            <td>
+                                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                Consultado registros un momento por favor ...
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;">
+                    Página:
+                    <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.filter.pagina" ng-change="vm.changeFilter()"
+                           ng-disabled="true">
+                    / {{ vm.maxPage}}
+                    <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                        <i class="fa fa-step-backward" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                        <i class="fa fa-backward" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                        <i class="fa fa-step-forward" aria-hidden="true"></i>
+                    </button>
+                    <div style="float: right">
+                        Registros por página
+                        <input type="radio" ng-model="vm.filter.cantidad" value="5" ng-change="vm.changeFilterHeader()"> 5
+                        <input type="radio" ng-model="vm.filter.cantidad" value="10" ng-change="vm.changeFilterHeader()"> 10
+                        <input type="radio" ng-model="vm.filter.cantidad" value="20" ng-change="vm.changeFilterHeader()"> 20
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id ="modalesperaexport" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Exportando, un momento por favor ...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--<div id ="modalespera" class="modal fade" tabindex="-1" role="dialog">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <!--<h4 class="modal-title">Cargando, un momento por favor ...</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<div class="progress">-->
+                    <!--<div class="progress-bar progress-bar-striped active" role="progressbar"-->
+                         <!--aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--</div>-->
+
+
+<form action="pdf/informes//.php" method="POST" target="_blank" id="form">
+</form>

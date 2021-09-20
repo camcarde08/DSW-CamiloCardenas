@@ -1,0 +1,322 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        background-color: #a5a5a5;
+        margin: 1em 0;
+        padding: 0; 
+    }
+    .sgm-blue-row {
+        background-color: #b5defc;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .sgm-white-row {
+        background-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Usuarios módulo de clientes</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Clientes</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" ng-class="{info: cliente.selected}" dir-paginate="cliente in vm.clientes | filter : {nombre: vm.filter.nombre} | itemsPerPage: 10 "
+                                    pagination-id="gridClientes" >
+                                    <td style="vertical-align:middle; text-align: center;"  class="col-xs-5 col-sm-5 col-md-5 col-lg-5" ng-click="vm.rowSelectedCliente(cliente)">{{cliente.nombre}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <dir-pagination-controls pagination-id="gridClientes"></dir-pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" ng-if="vm.usuariosCliente">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">Nombre</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Usuario</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Acciones</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filterUsuario.nombre">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filterUsuario.usuario">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" dir-paginate="usuarioCliente in vm.usuariosCliente | itemsPerPage: 15 "
+                                    pagination-id="gridUsuarios" ng-class="{info: usuarioCliente.selected}" >
+
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5" ng-click="vm.rowSelectedUsuarioCliente(usuarioCliente)">{{usuarioCliente.nombre}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-click="vm.rowSelectedUsuarioCliente(usuarioCliente)">{{usuarioCliente.usuario}}</td>
+                                    <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="vertical-align:middle; text-align: center;" ng-click="vm.rowSelectedUsuarioCliente(usuarioCliente)">
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="vm.eventClickEditarUsuario(usuarioCliente)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-info btn-xs" ng-click="vm.eventClickFormatearContrasena(usuarioCliente)"><i class="fa fa-key" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="vm.eliminarUsuario(usuarioCliente, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-success btn-sm" ng-click="vm.eventClickCrearUsuario()">Crear usuario</button>
+                        <dir-pagination-controls pagination-id="gridUsuarios"></dir-pagination-controls>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-if="vm.usuarioSelected.permisos">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Permisos</b>
+                    </div>
+                    <div class="panel-body">
+                        <div ng-repeat="permiso in vm.permisos">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-class="permiso.id" ng-disabled="vm.editarPermisos" ng-model="permiso.checked">{{permiso.nombre}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div ng-if="vm.editarPermisos">
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.editarPermisos = false">Editar permisos</button>
+                        </div>
+                        <div ng-if="!vm.editarPermisos">
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="vm.cancelarEdicionPermisos()">Cancelar</button>
+                            <button type="button" class="btn btn-success btn-sm" ng-click="vm.guardarPermisos()">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+         data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Crear usuario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <form name="nuevoUsuarioForm">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label>Nombre *</label><br>
+                                        <input type="text" class="form-control" ng-model="vm.newUsuario.nombre" required/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Usuario *</label><br>
+                                        <input type="text"  class="form-control" ng-model="vm.newUsuario.usuario" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Cargo</label><br>
+                                        <input type="text" size="10" class="form-control" ng-model="vm.newUsuario.cargo" >
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Contraseña *</label><br>
+                                        <input type="password" name="contrasena" ng-minlength="8" ng-maxlength="20" class="form-control" ng-model="vm.newUsuario.contrasena" required>
+                                        <span class="error" ng-show="nuevoUsuarioForm.contrasena.$error.minlength || nuevoUsuarioForm.contrasena.$error.maxlength">
+                                            <small class="text-danger">La contraseña debe contener mínimo 8 caracteres y máximo 20.</small>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Confirmar contraseña *</label><br>
+                                        <input type="password" ng-minlength="8" ng-maxlength="20" name="contrasena_c" class="form-control" ng-model="vm.newUsuario.contrasena_c" valid-password-c="nuevoUsuarioForm.contrasena" required >
+                                        <span ng-show="nuevoUsuarioForm.contrasena_c.$error.validPasswordC" class="error">
+                                            <small class="text-danger">Las contraseñas no coinciden</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!nuevoUsuarioForm.$valid" ng-click="vm.crearUsuario()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editarUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+         data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Editar usuario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <form name="editarUsuarioForm">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label>Nombre *</label><br>
+                                        <input type="text" class="form-control" ng-model="vm.usuarioSelected.nombre" required/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Usuario *</label><br>
+                                        <input type="text"  class="form-control" ng-model="vm.usuarioSelected.usuario" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Cargo</label><br>
+                                        <input type="text" size="10" class="form-control" ng-model="vm.usuarioSelected.cargo" >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!editarUsuarioForm.$valid" ng-click="vm.editarUsuario()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="resetContrasenaUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false"
+         data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Formatear contraseña de usuario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <form name="resetContrasenaUsuarioForm">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Contraseña *</label><br>
+                                        <input type="password" name="contrasena" ng-minlength="8" ng-maxlength="20" class="form-control" ng-model="vm.usuarioSelected.contrasena" required>
+                                        <span class="error" ng-show="resetContrasenaUsuarioForm.contrasena.$error.minlength || resetContrasenaUsuarioForm.contrasena.$error.maxlength">
+                                            <small class="text-danger">La contraseña debe contener mínimo 8 caracteres y máximo 20.</small>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Confirmar contraseña *</label><br>
+                                        <input type="password" name="contrasena_c" ng-minlength="8" ng-maxlength="20" class="form-control" ng-model="vm.usuarioSelected.contrasena_c" valid-password-c="resetContrasenaUsuarioForm.contrasena" required >
+                                        <span ng-show="resetContrasenaUsuarioForm.contrasena_c.$error.validPasswordC" class="error">
+                                            <small class="text-danger">Las contraseñas no coinciden</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!resetContrasenaUsuarioForm.$valid" ng-click="vm.formatearContrasena()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

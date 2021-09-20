@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>SoulSystem</title>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            .jqx-notification-container
+            {
+                z-index:1000000;
+            }
+        </style>
+        <link href="utils\bootstrap-3.3.7\css\bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="utils\font-awesome-4.6.3\css\font-awesome.css" rel="stylesheet" type="text/css"/>
+        <!--<link rel="stylesheet" href="views/jqwidgets/jqwidgets/styles/jqx.base.css" type="text/css" />-->
+        <link href="utils/jqwidgets-4.5.0/styles/jqx.base.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="views/jqwidgets/jqwidgets/styles/sgm1personal.css" type="text/css" />
+
+        <!--<link rel="stylesheet" href="views/jqwidgets/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />-->
+
+        <script type="text/javascript" src="views/jqwidgets/scripts/jquery-2.0.2.min.js"></script>
+    </head>
+    <body style="margin: 0; padding: 0; border: 0" >
+        <div id="wrapper">
+            <div  style="border-style: solid;width: 100%;height: 125px;border: 0;background-color: #000087 " >
+                <div style="border-style: solid;width: 10%;height:100%;float: left;border: 0 ">                    
+                    #LOGO_LAB#
+
+                </div>
+                <div style="border-style: solid;width: 10%;height:100%;float: left;border: 0 ">                    
+
+                    <p>#NOM_LAB#</p>
+                </div>
+                <div style="border-style: solid;width: 60%;height:100%;float: left;border: 0">
+                    #LOGO_APP#
+                </div>
+                <div style="border-style: solid;width: 20%;height:100%;float: left; border: 0">
+                    #PERFIL#
+                </div>
+            </div>
+            <div style="border-style: solid;border: 0;height: auto; margin-top: 0px;padding-top: 0px">
+                <div style="border-style: solid; border: 0; width:100%;
+                     height: auto;margin-left: 0%;margin-right: 0%; margin-top: 0px; padding-top: 0px">  
+                    #MENU#
+                </div>
+            </div>
+            <div style="border-style: solid;border: 0;height: auto;">
+                <div style="border-style: solid;border: 0;width: 90%;
+                     height: 100%;margin-left: 5%;margin-right: 5%">
+                    #CONTENIDO#                      
+                </div>
+            </div >
+            <div style="text-align: center; border-style: solid; border: 0; height: 10px; width: 100%; margin-left: 0%">
+                <center><img src="views/images/mr1.png" style="height: 15px" /></center>
+            </div>
+        </div>
+        <script type="text/javascript" src="views/scripts/angular/angular.min.js"></script>
+        <script type="text/javascript" src="utils\angular-locale_es-co.js"></script>
+        <!--<script type="text/javascript" src="views/jqwidgets/jqwidgets/jqxangular.js"></script>-->
+        <script src="utils/jqwidgets-4.5.0/jqxangular.js" type="text/javascript"></script>
+        <script src="utils/helpers/dimensiones.js" type="text/javascript"></script>
+        <script src="utils/helpers/parse-options.js" type="text/javascript"></script>
+        <script type="text/javascript" src="views/scripts/menu.js"></script>
+        <script type="text/javascript" src="views/scripts/custom.js"></script> 
+        <!--<script type="text/javascript" src="views/jqwidgets/jqwidgets/jqx-all.js"></script>-->
+        <script src="utils/jqwidgets-4.5.0/jqx-all.js" type="text/javascript"></script>
+        <script src="utils\bootstrap-3.3.7\js\bootstrap.min.js" type="text/javascript"></script>
+        <!--Script angular strap-->
+        <script type="text/javascript" src="utils\angular-strap\angular-strap.min.js"></script> 
+        <script type="text/javascript" src="utils\angular-strap\angular-strap.tpl.min.js"></script>
+
+        <!--import angular charts-->
+        <script type="text/javascript" src="utils/charts/ng-google-chart.js"></script>
+        <script type="text/javascript" src="utils/charts/ng-google-chart.min.js"></script>
+
+        <script type="text/javascript" src="utils/angular-sanitize.js"></script>
+        <script type="text/javascript" src="utils/angular-sanitize.min.js"></script>
+
+        <script src="utils/charts2/chart.js/dist/Chart.min.js" type="text/javascript"></script>
+        <script src="utils/charts2/angular-chart.js/dist/angular-chart.min.js" type="text/javascript"></script>
+
+
+        <script type="text/javascript" src="views/scripts/muestraModule/regMuestraScripts/regMuestraModuleApp.js"></script>
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra.component.js"></script>
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra-jqx-settings.js"></script>
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra-charge-muestra.service.js"></script>
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra-save-muestra-fq.js"></script>        
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra-save-muestra-est.js"></script>
+        <script type="text/javascript" src="views/ComponentsJS/regMuestra/reg-muestra-services.js"></script>
+
+        <script src="views/ComponentsJS/admin-medio-cultivo/admin-medio-cultivo.component.js" type="text/javascript"></script>
+        <script src="views/ComponentsJS/admin-medio-cultivo/admin-medio-cultivo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin-ensayo-->
+        <script src="views\ComponentsJS\admin-ensayo\admin-ensayo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-ensayo\admin-ensayo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin cepa-->
+        <script src="views\ComponentsJS\admin-cepa\admin-cepa.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-cepa\admin-cepa.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin Hoja de trabajo-->
+        <script src="views\ComponentsJS\hoja-trabajo\hoja-trabajo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\hoja-trabajo\hoja-trabajo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin Reactivo-->
+        <script src="views\ComponentsJS\admin-reactivo\admin-reactivo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-reactivo\admin-reactivo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin Estándares-->
+        <script src="views\ComponentsJS\admin-estandar\admin-estandar.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-estandar\admin-estandar.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin bandejas de entrada-->
+        <script src="views\ComponentsJS\admin-bandeja-entrada\admin-bandeja-entrada.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-bandeja-entrada\admin-bandeja-entrada.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS bandejas de entrada-->
+        <script src="views\ComponentsJS\bandeja-entrada\bandeja-entrada.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\bandeja-entrada\bandeja-entrada.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS ensayo/equipo-->
+        <script src="views\ComponentsJS\admin-ensayo-equipo\admin-ensayo-equipo.componente.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-ensayo-equipo\admin-ensayo-equipo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS principio activo-->
+        <script src="views\ComponentsJS\admin-principio-activo\admin-principio-activo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-principio-activo\admin-principio-activo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin usuario--> 
+        <script src="views\ServicesJS\usuario\usuario.service.js" type="text/javascript"></script> 
+        <script src="views\ComponentsJS\admin-usuario\admin-usuario.component.js" type="text/javascript"></script> 
+        <script src="views\ComponentsJS\admin-usuario\admin-usuario.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS paquete-->
+        <script src="views\ComponentsJS\admin-paquete/admin-paquete.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-paquete\admin-paquete.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS producto ensayo Reactivo-->
+        <script src="views\ComponentsJS\admin-producto-ensayo-reactivo\admin-producto-ensayo-reactivo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-producto-ensayo-reactivo\admin-producto-ensayo-reactivo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS columna-->
+        <script src="views\ComponentsJS\admin-columna\admin-columna.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-columna\admin-columna.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS condicion cromatografica-->
+        <script src="views\ComponentsJS\admin-condicion-cromatografica\admin-condicion-cromatografica.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-condicion-cromatografica\admin-condicion-cromatografica.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS producto-->
+        <script src="views\ComponentsJS\admin-producto\admin-producto.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-producto\admin-producto.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS lista columnas-->
+        <script src="views\ComponentsJS\lista-columnas\lista-columnas.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\lista-columnas\lista-columnas.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe certificado analisis-->
+        <script src="views\ComponentsJS\informe-certificado-analisis\informe-certificado-analisis.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-certificado-analisis\informe-certificado-analisis.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS lista estándares-->
+        <script src="views\ComponentsJS\lista-estandares\lista-estandares.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\lista-estandares\lista-estandares.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe reanalisiss-->
+        <script src="views\ComponentsJS\informe-reanalisis\informe-reanalisis.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-reanalisis\informe-reanalisis.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe analista-->
+        <script src="views\ComponentsJS\informe-analista\informe-analista.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-analista\informe-analista.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe estadistico muestra-->
+        <script src="views\ComponentsJS\informe-estadistico-muestra\informe-estadistico-muestra.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-estadistico-muestra\informe-estadistico-muestra.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin metodo-->
+        <script src="views\ComponentsJS\admin-metodo\admin-metodo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-metodo\admin-metodo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS usuario cliente-->
+        <script src="views\ComponentsJS\admin-usuario-cliente\admin-usuario-cliente.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-usuario-cliente\admin-usuario-cliente.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe estabilidad salir-->
+        <script src="views\ComponentsJS\informe-estabilidad-salir\informe-estabilidad-salir.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-estabilidad-salir\informe-estabilidad-salir.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe uso reactivos por muestra-->
+        <script src="views\ComponentsJS\informe-uso-reactivos-muestra\informe-uso-reactivos-muestra.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-uso-reactivos-muestra\informe-uso-reactivos-muestra.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe resumen de muestras-->
+        <script src="views\ComponentsJS\informe-resumen-muestras\informe-resumen-muestras.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-resumen-muestras\informe-resumen-muestras.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS equipo-->
+        <script src="views\ComponentsJS\admin-equipo\admin-equipo.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-equipo\admin-equipo.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin perfil-->
+        <script src="views\ComponentsJS\admin-perfil\admin-perfil.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-perfil\admin-perfil.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin forma farmaceutica-->
+        <script src="views\ComponentsJS\admin-forma-farmaceutica\admin-forma-farmaceutica.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-forma-farmaceutica\admin-forma-farmaceutica.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS admin tipo producto-->
+        <script src="views\ServicesJS\tipo-producto\tipo-producto.service.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-tipo-producto\admin-tipo-producto.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-tipo-producto\admin-tipo-producto.service.js" type="text/javascript"></script>
+
+        <!--Script componente informe tendencia 1-->
+        <script src="views/ComponentsJS/infrome-tendencia/informe-tendencia.component.js" type="text/javascript"></script>
+
+
+
+        <!--Script componente JS lista estándares-->
+        <script src="views\ComponentsJS\informe-consumo-muestra\informe-consumo-muestra.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-consumo-muestra\informe-consumo-muestra.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS consulta muestras -->
+        <script src="views\ComponentsJS\consulta-muestras\consulta-muestras.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS lista reactivos-->
+        <script src="views\ComponentsJS\lista-reactivos\lista-reactivos.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\lista-reactivos\lista-reactivos.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE muestra estados-->
+        <script src="views\ComponentsJS\be-muestras-estado\be-muestras-estado.component.js" type="text/javascript"></script>
+
+        <script src="views\ComponentsJS\informe-evento-muestra\informe-evento-muestra.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\informe-evento-muestra\informe-evento-muestra.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS historico estados-->
+        <script src="views\ComponentsJS\historico-estados\historico-estados.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\historico-estados\historico-estados.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE admin envase-->
+        <script src="views\ComponentsJS\admin-envase\admin-envase.component.js" type="text/javascript"></script>
+        <script src="views\ComponentsJS\admin-envase\admin-envase.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE muestra por tipo producto-->
+        <script src="views\ComponentsJS\be-muestras-por-tipo-producto\be-muestras-por-tipo-producto.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE estabilidad ensayos programados -->
+        <script src="views\ComponentsJS\be-est-ensayos-programados\be-est-ensayos-programados.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE estabilidad ensayos analizados -->
+        <script src="views\ComponentsJS\be-est-ensayos-analizados\be-est-ensayos-analizados.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE estabilidad ensayos transcritos -->
+        <script src="views\ComponentsJS\be-est-ensayos-transcritos\be-est-ensayos-transcritos.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE estabilidad muestras terminadas -->
+        <script src="views\ComponentsJS\be-est-muestras-terminadas\be-est-muestras-terminadas.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras terminadas -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-muestras-terminadas\be-muestras-terminadas.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras fq gerencia -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-muestras-gerencia\be-muestras-gerencia.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras est gerencia -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-est-muestras-gerencia\be-est-muestras-gerencia.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  grafica uso de reactivos -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-grafica-uso-reactivos\be-grafica-uso-reactivos.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  grafica uso de estandares -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-grafica-uso-estandares\be-grafica-uso-estandares.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS programacion analistas 2 -->
+        <script src="views\ComponentsJS\programacion-analistas/programacion-analistas.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras facturacion-->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-muestras-facturacion\be-muestras-facturacion.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras entregadas-->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-muestras-entrega\be-muestras-entrega.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS Admin tercero-->
+        <script src="views\ComponentsJS\admin-tercero\admin-tercero.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  grafica participación clientes -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-grafica-participacion-clientes\be-grafica-participacion-clientes.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  grafica participación clientes est -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-est-grafica-participacion-clientes\be-est-grafica-participacion-clientes.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras programadas tercero -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-muestras-programadas-tercero\be-muestras-programadas-tercero.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS BE  muestras est programadas tercero -->
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-est-muestras-programadas-tercero\be-est-muestras-programadas-tercero.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe evento muestra estabilidad -->
+        <script src="views\ComponentsJS\informe-evento-muestra-estabilidad\informe-evento-muestra-estabilidad.component.js" type="text/javascript"></script>
+
+        <!--Script componente JS informe ocupacion analista-->     
+        <script src="views\ComponentsJS\informe-ocupacion-analista\informe-ocupacion-analista.component.js" type="text/javascript"></script>     
+        <script src="views\ComponentsJS\informe-ocupacion-analista\informe-ocupacion-analista.service.js" type="text/javascript"></script>
+
+        <!--Script componente JS hoja calculo-->
+            <!--Script componente JS hoja-->
+                <!--Script componente JS valoracion hplc-->
+                    <script src="views\ComponentsJS\hojas-calculo\hoja\hoja-calculo\hoja-calculo.component.js" type="text/javascript"></script>
+                    <script src="views\ComponentsJS\hojas-calculo\hoja\hoja-calculo\hoja-calculo.service.js" type="text/javascript"></script>
+                <!-- -->
+            <!-- -->
+            <!--Script componente JS funciones-->
+                <!--Script componente JS estandares-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\estandares\estandares.component.js" type="text/javascript"></script>
+                <!-- -->
+                <!--Script componente JS muestras-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\muestras\muestras.component.js" type="text/javascript"></script>
+                <!-- -->
+                <!--Script componente JS calulos-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\calculos\calculos.component.js" type="text/javascript"></script>
+                <!-- -->
+                <!--Script componente JS datos-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\datos\datos.component.js" type="text/javascript"></script>
+                <!-- -->
+                <!--Script componente JS alicuotas-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\alicuotas\alicuotas.component.js" type="text/javascript"></script>
+                <!-- -->
+                <!--Script componente JS modelo calculos-->
+                    <script src="views\ComponentsJS\hojas-calculo\funciones\modeloCalculos\modeloCalculos.component.js" type="text/javascript"></script>
+                <!-- -->
+            <!-- -->
+        <!-- -->
+
+        <!--Script componente JS BE  grafica desempeño analistas -->     
+        <script src="views\ComponentsJS\bandeja-entrada\components\be-grafica-desempeno-analistas\be-grafica-desempeno-analistas.component.js" type="text/javascript"></script>     
+
+        <script src="views/ServicesJS/tercero/tercero.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/areaAnalisis/area-analisis.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/areaMicrobiologica/area-microbiologica.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/producto/producto.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/empaque/empaque.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/envase/envase.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/productoEnsayoMuestra/producto-ensayo-muestra.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/metodo/metodo.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/muestra/muestra.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/tipoMuestra/tipo-muestra.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/tipoEstabilidad/tipo-estabilidad.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/duracionEstabilidad/duracion-estabilidad.service.js" type="text/javascript"></script>
+        <script src="views/ServicesJS/equipo/equipo.service.js" type="text/javascript"></script>
+        <script src="views\ServicesJS\ensayo\ensayo.service.js" type="text/javascript"></script>
+        <script src="views\ServicesJS\ensayo-mic-equipo\ensayo-mic-equipo.service.js" type="text/javascript"></script>
+        <script src="views\ServicesJS\medio-cultivo\medio-cultivo.service.js" type="text/javascript"></script>
+        <script src="views\ServicesJS\lote-medio-cultivo\lote-medio-cultivo.service.js" type="text/javascript"></script>
+        <script src="views\ServicesJS\cepa\cepa.service.js" type="text/javascript"></script>
+        <!--carga servicio de utils-->
+        <script src="views\ServicesJS\util\util.service.js" type="text/javascript"></script>
+        <!--carga servicio de plantilla-->
+        <script src="views\ServicesJS\plantilla\plantilla.service.js" type="text/javascript"></script>
+        <!--carga servicio de lote cepa-->
+        <script src="views\ServicesJS\lote-cepa\lote-cepa.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Reactivo-->
+        <script src="views\ServicesJS\reactivo\reactivo.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Estandar-->
+        <script src="views\ServicesJS\estandar\estandar.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Estandar-->
+        <script src="views\ServicesJS\ensayo-muestra\ensayo-muestra.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Lotes reactivos-->
+        <script src="views\ServicesJS\lote-reactivo\lote-reactivo.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Estandar-->
+        <script src="views\ServicesJS\resultado\resultado.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de Lotes estandares-->
+        <script src="views\ServicesJS\lote-estandar\lote-estandar.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de admin bandejas de entrada-->
+        <script src="views\ServicesJS\admin-bandeja-entrada\admin-bandeja-entrada.service.js" type="text/javascript"></script> 
+
+        <!--carga servicio de bandeja de entrada-->
+        <script src="views\ServicesJS\bandeja-entrada\bandeja-entrada.service.js" type="text/javascript"></script>
+
+        <!--carga servicio ensayo/equipo-->
+        <script src="views\ServicesJS\ensayo-equipo\ensayo-equipo.service.js" type="text/javascript"></script>
+
+        <!--carga servicio principio activo-->
+        <script src="views\ServicesJS\principio-activo\principio-activo.service.js" type="text/javascript"></script>
+
+        <!--carga servicio paquete-->
+        <script src="views\ServicesJS\paquete\paquete.service.js" type="text/javascript"></script>
+
+        <!--carga servicio muestra estandar lote-->
+        <script src="views\ServicesJS\muestra-estandar-lote\muestra-estandar-lote.service.js" type="text/javascript"></script>
+
+        <!--carga servicio producto ensayo reactivo-->
+        <script src="views\ServicesJS\producto-ensayo-reactivo\producto-ensayo-reactivo.service.js" type="text/javascript"></script>
+
+        <!--carga servicio producto ensayo estandar-->
+        <script src="views\ServicesJS\producto-ensayo-estandar\producto-ensayo-estandar.service.js" type="text/javascript"></script>
+
+        <!--carga servicio columna-->
+        <script src="views\ServicesJS\columna\columna.service.js" type="text/javascript"></script>
+
+        <!--carga servicio condicion cromatografica-->
+        <script src="views\ServicesJS\condicion-cromatografica\condicion-cromatografica.service.js" type="text/javascript"></script>
+
+        <!--carga servicio perfil-->
+        <script src="views\ServicesJS\perfil\perfil.service.js" type="text/javascript"></script>
+
+        <!--carga servicio de paginacion-->
+        <script src="utils\dir-pagination\dirPagination.js" type="text/javascript"></script>
+
+        <script src="views/ComponentsJS/sgm-jqx-typeahead/sgm-typeahead.components.js" type="text/javascript"></script>
+    </body>
+</html>
+
+

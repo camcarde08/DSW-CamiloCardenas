@@ -1,0 +1,56 @@
+<br>
+<div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="vertical-align:middle; text-align: center">
+                        <b>ESTÁNDAR</b>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="vertical-align:middle; text-align: center">LECTURA</th>
+                            <th style="vertical-align:middle; text-align: center">ÁREA (AMta) o Abs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(keyArea, area) in vm.standar.areas track by $index">
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                {{ $index +1}}
+                            </td>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                <input style="text-align: center" type="number" string-to-number class="form-control" ng-model="vm.standar.areas[keyArea]" required/>
+                            </td>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                <button class="centered btn btn-danger" title="Eliminar Lectura" type="button" ng-click="vm.eliminarLectura(keyArea)">
+                                    <i class="fa fa-minus-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                <b>PROMEDIO</b>
+                            </td>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                {{ vm.standar.promedio }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                <b>%CV</b>
+                            </td>
+                            <td style="vertical-align:middle; text-align: center" class="centered">
+                                {{ vm.standar.cv }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="centered btn btn-success" title="Adicionar Lectura" type="button" ng-click="vm.adicionarLectura()">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar lectura
+            </button>
+        </div>
+    </div>
+</div>

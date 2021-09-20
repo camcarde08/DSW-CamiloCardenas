@@ -1,0 +1,19 @@
+{
+    "name": "vendor/s-g-m-l-q-f",
+    "description": "Description of project SGMLQF.",
+    "authors": [
+        {
+            "name": "hidro",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^5.4",
+        "aferrandini/phpqrcode": "1.0.1"
+    }
+	“autoload”: {
+ “psr-4”: {
+ “Controllers\\”: “app/controllers/”,
+ “Models\\”: “app/models/” }
+ }
+}

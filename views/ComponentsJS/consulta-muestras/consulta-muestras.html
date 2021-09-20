@@ -1,0 +1,374 @@
+<style>
+
+    .sgm-titulo {
+        color: #000087;
+    }
+
+    .container-table {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+</style>
+
+<div class="row">
+    <!--Titulo-->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Consulta de análisis</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Análisis Fisicoquímicos</div>
+            <div class="panel-body">
+                <div style="width: 100%; overflow-x: scroll;"> 
+                    <table class="table"> 
+                        <tr> 
+                            <th style="width: 50px; min-width: 50px; text-align: center;"></th>
+                            <th style="width: 100px; min-width: 100px; text-align: center;" ng-show="vm.sesionUserData.session.eventoMuestra == 'true'"></th>
+                            <th style="width: 50px; min-width: 50px; text-align: center;" ng-show="vm.sesionUserData.session.anularMuestra">Anular</th>
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Prefijo</th> 
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Número</th> 
+                            <th style="width: 400px; min-width: 400px; text-align: center;">Producto</th> 
+                            <th style="width: 300px; min-width: 300px; text-align: center;">Cliente</th> 
+                            <th style="width: 200px; min-width: 200px; text-align: center;">Lote</th> 
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Estado</th> 
+                            <th style="width: 150px; min-width: 150px; text-align: center;">F. Llegada</th> 
+                            <th style="width: 150px; min-width: 150px; text-align: center;">F. Compromiso</th> 
+                            <th style="width: 300px; min-width: 300px; text-align: center;">Observaciones</th> 
+                            <th style="width: 200px; min-width: 200px; text-align: center;">Contacto</th> 
+                            <th style="width: 100px; min-width: 100px; text-align: center;">Num. Factura</th> 
+                            <th style="width: 100px; min-width: 100px; text-align: center;">F. Entrega</th> 
+                        </tr> 
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td ng-show="vm.sesionUserData.session.eventoMuestra == 'true'"></td>
+                            <td ng-show="vm.sesionUserData.session.anularMuestra"></td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.prefijo" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.customId" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.producto" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.tercero" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.lote" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.estadoMuestra" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.fechaLlegada" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.fechaCompromiso" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.observacion" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.contacto" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.numFactura" ng-change="vm.changeFilterHeader()">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control" ng-model="vm.filter.fechaEntrega" ng-change="vm.changeFilterHeader()">
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in vm.muestras">
+                            <td>
+                                <button class="btn btn-sm btn-primary" ng-click="vm.consultarMuestra($index)">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td ng-show="vm.sesionUserData.session.eventoMuestra == 'true'">
+                                <button class="btn btn-sm btn-info" ng-click="vm.openModalAuditoria(item)">Eventos
+                                </button>
+                            </td>
+                            <td ng-show="vm.sesionUserData.session.anularMuestra">
+                                <button class="btn btn-sm btn-danger" ng-disabled="item.id_estado_muestra == 11" ng-click="vm.eventClickAnularMuestra(item)">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.prefijo}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.custom_id}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.producto}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.tercero}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.lote}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.estado_muestra}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.fecha_llegada}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.fecha_compromiso}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.observacion}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.contacto}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.num_factura}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{ item.fecha_entrega}}
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.muestras.length == 0">
+                            <td>
+                                No se encontraron registros
+                            </td>
+                        </tr>
+                        <tr ng-if="vm.loading">
+                            <td>
+                                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                Consultado registros un momento por favor ...
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;"> 
+                    Página: 
+                    <input style="width: 60px; display: inline" type="number" class="form-control" ng-model="vm.filter.pagina" ng-change="vm.changeFilter()"
+                           ng-disabled="true"> 
+                    / {{ vm.maxPage}} 
+                    <button class="btn btn-danger btn-sm" ng-click="vm.firstPage()">
+                        <i class="fa fa-step-backward" aria-hidden="true"></i>
+                    </button> 
+                    <button class="btn btn-danger btn-sm" ng-click="vm.resPage()">
+                        <i class="fa fa-backward" aria-hidden="true"></i>
+                    </button> 
+                    <button class="btn btn-danger btn-sm" ng-click="vm.addPage()">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                    </button> 
+                    <button class="btn btn-danger btn-sm" ng-click="vm.lastPage()">
+                        <i class="fa fa-step-forward" aria-hidden="true"></i>
+                    </button> 
+                    <div style="float: right">
+                        Registros por página
+                        <input type="radio" ng-model="vm.filter.cantidad" value="5" ng-change="vm.changeFilterHeader()"> 5
+                        <input type="radio" ng-model="vm.filter.cantidad" value="10" ng-change="vm.changeFilterHeader()"> 10
+                        <input type="radio" ng-model="vm.filter.cantidad" value="20" ng-change="vm.changeFilterHeader()"> 20
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="motivoAnulacionModal" tabindex="-1" role="dialog" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Anular muestra {{vm.muestraAnular.prefijo}}-{{vm.muestraAnular.custom_id}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form name="anularMuestraForm">
+                            <div class="form-group">
+                                <label for="motivo">Motivo de anulación</label>
+                                <textarea id="motivo" class="form-control" style="resize:none;" rows="6" ng-model="vm.muestraAnular.motivo" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!anularMuestraForm.$valid" ng-click="vm.anularMuestra()">Anular</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="auditoriaMuestraModal" tabindex="-1" role="dialog" data-keyboard="false"
+     data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Eventos de la muestra</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">  
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+                        <div ng-show="!vm.selectedMuestraDetalle">  
+                            <div class="panel panel-default">  
+                                <div class="panel-heading">  
+                                    <table class="table table-responsive" style="margin-bottom: 0px;">  
+                                        <thead>  
+                                            <tr>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Fecha</th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Usuario</th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Evento</th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Razón</th>  
+                                            </tr>  
+                                            <tr>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">  
+                                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha">  
+                                                </th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">  
+                                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">  
+                                                </th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">  
+                                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.evento">  
+                                                </th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">  
+                                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.razon">  
+                                                </th>  
+                                            </tr>  
+                                        </thead>  
+                                    </table>  
+                                </div>  
+                                <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">  
+                                    <table class="table table-hover">  
+                                        <tbody>  
+                                            <tr style="cursor: default" ng-class="{info: auditoria.selected}" dir-paginate="auditoria in vm.muestrasAuditoria | filter :{fecha: vm.filter.fecha, nombre: vm.filter.nombre, evento: vm.filter.evento, razon: vm.filter.razon} | itemsPerPage:10 " pagination-id="paginacionAuditoriaMuestra" 
+                                                ng-click="vm.selectedMuestraAud(auditoria)" >  
+                                                <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;">{{auditoria.fecha}}</td>  
+                                                <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;">{{auditoria.nombre}}</td>  
+                                                <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;">{{auditoria.evento}}</td>  
+                                                <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="vertical-align:middle; text-align: center;">{{auditoria.razon}}</td>  
+                                            </tr>  
+                                        </tbody>  
+                                    </table>  
+                                </div>  
+                                <div class="panel-footer">  
+                                    <div class="row">  
+                                        <dir-pagination-controls pagination-id="paginacionAuditoriaMuestra"></dir-pagination-controls>  
+                                    </div>  
+                                </div>  
+                            </div>  
+                        </div>
+                        <div ng-show="vm.selectedMuestraDetalle">  
+                            <div>
+                                <h1 class="col-xs-10 col-sm-10 col-md-10 col-lg-10"></h1>
+                                <button type="button" class="btn btn-danger" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-click="vm.regresarModalAuditoria()">Regresar</button>
+                            </div>
+                            <br>
+                            <div class="panel panel-default">  
+                                <div class="panel-heading">
+                                    <table  class="table table-responsive" style="margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Fecha</th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">Usuario</th>  
+                                                <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Evento</th>  
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="panel-body">  
+                                    <table class="table table-hover">  
+                                        <tbody>  
+                                            <tr>  
+                                                <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="vertical-align:middle; text-align: center;">{{vm.muestrasAuditoriaDetalle.fecha}}</td>  
+                                                <td class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="vertical-align:middle; text-align: center;">{{vm.muestrasAuditoriaDetalle.nombre}}</td>  
+                                                <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="vertical-align:middle; text-align: center;">{{vm.muestrasAuditoriaDetalle.evento}}</td>  
+                                            </tr>
+                                        </tbody>  
+                                    </table>  
+                                </div>  
+                            </div>
+                            <br>
+                            <div class="panel panel-default">  
+                                <div class="panel-heading">
+                                    <table  class="table table-responsive" style="margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>  
+                                                <th style="text-align: left; border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Observación: </th>  
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="panel-body">  
+                                    <table class="table table-hover">  
+                                        <tbody>  
+                                            <tr>  
+                                                <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="vertical-align:middle; text-align: left;">{{vm.muestrasAuditoriaDetalle.razon}}</td>  
+                                            </tr>
+                                        </tbody>  
+                                    </table>  
+                                </div>  
+                            </div>
+                            <br>
+                            <div class="panel panel-default">  
+                                <div class="panel-heading">
+                                    <table  class="table table-responsive" style="margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>  
+                                                <th style="text-align: left; border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Old: </th>  
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="panel-body">  
+                                    <table class="table table-hover">  
+                                        <tbody>  
+                                            <tr>  
+                                                <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="vertical-align:middle; text-align: left;">{{vm.muestrasAuditoriaDetalle.old}}</td>  
+                                            </tr>
+                                        </tbody>  
+                                    </table>  
+                                </div>  
+                            </div>
+                            <br>
+                            <div class="panel panel-default">  
+                                <div class="panel-heading">
+                                    <table  class="table table-responsive" style="margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>  
+                                                <th style="text-align: left; border-bottom: 0;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">New: </th>  
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="panel-body">  
+                                    <table class="table table-hover">  
+                                        <tbody>  
+                                            <tr>  
+                                                <td class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="vertical-align:middle; text-align: left;">{{vm.muestrasAuditoriaDetalle.new}}</td>  
+                                            </tr>
+                                        </tbody>  
+                                    </table>  
+                                </div>  
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="notificationAdminPerfil">
+    <span id="messageNotificationAdminPerfil"></span>
+</div>

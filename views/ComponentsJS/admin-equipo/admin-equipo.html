@@ -1,0 +1,429 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+    .fecha-vencida{
+        color: #E10505;
+    }
+    .fecha-proxima{
+        color: #FF9E00
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="sgm-titulo">Administración de equipos</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Código</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Modelo</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Descripción</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Próximo mantenimiento</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Próxima calibración</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">Próxima calificación</th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Opciones</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.codigo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.modelo">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.descripcion">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_mantenimiento">
+                                    </th>                                    
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_calibracion">
+                                    </th>                                    
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                        <input class="form-control input-sm" type="text" ng-model="vm.filter.fecha_calificacion">
+                                    </th>
+                                    <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                        <table class="table">
+                            <tbody>
+                                <tr style="cursor: default" ng-class="{info: equipo.selected}" ng-repeat="equipo in vm.equipos
+                                            | filter: {cod_inventario: vm.filter.codigo, modelo: vm.filter.modelo, descripcion: vm.filter.descripcion, 
+                                        fecha_prox_mantenimiento: vm.filter.fecha_mantenimiento, fecha_prox_calibracion: vm.filter.fecha_calibracion,
+                                    fecha_prox_calificacion: vm.filter.fecha_calificacion}">
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{equipo.cod_inventario}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >{{equipo.modelo}}</td>
+                                    <td style="vertical-align:middle; text-align: center;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >{{equipo.descripcion}}</td>
+                                    <td ng-class="equipo.prox_mantenimiento" style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >{{vm.validarFecha(equipo.fecha_prox_mantenimiento)}}</td>
+                                    <td ng-class="equipo.prox_calibracion" style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >{{vm.validarFecha(equipo.fecha_prox_calibracion)}}</td>
+                                    <td ng-class="equipo.prox_calificacion" style="vertical-align:middle; text-align: center;" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >{{vm.validarFecha(equipo.fecha_prox_calificacion)}}</td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2" align="center">
+                                        <button type="button" class="btn btn-success" ng-click="vm.openModalEditEquipo(equipo)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-danger" ng-click="vm.eliminarEquipo(equipo, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-click="vm.openModalNewEquipo()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo equipo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editEquipoSelectedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Modificar equipo</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="equipoSelectedForm">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="numero">Código:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="numero" type="text" ng-model="vm.equipoSelected.cod_inventario" required/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="tipo">Modelo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="tipo" type="text" ng-model="vm.equipoSelected.modelo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="marca">Serie:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="marca" type="text" ng-model="vm.equipoSelected.serie"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="serial">Descripción:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="serial" type="text" ng-model="vm.equipoSelected.descripcion" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="dimensiones">Marca:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="dimensiones" type="text" ng-model="vm.equipoSelected.marca"/>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="proveedor">Proveedor:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="proveedor" type="text" ng-model="vm.equipoSelected.proveedor_mant"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha último mantenimiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_mantenimiento" ng-model="vm.equipoSelected.fecha_ult_mant" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próximo mantenimiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_mantenimiento" ng-model="vm.equipoSelected.fecha_prox_mantenimiento" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha última calibración:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_calibracion" ng-model="vm.equipoSelected.fecha_ult_calib" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próxima calibración:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_calibracion" ng-model="vm.equipoSelected.fecha_prox_calibracion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha última calificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_calificacion" ng-model="vm.equipoSelected.fecha_ult_calificacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próxima calificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_calificacion" ng-model="vm.equipoSelected.fecha_prox_calificacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalEditEquipo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmEditEquipoModal()" ng-disabled="!equipoSelectedForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="newEquipoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Crear equipo</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="newEquipoForm">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="numero">Código:*</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="numero" type="text" ng-model="vm.newEquipo.cod_inventario" required/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="tipo">Modelo:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="tipo" type="text" ng-model="vm.newEquipo.modelo" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="marca">Serie:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="marca" type="text" ng-model="vm.newEquipo.serie"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="serial">Descripción:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="serial" type="text" ng-model="vm.newEquipo.descripcion" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="dimensiones">Marca:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="dimensiones" type="text" ng-model="vm.newEquipo.marca"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="proveedor">Proveedor:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="proveedor" type="text" ng-model="vm.newEquipo.proveedor_mant"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha último mantenimiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_mantenimiento1" ng-model="vm.newEquipo.fecha_ult_mant" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próximo mantenimiento:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_mantenimiento1" ng-model="vm.newEquipo.fecha_prox_mantenimiento" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha última calibración:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_calibracion1" ng-model="vm.newEquipo.fecha_ult_calib" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próxima calibración:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_calibracion1" ng-model="vm.newEquipo.fecha_prox_calibracion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha última calificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_ult_calificacion1" ng-model="vm.newEquipo.fecha_ult_calificacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Fecha próxima calificación:</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    <jqx-date-time-input id="fecha_prox_calificacion1" ng-model="vm.newEquipo.fecha_prox_calificacion" jqx-ng-model jqx-width="'100%'" jqx-height="30"></jqx-date-time-input>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewEquipo()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.confirmNewEquipoModal()" ng-disabled="!newEquipoForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

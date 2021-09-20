@@ -1,0 +1,867 @@
+<style>
+    .sgm-titulo {
+        color: #000087;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="sgm-titulo">Administración de condiciones cromatográficas</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <table class="table table-responsive" style="margin-bottom: 0px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Código</th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">Nombre</th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Opciones</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.codigo">
+                                </th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <input class="form-control input-sm" type="text" ng-model="vm.filter.nombre">
+                                </th>
+                                <th style="text-align: center; border-bottom: 0;" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="panel-body" style="height: 300px; overflow-y: scroll; padding-right: 0;">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr style="cursor: default" ng-class="{info: condicionCromatografica.selected}" 
+                                dir-paginate="condicionCromatografica in vm.condicionesCromatograficas 
+                                | filter :{codigo: vm.filter.codigo, nombre: vm.filter.nombre} | itemsPerPage:20 " pagination-id="paginacionCondCroma" >
+                                <td  class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="vertical-align:middle; text-align: center;" ng-click="vm.condicionCromatograficaGridRowSelected(condicionCromatografica, $index)">{{condicionCromatografica.codigo}}</td>
+                                <td  class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="vertical-align:middle; text-align: center;" ng-click="vm.condicionCromatograficaGridRowSelected(condicionCromatografica, $index)">{{condicionCromatografica.nombre}}</td>
+                                <td align="center" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
+                                    <button type="button" class="btn btn-info" ng-click="vm.imprimircondicionCromatografica(condicionCromatografica, $index)"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-success" ng-click="vm.condicionCromatograficaGridRowSelected(condicionCromatografica, $index)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-danger" ng-click="vm.eliminarCondicionCromatografica(condicionCromatografica, $index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <dir-pagination-controls pagination-id="paginacionCondCroma"></dir-pagination-controls>
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-click="vm.openModalNewCondicionCromatografica()"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nueva condición cromatográfica</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="vm.condicionCromatograficaSelected">
+    <div id="elemPrueba" class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
+        <form name="actualizarCondForm">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    Detalle de la condición cromatográfica {{vm.condicionCromatograficaSelected.nombre}}
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="codigo">Código:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="codigo" type="text" ng-model="vm.condicionCromatograficaSelected.codigo" required/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="nombre" type="text" ng-model="vm.condicionCromatograficaSelected.nombre" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valorTr">Longitud de onda:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valorTr" ng-model="vm.condicionCromatograficaSelected.longitud_onda" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolFase">Fase móvil:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolFase" ng-model="vm.condicionCromatograficaSelected.fase_movil" ></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valorStopTime">Diluyente Valoración:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valorStopTime" ng-model="vm.condicionCromatograficaSelected.diluyente_valoracion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valSolFase">Referencia:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valSolFase" ng-model="vm.condicionCromatograficaSelected.referencia" ></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valSolDis">Concentración:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valSolDis" ng-model="vm.condicionCromatograficaSelected.concentracion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolDiso">Flujo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolDiso" ng-model="vm.condicionCromatograficaSelected.flujo" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valFlujo">Volumen inyección:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valFlujo" ng-model="vm.condicionCromatograficaSelected.volumen_inyeccion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantMuestra">Temperatura:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantMuestra" ng-model="vm.condicionCromatograficaSelected.temperatura" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Aptitud del sistema:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantXEstandar" ng-model="vm.condicionCromatograficaSelected.aptitud_sistema" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantEstandar">TR:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantEstandar" ng-model="vm.condicionCromatograficaSelected.tr" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="ecuaCalculo">Ecuación para el calculo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="ecuaCalculo" type="text" ng-model="vm.condicionCromatograficaSelected.ecuacion_calculo"></textarea>
+                            </div>
+                        </div>                                        
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="observaciones" type="text" ng-model="vm.condicionCromatograficaSelected.observaciones"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    Disolución
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Condiciones para disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantXEstandar" ng-model="vm.condicionCromatograficaSelected.disolucion_condiciones" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantEstandar">Longitud de onda:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantEstandar" ng-model="vm.condicionCromatograficaSelected.disolucion_longitud_onda" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="observaciones">Medio de disolución:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="observaciones" type="text" ng-model="vm.condicionCromatograficaSelected.disolucion_medio"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="ecuaCalculo">Ecuación para el calculo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="ecuaCalculo" type="text" ng-model="vm.condicionCromatograficaSelected.disolucion_ecuacion_calculo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolFase">Fase móvil:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolFase"  ng-model="vm.condicionCromatograficaSelected.disolucion_fase_movil" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolDiso">Flujo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolDiso" ng-model="vm.condicionCromatograficaSelected.disolucion_flujo" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valFlujo">Volumen inyección:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valFlujo" ng-model="vm.condicionCromatograficaSelected.disolucion_volumen_inyeccion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantMuestra">Temperatura:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantMuestra" ng-model="vm.condicionCromatograficaSelected.disolucion_temperatura" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Aptitud sistema:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantXEstandar" ng-model="vm.condicionCromatograficaSelected.disolucion_aptitud_sistema" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantEstandar">TR:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantEstandar" ng-model="vm.condicionCromatograficaSelected.disolucion_tr" ></textarea>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valSolFase">Diluyente:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valSolFase" ng-model="vm.condicionCromatograficaSelected.diluyente_disolucion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="referencia">Referencia:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="referencia" ng-model="vm.condicionCromatograficaSelected.disolucion_referencia" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="disConcentracion">Concentracion:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="disConcentracion" ng-model="vm.condicionCromatograficaSelected.disolucion_concentracion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="observaciones" ng-model="vm.condicionCromatograficaSelected.disolucion_observaciones" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    Firmas
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="elaborado">Elaborado por:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="elaborado" type="text" ng-model="vm.condicionCromatograficaSelected.elaborado_por">
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="revisado">Revisado por:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="revisado" type="text" ng-model="vm.condicionCromatograficaSelected.revisado_por">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="aprobado">Aprobado por:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="aprobado" type="text" ng-model="vm.condicionCromatograficaSelected.aprobado_por">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn btn-success" ng-disabled="!actualizarCondForm.$valid" ng-click="vm.confirmarCambiosCondicionCromatografica(vm.condicionCromatograficaSelected)" data-dismiss="alert">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="newCondicionCromatograficaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Crear nueva condición cromatográfica</h4>
+            </div>
+            <div class="modal-body">
+                <form name="newCondicionCromatograficaForm">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="codigo">Código:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="codigo" type="text" ng-model="vm.newCondicionCromatografica.codigo" required/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:*</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <input class="form-control" id="nombre" type="text" ng-model="vm.newCondicionCromatografica.nombre" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valorTr">Longitud de onda:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valorTr" ng-model="vm.newCondicionCromatografica.longitud_onda" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolFase">Fase móvil:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolFase"  ng-model="vm.newCondicionCromatografica.fase_movil" ></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valorStopTime">Diluyente Valoración:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valorStopTime" ng-model="vm.newCondicionCromatografica.diluyente_valoracion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="referencia">Referencia:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="referencia" ng-model="vm.newCondicionCromatografica.referencia" ></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valSolDis">Concentración:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valSolDis" ng-model="vm.newCondicionCromatografica.concentracion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="porSolDiso">Flujo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="porSolDiso" ng-model="vm.newCondicionCromatografica.flujo" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="valFlujo">Volumen inyección:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="valFlujo" ng-model="vm.newCondicionCromatografica.volumen_inyeccion" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantMuestra">Temperatura:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantMuestra" ng-model="vm.newCondicionCromatografica.temperatura" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantXEstandar">Aptitud sistema:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantXEstandar" ng-model="vm.newCondicionCromatografica.aptitud_sistema" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="cantEstandar">TR:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="cantEstandar" ng-model="vm.newCondicionCromatografica.tr" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="ecuaCalculo">Ecuación para el calculo:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="ecuaCalculo" type="text" ng-model="vm.newCondicionCromatografica.ecuacion_calculo"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones:</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <textarea class="form-control" id="observaciones" type="text" ng-model="vm.newCondicionCromatografica.observaciones"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            Disolución
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="cantXEstandar">Condiciones para disolución:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="cantXEstandar" ng-model="vm.newCondicionCromatografica.disolucion_condiciones"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="cantEstandar">Longitud de onda:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="cantEstandar" ng-model="vm.newCondicionCromatografica.disolucion_longitud_onda" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="observaciones">Medio de disolución:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="observaciones" type="text" ng-model="vm.newCondicionCromatografica.disolucion_medio"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="ecuaCalculo">Ecuación para el calculo:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="ecuaCalculo" ng-model="vm.newCondicionCromatografica.disolucion_ecuacion_calculo" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="porSolFase">Fase móvil:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="porSolFase"  ng-model="vm.newCondicionCromatografica.disolucion_fase_movil" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="porSolDiso">Flujo:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="porSolDiso" ng-model="vm.newCondicionCromatografica.disolucion_flujo" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="valFlujo">Volumen inyección:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="valFlujo" ng-model="vm.newCondicionCromatografica.disolucion_volumen_inyeccion" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="cantMuestra">Temperatura:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="cantMuestra" ng-model="vm.newCondicionCromatografica.disolucion_temperatura" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="cantXEstandar">Aptitud sistema:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="cantXEstandar" ng-model="vm.newCondicionCromatografica.disolucion_aptitud_sistema" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="cantEstandar">TR:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="cantEstandar" ng-model="vm.newCondicionCromatografica.disolucion_tr" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="valSolFase">Diluyente:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="valSolFase" ng-model="vm.newCondicionCromatografica.diluyente_disolucion" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="refDis">Referencia:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="refDis" ng-model="vm.newCondicionCromatografica.disolucion_referencia" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="disConcentracion">Concentracion:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="disConcentracion" type="text" ng-model="vm.newCondicionCromatografica.disolucion_concentracion"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="observaciones">Observaciones:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="observaciones" type="text" ng-model="vm.newCondicionCromatografica.disolucion_observaciones"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            Firmas
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="elaborado">Elaborado por:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <input class="form-control" id="elaborado" type="text" ng-model="vm.newCondicionCromatografica.elaborado_por">
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="revisado">Revisado por:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <input class="form-control" id="revisado" type="text" ng-model="vm.newCondicionCromatografica.revisado_por">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="aprobado">Aprobado por:</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <input class="form-control" id="aprobado" type="text" ng-model="vm.newCondicionCromatografica.aprobado_por">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.closeModalNewCondicionCromatografica()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.confirmNewCondicionCromatograficaModal()" ng-disabled="!newCondicionCromatograficaForm.$valid"> <i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{vm.waitModalText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: 100%">
+                                <span class="sr-only">100% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="pdf/informes/condiciones-cromatograficas/condicionesCromatograficas.php" method="POST" target="_blank" id="formCondiciones">
+    <input name="idBusqueda" id="idCondicion" type="hidden"/>
+    <input name="idPerfil" id="idPerfilCondiciones" type="hidden"/>
+    <input name="opcion" id="opcion" type="hidden"/>
+</form>
